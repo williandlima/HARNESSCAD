@@ -7,7 +7,8 @@ def enc(P):
     for x, y in P:
         ix, iy = round(x*Q), round(y*Q); out += [ix-px, iy-py]; px, py = ix, iy
     return ','.join(map(str, out))
-items = ['%d:%s' % (1 if w >= 2.4 else 0, enc(P)) for w, P in d['lines']]
+items = ['%d:%s' % (1 if w >= 2.4 else 0, enc(P)) for w, P in d['lines']] + ['2:%s' % enc(P) for P in d.get('fills', [])]  # 2 = região cheia
+if d.get('sil'): items.insert(0, '3:%s' % enc(d['sil']))  # 3 = silhueta (fundo)
 circ = ';'.join('%d,%d,%d' % (round(x*Q), round(y*Q), round(r*Q)) for x, y, r in d['circles'])
 head = "(function(G){var H=G.HX,V=H.VECIMG=H.VECIMG||{},e=V[%s]=V[%s]||{w:%d,h:%d,q:%d,half:%s,l:[],c:''};" % (json.dumps(key), json.dumps(key), d['w'], d['h'], Q, 'true' if half else 'false')
 tail = "})(typeof window!=='undefined'?window:globalThis);\n"
