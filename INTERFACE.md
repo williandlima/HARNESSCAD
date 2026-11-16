@@ -62,3 +62,14 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
   (CON, NUL, COM1…) são recusados; o Java não aceita mais JSON inválido na biblioteca (um item ruim derrubava a biblioteca de todos).
 * Pacote de transferência: não leva mais a pasta `.git` nem os dados de `dados\` (cerca de 60% menor); o `.sha256` tem o hash
   de **todas** as partes (continua em `.sha256-2.txt`… se preciso), então o montar aponta exatamente qual recopiar; aceita mais de 999 partes.
+
+## v1.7.0 — prancha no padrão da casa e desenhos dos datasheets oficiais
+* **Diagrama de ligação** como nas pranchas: bloco de cada conector com cantos arredondados, nº do pino dentro, sinal
+  fora, referência em cima e PN embaixo; par do cabo com o símbolo de trança e o dreno até o seu pino; cor/bitola só
+  nas exceções e a nota "TODOS OS CABOS SÃO BITOLA xx AWG". Formato antigo: propriedades da tabela › Formato.
+* **Lista de materiais** sobre o carimbo, item 1 embaixo, QTD com unidade ("2.800 mm"), descrição em maiúsculas e código.
+* Modelos de traço: **feixe em linhas finas**, **balões em cadeia** com seta, **vistas frontais numa faixa** com
+  "VISTA A/B" e a seta com a letra no conector, **etiquetas de identificação** (P3, J3…) no feixe, sem o título no topo.
+* **Desenhos dos datasheets oficiais vetorizados**: D38999 /24, /20, TV01 (Amphenol), alívio de tensão e botas reta/90°
+  (Glenair) e as **53 vistas frontais** do D38999 — iguais ao catálogo e nítidos no PDF.
+* **Harwin Datamate L-Tek (M80)** no catálogo, desenhada pela figura oficial (lado dos terminais voltado para o cabo).
