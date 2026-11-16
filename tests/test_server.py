@@ -131,6 +131,51 @@ class ServerTest(unittest.TestCase):
         self.assertEqual(call(self.base, "DELETE", "/api/projects/" + self.name + "_d", user="Chefe")[0], 200)
         self.assertEqual(call(self.base, "GET", "/api/projects/" + self.name + "_d")[0], 404)
 
+    def test_09_backups_nao_misturam_projetos_com_prefixo_igual(self):
+        a, b = self.name + "_bk", self.name + "_bk__v2"
+        for n in (a, b, a, b):
+            self.assertEqual(call(self.base, "PUT", "/api/projects/" + n, {"n": n})[0], 200)
+            time.sleep(1.05)  # carimbo do backup tem resolução de 1 s
+        st, bka = call(self.base, "GET", "/api/backups/" + a)
+        self.assertEqual(st, 200)
+        self.assertEqual(len(bka), 1, bka)
+        self.assertFalse(any("__v2" in x["name"] for x in bka), bka)
+        st, bkb = call(self.base, "GET", "/api/backups/" + b)
+        self.assertEqual(len(bkb), 1, bkb)
+
+    def test_10_nomes_reservados_do_windows(self):
+        for n in ["con", "NUL", "com1", "Lpt9.json", "aux.x", "prn ", "nome."]:
+            self.assertEqual(call(self.base, "PUT", "/api/projects/" + urllib.parse.quote(n), {"a": 1})[0], 400, n)
+        self.assertEqual(call(self.base, "PUT", "/api/projects/console_" + self.name, {"a": 1})[0], 200)
+
+    def test_11_salvar_como_nao_sobrescreve_sem_confirmar(self):
+        n = self.name + "_novo"
+        self.assertEqual(call(self.base, "PUT", "/api/projects/" + n, {"v": 1}, {"X-New": "1"})[0], 200)
+        st, d = call(self.base, "PUT", "/api/projects/" + n, {"v": 2}, {"X-New": "1"})
+        self.assertEqual(st, 409)
+        self.assertIn("existe", d["error"])
+        self.assertEqual(call(self.base, "GET", "/api/projects/" + n)[1]["project"]["v"], 1)
+        self.assertEqual(call(self.base, "PUT", "/api/projects/" + n, {"v": 3})[0], 200)  # confirmado: sem X-New
+        self.assertEqual(call(self.base, "GET", "/api/projects/" + n)[1]["project"]["v"], 3)
+
+    def test_12_biblioteca_recusa_json_invalido(self):
+        k = "/api/library/" + urllib.parse.quote("USR:Ruim")
+        for body in [b"{a}", b'{"x":1,}', b'{"x":01}', b'{"x":"\\q"}', b"{} {}", b'{"x":[1,2}']:
+            self.assertEqual(call(self.base, "PUT", k, body)[0], 400, body)
+        st, lib = call(self.base, "GET", "/api/library")
+        self.assertEqual(st, 200)
+        self.assertIsInstance(lib, dict)
+        self.assertEqual(call(self.base, "PUT", k, b' {"ok": [true, false, null, -1.5e3, "\\u00e7"]} ')[0], 200)
+
+    def test_13_item_corrompido_no_disco_nao_derruba_biblioteca(self):
+        if not self.data:
+            self.skipTest("defina HX_DATA para servidor externo")
+        with open(os.path.join(self.data, "library", "0" * 40 + ".lib"), "wb") as f:
+            f.write(b"USR:Corrompido\n{quebrado")
+        st, lib = call(self.base, "GET", "/api/library")
+        self.assertEqual(st, 200)
+        self.assertNotIn("USR:Corrompido", lib)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

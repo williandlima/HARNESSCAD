@@ -22,8 +22,10 @@
   };
   io.list = function () { return req('GET', 'api/projects'); };
   io.load = function (name) { return req('GET', 'api/projects/' + encodeURIComponent(name)); };
+  /* baseMtime: mtime de quando foi aberto (detecta alteração de outro usuário); 'new' = projeto novo (409 se o nome já existe); 0 = sobrescrever */
   io.save = function (name, project, baseMtime) {
-    return req('PUT', 'api/projects/' + encodeURIComponent(name), JSON.stringify(project), baseMtime ? { 'X-Base-Mtime': String(baseMtime) } : {});
+    var h = baseMtime === 'new' ? { 'X-New': '1' } : baseMtime ? { 'X-Base-Mtime': String(baseMtime) } : {};
+    return req('PUT', 'api/projects/' + encodeURIComponent(name), JSON.stringify(project), h);
   };
   io.remove = function (name) { return req('DELETE', 'api/projects/' + encodeURIComponent(name)); };
   io.backups = function (name) { return req('GET', 'api/backups/' + encodeURIComponent(name)); };
@@ -63,7 +65,11 @@
       inp.click();
     });
   };
-  io.safeName = function (s) { return String(s || 'projeto').replace(/[^\w\-. ]+/g, '_').replace(/^\.+/, '').slice(0, 80) || 'projeto'; };
+  io.safeName = function (s) {
+    var n = String(s || 'projeto').replace(/[^\w\-. ]+/g, '_').replace(/^\.+/, '').slice(0, 80).replace(/[. ]+$/, '');
+    if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(n.split('.')[0].trim())) n = '_' + n; /* nomes de dispositivo do Windows */
+    return n.slice(0, 80) || 'projeto';
+  };
 
   // Importa lista de pinos de CSV simples: "pino;sinal" por linha
   io.parsePinCSV = function (text) {

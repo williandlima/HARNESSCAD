@@ -53,3 +53,12 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
   convertida traço a traço em linhas: igual ao datasheet, nítida em qualquer zoom/PDF e na cor da caneta.
 * Vista frontal 25-35 (128 contatos) também vetorizada da figura do catálogo, com os números.
 * Ferramenta: ferramentas/vetorizar.py + vetorizar_js.py para converter outras figuras do datasheet.
+
+## v1.6.19 — servidor, salvar e transferência mais seguros
+* **Salvar como** com um nome que já existe no servidor agora pergunta antes de substituir (o projeto antigo fica nos backups).
+* Abrir do servidor um arquivo que não é projeto não "troca" mais o nome do projeto aberto (o Ctrl+S seguinte não sobrescreve o arquivo errado).
+* Erros ao excluir (sem permissão) e ao sobrescrever depois de um conflito agora aparecem na tela.
+* Servidor 1.2.0 (Python e Java): backups de `CAB` não se misturam mais com os de `CAB__v2`; nomes reservados do Windows
+  (CON, NUL, COM1…) são recusados; o Java não aceita mais JSON inválido na biblioteca (um item ruim derrubava a biblioteca de todos).
+* Pacote de transferência: não leva mais a pasta `.git` nem os dados de `dados\` (cerca de 60% menor); o `.sha256` tem o hash
+  de **todas** as partes (continua em `.sha256-2.txt`… se preciso), então o montar aponta exatamente qual recopiar; aceita mais de 999 partes.

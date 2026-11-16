@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.Executors;
 
 public class HarnessServer {
-    static final String VERSION = "1.1.0";
+    static final String VERSION = "1.2.0";
     static final int MAX = 30 * 1024 * 1024;
     static Path web;
     static HarnessStore st;
@@ -53,14 +53,14 @@ public class HarnessServer {
         ByteArrayOutputStream o = new ByteArrayOutputStream();
         byte[] buf = new byte[65536]; int n; InputStream in = x.getRequestBody();
         while ((n = in.read(buf)) > 0) { o.write(buf, 0, n); if (o.size() > MAX) throw new HttpErr(400, "Corpo muito grande"); }
-        String t = new String(o.toByteArray(), StandardCharsets.UTF_8).trim();
-        if (!t.startsWith("{") || !t.endsWith("}")) throw new HttpErr(400, "JSON inválido (esperado objeto)");
+        if (o.size() == 0) throw new HttpErr(400, "Tamanho do corpo inválido");
+        if (!JsonCheck.isObject(new String(o.toByteArray(), StandardCharsets.UTF_8))) throw new HttpErr(400, "JSON inválido (esperado objeto)");
         return o.toByteArray();
     }
 
     static String name(String a) throws HttpErr {
         String n = HarnessStore.safeName(a);
-        if (n == null) throw new HttpErr(400, "Nome inválido (use letras, números, espaço, - _ .)");
+        if (n == null) throw new HttpErr(400, "Nome inválido (use letras, números, espaço, - _ .; não use CON, NUL, COM1...)");
         return n;
     }
 
@@ -98,7 +98,8 @@ public class HarnessServer {
             case "PUT projects": {
                 String n = name(arg); byte[] d = body(x); String hb = x.getRequestHeaders().getFirst("X-Base-Mtime"); Double base = null;
                 if (hb != null && !hb.isEmpty()) try { base = Double.parseDouble(hb); } catch (NumberFormatException e) { throw new HttpErr(400, "Cabeçalho X-Base-Mtime inválido"); }
-                try { send(x, 200, "{\"ok\":true,\"mtime\":" + st.saveProject(n, d, base, user(x), ip(x)) + ",\"name\":\"" + HarnessStore.esc(n) + "\"}"); }
+                try { send(x, 200, "{\"ok\":true,\"mtime\":" + st.saveProject(n, d, base, user(x), ip(x), "1".equals(x.getRequestHeaders().getFirst("X-New"))) + ",\"name\":\"" + HarnessStore.esc(n) + "\"}"); }
+                catch (HarnessStore.Exists c) { throw new HttpErr(409, "Já existe um projeto com este nome"); }
                 catch (HarnessStore.Conflict c) { throw new HttpErr(409, "Arquivo alterado por outro usuário"); }
                 return;
             }

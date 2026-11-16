@@ -15,9 +15,9 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote, urlparse
 
-from store import Conflict, Store, safe_key, safe_name
+from store import Conflict, Exists, Store, safe_key, safe_name
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 MAX_BODY = 30 * 1024 * 1024
 CFG = {"web": "", "store": None, "admins": set()}
 
@@ -98,7 +98,7 @@ class Handler(BaseHTTPRequestHandler):
     def name_of(self, arg):
         n = safe_name(arg)
         if not n:
-            raise HttpError(400, "Nome inválido (use letras, números, espaço, - _ .)")
+            raise HttpError(400, "Nome inválido (use letras, números, espaço, - _ .; não use CON, NUL, COM1...)")
         return n
 
     def get_ping(self, arg):
@@ -123,7 +123,10 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             raise HttpError(400, "Cabeçalho X-Base-Mtime inválido")
         try:
-            mt = CFG["store"].save_project(name, raw, base, self.user(), self.client_address[0])
+            mt = CFG["store"].save_project(name, raw, base, self.user(), self.client_address[0],
+                                           self.headers.get("X-New") == "1")
+        except Exists:
+            raise HttpError(409, "Já existe um projeto com este nome")
         except Conflict:
             raise HttpError(409, "Arquivo alterado por outro usuário")
         self.send_json({"ok": True, "mtime": mt, "name": name})

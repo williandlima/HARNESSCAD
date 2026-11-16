@@ -14,7 +14,7 @@
       var chosen = null;
       var d = UI.modal('Abrir projeto do servidor', h, [{ t: 'Importar arquivo local…', fn: function () { app.importFile(); } }, { t: 'Excluir', fn: function () {
         if (!chosen) return false;
-        UI.confirm('Excluir', 'Excluir "' + chosen + '" do servidor? (fica um backup)').then(function (ok) { if (ok) HX.io.remove(chosen).then(function () { UI.toast('Excluído'); }); });
+        UI.confirm('Excluir', 'Excluir "' + chosen + '" do servidor? (fica um backup)').then(function (ok) { if (ok) HX.io.remove(chosen).then(function () { UI.toast('Excluído'); }, function (e) { UI.toast('Erro ao excluir: ' + e.message, true); }); });
       } }, { t: 'Cancelar' }, { t: 'Abrir', pri: true, fn: function () { if (!chosen) return false; app.confirmDiscard().then(function (ok) { if (ok) app.openServer(chosen); }); } }]);
       var ol = UI.$('#ol', d.el);
       ol.onclick = function (e) { var it = e.target.closest('.it'); if (!it) return; UI.$$('.it', ol).forEach(function (x) { x.classList.toggle('on', x === it); }); chosen = it.dataset.n; };
@@ -31,7 +31,7 @@
       var d = UI.modal('Backups de ' + app.serverName, h);
       UI.$('.list', d.el).ondblclick = function (e) {
         var it = e.target.closest('.it[data-n]'); if (!it) return;
-        HX.io.load('.bak/' + it.dataset.n).then(function (r) { app.loadText(JSON.stringify(r.project), app.serverName); app.doc.dirty = true; app.title(); d.close(); });
+        HX.io.load('.bak/' + it.dataset.n).then(function (r) { if (app.loadText(JSON.stringify(r.project), app.serverName)) { app.doc.dirty = true; app.title(); d.close(); } }).catch(function (e) { UI.toast('Erro ao abrir backup: ' + e.message, true); });
       };
     });
   };

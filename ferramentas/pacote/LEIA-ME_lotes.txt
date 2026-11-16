@@ -8,8 +8,8 @@ texto legivel. Quem abre e junta tudo e o montar.py (ou montar.bat).
 1) COPIAR
    Copie TODOS os arquivos para UMA mesma pasta no PC da empresa
    (ex.: D:\HarnessCAD_inst\):
-     HarnessCAD.zip.p001.txt ... HarnessCAD.zip.p274.txt  (274 partes)
-     HarnessCAD.zip.sha256.txt, montar.py, montar.bat, LEIA-ME.txt
+     HarnessCAD.zip.p001.txt, .p002.txt ...  (todas as partes)
+     HarnessCAD.zip.sha256*.txt, montar.py, montar.bat, LEIA-ME.txt
    Se a rede renomear os arquivos (tirar o .txt, maiusculas, _P001),
    tudo bem: o montar.py reconhece.
    Se a rede bloquear .py/.bat, envie como montar.py.txt / montar.bat.txt

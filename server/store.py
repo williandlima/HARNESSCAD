@@ -16,6 +16,9 @@ import threading
 import time
 
 NAME_RE = re.compile(r"^[\w\-. ]{1,80}$")
+# nomes de dispositivo do Windows: "con.json", "nul.json"... não são arquivos
+RESERVED = {"CON", "PRN", "AUX", "NUL"} | {"COM%d" % i for i in range(1, 10)} | {"LPT%d" % i for i in range(1, 10)}
+STAMP = r"__\d{8}-\d{6}\.json$"
 KEY_MAX = 120
 KEEP_BACKUPS = 30
 LOCK = threading.Lock()
@@ -25,13 +28,24 @@ class Conflict(Exception):
     pass
 
 
+class Exists(Conflict):
+    """Projeto novo (Salvar como) com nome que já existe no servidor."""
+
+
 def safe_name(name):
     name = (name or "").strip()
     if name.lower().endswith(".json"):
         name = name[:-5]
-    if not NAME_RE.match(name) or name.startswith("."):
+    if not NAME_RE.match(name) or name.startswith(".") or name.endswith("."):
+        return None
+    if name.split(".")[0].strip().upper() in RESERVED:
         return None
     return name
+
+
+def is_backup_of(name, f):
+    """Backup deste projeto (nome__AAAAMMDD-HHMMSS.json), e não de outro cujo nome começa igual (ex.: nome__v2)."""
+    return re.match(re.escape(name) + STAMP, f) is not None
 
 
 def safe_key(key):
@@ -95,16 +109,18 @@ class Store:
             return
         stamp = time.strftime("%Y%m%d-%H%M%S", time.localtime(os.path.getmtime(src)))
         shutil.copy2(src, os.path.join(self.bak, "%s__%s.json" % (name, stamp)))
-        olds = sorted(f for f in os.listdir(self.bak) if f.startswith(name + "__"))
+        olds = sorted(f for f in os.listdir(self.bak) if is_backup_of(name, f))
         for f in olds[:-KEEP_BACKUPS]:
             try:
                 os.remove(os.path.join(self.bak, f))
             except OSError:
                 pass
 
-    def save_project(self, name, raw, base, user, ip):
+    def save_project(self, name, raw, base, user, ip, new=False):
         p = self.path(name)
         with LOCK:
+            if new and os.path.exists(p):
+                raise Exists()
             if base is not None and os.path.exists(p) and abs(os.path.getmtime(p) - base) > 0.001:
                 raise Conflict()
             self.backup(name)
@@ -124,7 +140,7 @@ class Store:
     def list_backups(self, name):
         out = []
         for f in sorted(os.listdir(self.bak), reverse=True):
-            if f.startswith(name + "__") and f.endswith(".json"):
+            if is_backup_of(name, f):
                 out.append({"name": f[:-5], "mtime": os.path.getmtime(os.path.join(self.bak, f))})
         return out
 
