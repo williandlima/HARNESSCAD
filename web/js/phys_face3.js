@@ -16,12 +16,22 @@
       a.x = 0; a.y = HX.r3(top - b.y0 - n.y); hMax = Math.max(hMax, h); }); /* topo de todas as vistas na mesma linha */
     sh.items.forEach(function (a) { if (a.type === 'ptable' && (a.kind || 'wiring') === 'wiring') a.y = HX.r3(Math.min(top + hMax + 14, d[1] - M.b - 75)); });
   };
+  /* etiqueta de identificação (luva impressa com a ref.) a 40 mm de cada conector, com a cota da posição */
+  HX.physAutoTags = function (doc, sh) {
+    var m = HX.physIdx(sh), N = +sh.scale || 1;
+    sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn' && i.ref; }).forEach(function (n) {
+      var sg = sh.items.filter(function (q) { return q.type === 'pseg' && (q.a === n.id || q.b === n.id); })[0]; if (!sg) return;
+      if (sh.items.some(function (q) { return q.type === 'ptag' && q.seg === sg.id && q.text === n.ref; })) return;
+      var L = HX.physSegLen ? HX.physSegLen(sg, m, N) : 200, d = L >= 100 ? 40 : Math.max(5, Math.round(L * 0.3 / 5) * 5);
+      sh.items.push({ type: 'ptag', id: doc.uid('t'), seg: sg.id, end: sg.a === n.id ? 'a' : 'b', dist: d, style: 'sleeve', text: n.ref, pn: sh.tagPN || '', len: 25, wire: '', dim: true, dimOff: '', x: '', y: '' });
+    });
+  };
   var ap0 = HX.applyPhysical;
   HX.applyPhysical = function (doc, opt) {
     var had = doc.p.sheets.some(HX.isPhys), r = ap0.apply(this, arguments), sh = r && r.index != null && doc.p.sheets[r.index];
     if (sh && casa(sh)) {
       sh.items = sh.items.filter(function (i) { return !(i.type === 'text' && /^DESENHO FÍSICO DA CABLAGEM|^Cotas em mm \(comprimento real\)/.test(i.text || '')); });
-      if (!had) { HX.physViewsBand(doc.p, sh); sh.segInfo = false; } /* ramos sem o nº de fios e o diâmetro, como nas pranchas */
+      if (!had) { HX.physViewsBand(doc.p, sh); sh.segInfo = false; if (opt && opt.tags !== false) HX.physAutoTags(doc, sh); } /* ramos sem o nº de fios e o diâmetro, como nas pranchas */
     }
     return r;
   };
