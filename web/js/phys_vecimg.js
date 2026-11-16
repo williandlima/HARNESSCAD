@@ -11,7 +11,7 @@
     e.l.forEach(function (s) { var i = s.indexOf(':'), w = +s.slice(0, i), a = s.slice(i + 1).split(','), P = [], x = 0, y = 0;
       for (var k = 0; k + 1 < a.length; k += 2) { x += +a[k]; y += +a[k + 1]; P.push([x / q, y / q]); }
       if (w === 3) S = P; else if (w === 2) F.push(P); else L.push({ w: w, P: P }); });
-    (e.c || '').split(';').forEach(function (t) { if (!t) return; var a = t.split(','); C.push([a[0] / q, a[1] / q, a[2] / q]); });
+    (e.c || '').split(';').forEach(function (t) { if (!t) return; var a = t.split(','); C.push([a[0] / q, a[1] / q, a[2] / q, a.length > 3 ? +a[3] : 180]); }); /* 4º = lado escuro do contato meio cheio (graus) */
     return (e._P = { L: L, C: C, F: F, S: S });
   }
   HX.vecImgHas = function (key) { var e = HX.VECIMG && HX.VECIMG[key]; return !!(e && e.l.length); };
@@ -26,7 +26,7 @@
     D.F.forEach(function (P) { g.style({ stroke: col, lw: lw0, fill: col, dash: null }); g.poly(T(P), true); });
     D.C.forEach(function (c) { var cx = x + c[0] * sx, cy = y + c[1] * sy, r = c[2] * s;
       g.style({ stroke: col, lw: lw0, fill: e.half ? '#fff' : col, dash: null }); g.circle(cx, cy, r);
-      if (e.half) { var P = []; for (var i = 0; i <= 10; i++) { var a = Math.PI / 2 + i / 10 * Math.PI; P.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); }
+      if (e.half) { var P = []; for (var i = 0; i <= 10; i++) { var a = (c[3] - 90) * Math.PI / 180 + i / 10 * Math.PI; P.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); }
         g.style({ stroke: null, fill: col }); g.poly(P, true); }
       g.style({ fill: null }); });
     g.style({ fill: null });

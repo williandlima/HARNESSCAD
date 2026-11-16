@@ -9,7 +9,7 @@ def enc(P):
     return ','.join(map(str, out))
 items = ['%d:%s' % (1 if w >= 2.4 else 0, enc(P)) for w, P in d['lines']] + ['2:%s' % enc(P) for P in d.get('fills', [])]  # 2 = região cheia
 if d.get('sil'): items.insert(0, '3:%s' % enc(d['sil']))  # 3 = silhueta (fundo)
-circ = ';'.join('%d,%d,%d' % (round(x*Q), round(y*Q), round(r*Q)) for x, y, r in d['circles'])
+circ = ';'.join('%d,%d,%d' % (round(c[0]*Q), round(c[1]*Q), round(c[2]*Q)) + (',%d' % c[3] if len(c) > 3 else '') for c in d['circles'])  # 4º = lado escuro (graus)
 head = "(function(G){var H=G.HX,V=H.VECIMG=H.VECIMG||{},e=V[%s]=V[%s]||{w:%d,h:%d,q:%d,half:%s,l:[],c:''};" % (json.dumps(key), json.dumps(key), d['w'], d['h'], Q, 'true' if half else 'false')
 tail = "})(typeof window!=='undefined'?window:globalThis);\n"
 files = []; cur = []; size = 0; LIM = 8800

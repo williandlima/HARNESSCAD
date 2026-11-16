@@ -27,6 +27,14 @@ if dots:  # contatos -> círculos (cheios ou meio cheios: preenche o furo antes)
     EX=[tuple(map(float,t.split(':'))) for t in __import__('os').environ.get('EXCL','').split() if t]
     circles=[c for c in circles if not any(abs(c[0]-a)<2 and abs(c[1]-b)<2 for a,b in EX)]
     yy, xx = np.ogrid[:H*K, :W*K]
+    # lado escuro de cada contato meio cheio: ângulo (graus, y para baixo) do centroide escuro + fração escura
+    C2 = []
+    for c in circles:
+        cx, cy, rr2 = c[0]*K, c[1]*K, (c[2]*K*0.85)**2; y0_, y1_ = int(max(0, cy - c[2]*K)), int(min(H*K, cy + c[2]*K + 1)); x0_, x1_ = int(max(0, cx - c[2]*K)), int(min(W*K, cx + c[2]*K + 1))
+        sub = bw[y0_:y1_, x0_:x1_]; my, mx = np.ogrid[y0_:y1_, x0_:x1_]; ins = (mx - cx)**2 + (my - cy)**2 <= rr2; dk = sub & ins
+        dy_, dx_ = np.nonzero(dk); a = float(np.degrees(np.arctan2((dy_ + y0_).mean() - cy, (dx_ + x0_).mean() - cx))) if dk.any() else 180.0
+        C2.append(c + [round(a), round(float(dk.sum()) / max(1, ins.sum()), 2)])
+    circles = C2
     RM = float(__import__('os').environ.get('RM', '0.9'))  # margem (px) apagada em volta do contato: some o anel do desenho
     for c in circles: bw[(xx - c[0]*K)**2 + (yy - c[1]*K)**2 <= (c[2]*K + K*RM)**2] = False
 # regiões cheias (faixas de acoplamento, corte do painel): viram polígonos preenchidos, não um traço central
@@ -44,7 +52,10 @@ if FR > 0:
         # cruzamento de traços (mancha pequena ou fina) não é região cheia: continua como linha
         if m.sum() < (K*7)**2 or dt0[m].max() < K*FT: continue
         cs = measure.find_contours(np.pad(m, 1).astype(float), 0.5)
-        if cs: fills_raw.append([(float(r) - 1, float(c) - 1) for r, c in max(cs, key=len)]); keep |= m
+        if not cs: continue
+        P = max(cs, key=len); ys_, xs_ = np.array([q[0] for q in P]), np.array([q[1] for q in P])
+        if m.sum() < 0.6 * abs(np.dot(xs_, np.roll(ys_, 1)) - np.dot(ys_, np.roll(xs_, 1))) / 2: continue  # anel (oco): não é região cheia
+        fills_raw.append([(float(r) - 1, float(c) - 1) for r, c in P]); keep |= m
     bw = bw & ~ndi.binary_dilation(keep, iterations=max(1, K // 2))
 # silhueta (SIL=1): contorno externo da peça, pintado com o fundo antes dos traços (esconde o que fica atrás)
 sil_raw = []
