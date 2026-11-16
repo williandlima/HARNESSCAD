@@ -73,3 +73,11 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
 * **Desenhos dos datasheets oficiais vetorizados**: D38999 /24, /20, TV01 (Amphenol), alívio de tensão e botas reta/90°
   (Glenair) e as **53 vistas frontais** do D38999 — iguais ao catálogo e nítidos no PDF.
 * **Harwin Datamate L-Tek (M80)** no catálogo, desenhada pela figura oficial (lado dos terminais voltado para o cabo).
+
+## v1.7.1 — exportação DXF (Solid Edge / AutoCAD)
+* **Arquivo › Exportar DXF (Solid Edge / AutoCAD)…**: folha atual ou todas (um arquivo por folha), tudo em preto ou nas
+  cores do desenho. DXF R12 em mm, escala 1:1 da folha, com moldura e carimbo — o mesmo desenho do PDF.
+* No Solid Edge: Arquivo › Abrir › escolha o .dxf e salve como .dft. Camadas FINO / MEDIO / GROSSO (espessura do traço),
+  TEXTO e PREENCHIMENTO; tracejado e traço-ponto como tipos de linha; acentos, Ø e — preservados.
+* Cotas, balões e tabelas chegam como linhas e textos (não como objetos nativos do Solid Edge); fundos brancos e
+  imagens raster não vão para o DXF.
