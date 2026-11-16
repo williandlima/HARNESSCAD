@@ -2,8 +2,8 @@
    Como nas pranchas de referência: bloco de cada conector com cantos arredondados do lado dos fios, nº do pino dentro,
    nome do sinal fora, referência em cima e PN embaixo; fios retos pino a pino na ordem dos pinos de destino; par do
    mesmo cabo com o símbolo de trança nas duas pontas e o dreno (malha) descendo até o seu pino; cor/bitola escritas só
-   quando diferem do padrão do chicote, que vai na nota "TODOS OS CABOS SÃO BITOLA xx AWG"; divisa > de gênero
-   (convenção do projeto: saindo pela face = macho, entrando = fêmea). */
+   quando diferem do padrão do chicote, que vai na nota "TODOS OS CABOS SÃO BITOLA xx AWG"; divisa de gênero dentro do
+   bloco, na face (convenção do projeto, como no símbolo do esquema: saindo pela face = macho, entrando = fêmea). */
 (function (G) {
   'use strict';
   var HX = G.HX, EXT = HX.ITEM_EXT; if (!EXT.ptable) return;
@@ -43,21 +43,22 @@
   function twist(g, x, ya, yb, col) { var P = [], Q = [], k, n = 24; for (k = 0; k <= n; k++) { var t = k / n, y = ya + (yb - ya) * t, s = Math.sin(t * 2 * Math.PI) * 0.9; P.push([x + s, y]); Q.push([x - s, y]); } g.style({ stroke: col, lw: 0.2, fill: null }); g.poly(P, false); g.poly(Q, false); }
   function diagram(g, it, p, C, col) {
     var D = HX.physDiagram(p), R = D.rows, rh = +it.rh || 3.0, fs = +it.fs || 1.6, x = it.x, y = it.y, W = +it.w || 170, bw = 6.5, nw = 0;
-    R.forEach(function (r) { [r.L, r.R].forEach(function (e) { if (e) nw = Math.max(nw, HX.textW(e.name, fs)); }); }); nw = Math.min(42, nw + 3.2);
+    R.forEach(function (r) { [r.L, r.R].forEach(function (e) { if (e) nw = Math.max(nw, HX.textW(e.name, fs)); }); }); nw = Math.min(42, nw + 1.8);
     var xl = x + nw, xr = x + W - nw - bw, top = y + 4, Y = function (i) { return top + 1.5 + rh * (i + 0.5); };
     function span(side) { var S = [], cur = null; R.forEach(function (r, i) { var e = r[side]; var ref = e ? e.ref : null; if (ref && (!cur || cur.ref !== ref)) { cur = { ref: ref, c: e.c, i0: i, i1: i }; S.push(cur); } else if (ref && cur) cur.i1 = i; }); return S; }
     [['L', xl, 1], ['R', xr, -1]].forEach(function (s) {
       span(s[0]).forEach(function (b) {
         var y0 = Y(b.i0) - rh / 2 - 1.2, h = (b.i1 - b.i0 + 1) * rh + 2.4; block(g, s[1], y0, bw, h, s[2], col);
         g.text(b.ref, s[1] + bw / 2, y0 - 1.6, { size: fs, align: 'c', color: col }); if (b.c) g.text(HX.connPN(b.c), s[1] + bw / 2, y0 + h + 2, { size: fs, align: 'c', color: col });
-        var male = b.c && b.c.gender === 'P', ym = y0 + h / 2; if (s[2] > 0) chev(g, male ? s[1] : s[1] - 1.1, ym, male ? -1 : 1, col); else chev(g, male ? s[1] + bw : s[1] + bw + 1.1, ym, male ? 1 : -1, col);
+        var male = b.c && b.c.gender === 'P', ym = y0 + h / 2; /* divisa DENTRO do bloco, na face (lado reto): macho = ponta na face apontando para fora; fêmea = aberta para a face */
+        if (s[2] > 0) chev(g, male ? s[1] + 1.4 : s[1] + 0.3, ym, male ? -1 : 1, col); else chev(g, male ? s[1] + bw - 1.4 : s[1] + bw - 0.3, ym, male ? 1 : -1, col);
       });
     });
     var xa = xl + bw, xb = xr, tl = xa + 9, tr = xb - 9, lab = function (r) { var t = []; if (r.gauge && r.gauge !== D.gauge) t.push(r.gauge); if (r.color && (r.color !== D.color || r.cable)) t.push(HX.colorAbbr(r.color)); return t.join(' - '); };
     R.forEach(function (r, i) {
       var yy = Y(i); g.style({ stroke: col, lw: 0.15, dash: null });
-      if (r.L) { g.text(r.L.pin, xl + bw - 0.8, yy, { size: fs, align: 'r', color: col }); g.text(r.L.name, xl - 2.4, yy, { size: fs, align: 'r', color: col }); }
-      if (r.R) { g.text(r.R.pin, xr + 0.8, yy, { size: fs, color: col }); g.text(r.R.name, xr + bw + 2.4, yy, { size: fs, color: col }); }
+      if (r.L) { g.text(r.L.pin, xl + bw - 0.8, yy, { size: fs, align: 'r', color: col }); g.text(r.L.name, xl - 1.0, yy, { size: fs, align: 'r', color: col }); }
+      if (r.R) { g.text(r.R.pin, xr + 0.8, yy, { size: fs, color: col }); g.text(r.R.name, xr + bw + 1.0, yy, { size: fs, color: col }); }
       if (r.drain) { if (r.L) g.poly([[xa, yy], [tl, yy], [tl, Y(i - 1) + 1.1]], false); if (r.R) g.poly([[xb, yy], [tr, yy], [tr, Y(i - 1) + 1.1]], false); return; }
       var x0 = r.L ? xa : (x + W) / 2 - 6, x1 = r.R ? xb : (x + W) / 2 + 6; g.line(x0, yy, x1, yy);
       [[r.lo, x0, 'r'], [r.ro, x1, 'l']].forEach(function (o) { if (!o[0]) return; g.style({ fill: col }); g.circle(o[1], yy, 0.35); g.style({ fill: null }); g.text(o[0].ref, o[1] + (o[2] === 'r' ? -0.8 : 0.8), yy - 0.9, { size: fs * 0.85, align: o[2], color: col }); });

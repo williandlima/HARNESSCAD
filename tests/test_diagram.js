@@ -49,3 +49,10 @@ test('feixe em linhas (padrão da casa): poucas linhas finas na cor da caneta em
   ok(A.length >= 2 && A.length <= 4, 'linhas da caneta: ' + A.length); ok(B.length >= 4 && B.length > A.length - 1, 'modo por fio continua: ' + B.length);
   ok(HX.physLinesLook({ pstyle: 'line' }) && HX.physLinesLook({ pstyle: 'outline' }) && !HX.physLinesLook({ pstyle: 'img' }) && !HX.physLinesLook({ pstyle: 'line', bundleLook: 'fios' }), 'automático só nos modelos de traço');
 });
+test('diagrama: divisa de gênero dentro do bloco, na face (não para fora do conector)', function () {
+  var d = build(), P = [], g = { style: function () {}, line: function () {}, rect: function () {}, circle: function () {}, text: function () {}, push: function () {}, pop: function () {}, poly: function (Q) { P.push(Q); } };
+  var it = { type: 'ptable', kind: 'wiring', x: 0, y: 0, w: 170 }; HX.ITEM_EXT.ptable.draw(g, it, d.p, 0, { theme: {} });
+  var blocks = P.filter(function (Q) { return Q.length > 8; }), chev = P.filter(function (Q) { return Q.length === 3 && Math.abs(Q[0][0] - Q[2][0]) < 1e-9 && Math.abs(Q[0][1] - Q[2][1] - (-2.4)) < 1e-6; });
+  eq(chev.length, 2, 'uma divisa por bloco');
+  chev.forEach(function (Q) { ok(blocks.some(function (B) { var xs = B.map(function (q) { return q[0]; }), ys = B.map(function (q) { return q[1]; }); return Q.every(function (q) { return q[0] >= Math.min.apply(0, xs) - 1e-6 && q[0] <= Math.max.apply(0, xs) + 1e-6 && q[1] >= Math.min.apply(0, ys) && q[1] <= Math.max.apply(0, ys); }); }), 'divisa dentro do bloco: ' + JSON.stringify(Q)); });
+});
