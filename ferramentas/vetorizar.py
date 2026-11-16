@@ -26,6 +26,8 @@ if dots:  # contatos -> círculos (cheios ou meio cheios: preenche o furo antes)
     circles = [[round(c[0], 2), round(c[1], 2), round(c[2], 2)] for c in C if lo*med < c[2] < hi*med]
     EX=[tuple(map(float,t.split(':'))) for t in __import__('os').environ.get('EXCL','').split() if t]
     circles=[c for c in circles if not any(abs(c[0]-a)<2 and abs(c[1]-b)<2 for a,b in EX)]
+    IN = float(__import__('os').environ.get('INSIDE', '0'))  # vista frontal: só contatos dentro do inserto (fração do raio)
+    if IN > 0: circles = [c for c in circles if ((c[0] - W / 2)**2 + (c[1] - H / 2)**2) ** 0.5 < IN * min(W, H) / 2]
     yy, xx = np.ogrid[:H*K, :W*K]
     # lado escuro de cada contato meio cheio: ângulo (graus, y para baixo) do centroide escuro + fração escura
     C2 = []
