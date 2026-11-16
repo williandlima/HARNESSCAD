@@ -34,6 +34,7 @@ require('./test_dsubc');
 require('./test_custom');
 require('./test_vecart');
 require('./test_m80');
+require('./test_diagram');
 require('./test_ui2');
 require('./test_univ');
 require('./test_model4');

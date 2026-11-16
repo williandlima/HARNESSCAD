@@ -38,7 +38,7 @@
   };
   EXT.pball.fields = function () { return [{ type: 'head', l: 'Balão' }, { k: 'n', l: 'Número', tip: 'Vazio = automático (item da lista de materiais)' }, { k: 'assoc', l: 'Mostrar peças associadas (contatos, tampões)', type: 'check' }]; };
   EXT.pface.fields = function () { return [{ type: 'head', l: 'Vista frontal' }, { k: 'esc', l: 'Escala de detalhe (D-Sub)', type: 'select', opts: [['', 'Automática'], ['1', '1:1'], ['2', '2:1'], ['3', '3:1'], ['4', '4:1'], ['5', '5:1']] }, { k: 'w', l: 'Largura (mm, circular)', type: 'number', step: 1 }]; };
-  EXT.ptable.fields = function (it) { return [{ type: 'head', l: it.kind === 'bom' ? 'Lista de materiais' : 'Tabela de ligação' }].concat(it.kind === 'bom' ? [] : [{ k: 'w', l: 'Largura (mm)', type: 'number', step: 5 }]); };
+  EXT.ptable.fields = function (it) { return [{ type: 'head', l: it.kind === 'bom' ? 'Lista de materiais' : 'Tabela de ligação' }].concat(it.kind === 'bom' ? [] : [{ k: 'wstyle', l: 'Formato', type: 'select', opts: [['', 'Diagrama de ligação (padrão da casa)'], ['tabela', 'Tabela (formato antigo)']] }, { k: 'w', l: 'Largura (mm)', type: 'number', step: 5 }]); };
   EXT.pimg.fields = function () {
     return [{ type: 'head', l: 'Item (imagem)' }, { k: 'sprite', l: 'Imagem', type: 'select', opts: sprOpts(Object.keys(HX.PSPR_CATS)) }, { k: 'pn', l: 'Part number' },
       { k: 'size', l: 'Comprimento real (mm)', type: 'number', step: 1 }, { k: 'rot', l: 'Ângulo (°)', type: 'number', step: 15 }, { k: 'flip', l: 'Espelhar', type: 'check' }, { k: 'label', l: 'Rótulo' }];
