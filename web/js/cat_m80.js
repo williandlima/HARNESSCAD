@@ -19,6 +19,6 @@
       { v: 'S05', d: 'Small bore, acabamento ouro (05)' }, { v: 'L05', d: 'Large bore, ouro (05)' }, { v: 'X05', d: 'Extra small bore, ouro (05)' }],
     pn: function (e, v) { var b = String(v || 'S').charAt(0), fin = /05$/.test(v || '') ? '05' : '01';
       return 'M80-' + (TYPE[e.rows || 1][b] || TYPE[e.rows || 1].S) + pad(e.n) + fin; },
-    contacts: { DM: { s: 'contato fêmea Datamate (catálogo Harwin p. 16)', p: '' } },
+    contacts: { DM: { s: 'A DEFINIR (Harwin p. 16)', p: '' } }, /* PN do contato não está na p. 20 */
     items: items });
 })(typeof window !== 'undefined' ? window : globalThis);

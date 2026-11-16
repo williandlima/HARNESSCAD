@@ -30,3 +30,13 @@ test('diagrama: blocos com ref. e PN, trança nas duas pontas, rótulo só nas e
   ok(T.some(function (t) { return t === 'OBS: TODOS OS CABOS SÃO BITOLA 24AWG, EXCETO ONDE INDICADO.'; }), 'nota');
   it.wstyle = 'tabela'; T.length = 0; HX.ITEM_EXT.ptable.draw(g, it, d.p, 1, { theme: {} }); ok(T.indexOf('TABELA DE LIGAÇÃO') >= 0, 'formato antigo continua disponível');
 });
+test('lista de materiais da casa: sobre o carimbo (base ancorada), item 1 embaixo, QTD com unidade, descrição em maiúsculas', function () {
+  var T = [], g = { style: function () {}, line: function () {}, rect: function () {}, circle: function () {}, poly: function () {}, push: function () {}, pop: function () {}, text: function (t, x, y) { T.push([String(t), y]); } };
+  var d = build(), r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); });
+  var it = { type: 'ptable', kind: 'bom', anchor: 'b', x: 0, y: 100 }; HX.ITEM_EXT.ptable.draw(g, it, d.p, r.index, { theme: {} });
+  ok(d.p.sheets[r.index].items.some(function (i) { return i.type === 'ptable' && i.kind === 'bom' && i.anchor === 'b' && Math.abs(i.y - HX.usableArea(d.p).y1) < 1e-6; }), 'gerada sobre o carimbo');
+  ok(T[0][0] === 'ITEM' && T[4][0] === '1' && T[8][0] === '2' && T[0][1] > T[4][1] && T[4][1] > T[8][1], 'cabeçalho embaixo, item 1 logo acima, item 2 acima dele');
+  ok(it._bb.y1 === 100, 'base na âncora'); ok(T.some(function (q) { return / mm$/.test(q[0]); }), 'fio em mm');
+  ok([6, 10, 14].every(function (k) { return T[k] && T[k][0] === T[k][0].toUpperCase() && /[A-Z]/.test(T[k][0]); }), 'descrição em maiúsculas');
+  eq(HX.bomQty({ qty: 2.8, un: 'm' }), '2.800 mm'); eq(HX.bomQty({ qty: 4, un: 'pç' }), '4'); eq(HX.bomQty({ qty: 0.5, un: 'RL' }), '0,5 RL');
+});

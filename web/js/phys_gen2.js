@@ -35,7 +35,7 @@
     var d = HX.sheetDims(p.meta), M = HX.frameMargins(p), ys = nodes.map(function (n) { return n.y; }), y1 = Math.max.apply(0, ys.concat([0]));
     if (opt.tables !== false) {
       add({ type: 'ptable', kind: 'wiring', x: M.l + 20, y: Math.min(y1 + 32, d[1] - M.b - 75), w: 170 });
-      add({ type: 'ptable', kind: 'bom', x: d[0] - M.r - 150, y: M.t + 22 });
+      add({ type: 'ptable', kind: 'bom', anchor: 'b', x: d[0] - M.r - 4 - 170, y: HX.usableArea(p).y1 }); /* sobre o carimbo, crescendo para cima */
     }
     return out;
   };
