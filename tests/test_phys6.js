@@ -20,7 +20,7 @@ function G(log) {
   g.clip = function () { log.push('clip'); }; g.clipCircle = function () { log.push('clipCircle'); }; return g;
 }
 test('sem capa: um traço contínuo por fio do esquemático, curva na derivação, ordem sem cruzar', function () {
-  var o = harness(), sh = o.sh; sh.loose = 'wires'; var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
+  var o = harness(), sh = o.sh; sh.loose = 'wires'; sh.bundleLook = 'fios'; var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
   var col = log.filter(function (l) { return l[0] === 'poly' && /^#/.test(l[1] || '') && l[1] !== '#111111' && l[2] > 0.25 && l[3] > 20; }); // contorno das peças do conector tem traço fino
   eq(col.length, 12, 'um traço por fio (8 J1-J2 + 4 J1-J3) ' + col.map(function (l) { return l[1] + ':' + l[2]; }).join(','));
   var C = HX.physCtx(o.d.p, o.d.sheet, {}), BU = HX.physBundle(o.d.p, sh), O1 = HX.physLooseOrder(o.T.s1, sh, C, BU), O2 = HX.physLooseOrder(o.T.s2, sh, C, BU), O3 = HX.physLooseOrder(o.s3, sh, C, BU);

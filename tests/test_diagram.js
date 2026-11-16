@@ -40,3 +40,12 @@ test('lista de materiais da casa: sobre o carimbo (base ancorada), item 1 embaix
   ok([6, 10, 14].every(function (k) { return T[k] && T[k][0] === T[k][0].toUpperCase() && /[A-Z]/.test(T[k][0]); }), 'descrição em maiúsculas');
   eq(HX.bomQty({ qty: 2.8, un: 'm' }), '2.800 mm'); eq(HX.bomQty({ qty: 4, un: 'pç' }), '4'); eq(HX.bomQty({ qty: 0.5, un: 'RL' }), '0,5 RL');
 });
+test('feixe em linhas (padrão da casa): poucas linhas finas na cor da caneta em vez de um traço colorido por fio', function () {
+  var d = build(), r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); var sh = d.p.sheets[r.index];
+  function run(look) { var L = [], st = {}, g = { style: function (s) { for (var k in s) st[k] = s[k]; }, poly: function (P) { L.push([st.stroke, st.lw, P.length]); }, line: function () {}, rect: function () {}, circle: function () {}, text: function () {}, push: function () {}, pop: function () {}, image: function () { return true; }, clip: function () {}, clipCircle: function () {} };
+    sh.bundleLook = look; HX.drawSheetItems(g, d.p, r.index, {}); return L; }
+  var C = HX.physCtx(d.p, r.index, {}), pen = C.line ? C.col : '#111111';
+  var A = run('lines').filter(function (l) { return l[0] === pen && Math.abs(l[1] - 0.18) < 1e-9 && l[2] > 10; }), B = run('fios').filter(function (l) { return /^#/.test(l[0] || '') && l[0] !== '#111111' && l[0] !== pen && l[1] > 0.25 && l[2] > 10; });
+  ok(A.length >= 2 && A.length <= 4, 'linhas da caneta: ' + A.length); ok(B.length >= 4 && B.length > A.length - 1, 'modo por fio continua: ' + B.length);
+  ok(HX.physLinesLook({ pstyle: 'line' }) && HX.physLinesLook({ pstyle: 'outline' }) && !HX.physLinesLook({ pstyle: 'img' }) && !HX.physLinesLook({ pstyle: 'line', bundleLook: 'fios' }), 'automático só nos modelos de traço');
+});

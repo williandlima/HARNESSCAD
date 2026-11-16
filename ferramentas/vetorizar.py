@@ -19,7 +19,7 @@ if dots:  # contatos -> círculos (cheios ou meio cheios: preenche o furo antes)
     lab, n = ndi.label(op); C = []
     for i in range(1, n+1):
         ys, xs = np.where(lab == i); a = len(xs)
-        if a > (K*12)**2: continue
+        if a > (K*float(__import__('os').environ.get('AMAX', '12')))**2: continue  # AMAX: maior contato aceito (px)
         C.append([xs.mean()/K, ys.mean()/K, np.sqrt(a/np.pi)/K])
     med = float(np.median([c[2] for c in C])) if C else 0
     lo, hi = [float(v) for v in __import__('os').environ.get('CR', '0.6,1.6').split(',')]  # faixa de raio aceita (x mediana)
