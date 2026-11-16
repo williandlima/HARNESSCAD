@@ -3,6 +3,9 @@
    chama Instalar_HarnessCAD.exe /s (imagens embutidas + atalhos na Área de Trabalho e no Menu Iniciar) e oferece abrir.
    Sem Python, sem zip, Windows 7+ (32 bits). Conteúdo anexado ao fim do .exe pelo script montar_setup.py:
    [u16 tam][caminho UTF-8][u32 tam][dados]... depois [u32 qtd][u32 início]["HXSETUP1"]. */
+#ifndef HXVER
+#define HXVER L"?" /* versão: compilar.sh passa a de web/js/core.js */
+#endif
 #include <windows.h>
 #include <shlobj.h>
 static WCHAR T[2048];
@@ -25,7 +28,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   CoInitialize(NULL);
   GetEnvironmentVariableW(L"USERPROFILE", dst, MAX_PATH); lstrcatW(dst, L"\\HarnessCAD");
   if (!quiet) {
-    wsprintfW(T, L"Instalar o HarnessCAD %s em:\n\n%s\n\nSim = instalar aqui\nNão = escolher outra pasta\n\nProjetos salvos na pasta \"dados\" são mantidos.", L"1.6.15", dst);
+    wsprintfW(T, L"Instalar o HarnessCAD %s em:\n\n%s\n\nSim = instalar aqui\nNão = escolher outra pasta\n\nProjetos salvos na pasta \"dados\" são mantidos.", HXVER, dst);
     r = msg(T, MB_YESNOCANCEL | MB_ICONQUESTION); if (r == IDCANCEL) return 0; if (r == IDNO && !pasta(dst)) return 0;
   }
   buf = HeapAlloc(GetProcessHeap(), 0, 4 << 20); SetFilePointer(f, start, NULL, FILE_BEGIN);
