@@ -28,12 +28,12 @@ test('conector em desenho técnico: sem imagem, medidas do datasheet, cotas e me
   ok(Object.keys(HX.PHYS_VEC).length >= 7, 'peças em vetor');
 });
 test('vista frontal vetorial: contatos numerados na posição real, cor do fio, soquete espelhado', function () {
-  var o = harness(), sh = o.sh, d = o.d; sh.connDraw = 'vec'; var e = HX.CAT.conns['D38999:15-35'];
+  var o = harness(), sh = o.sh, d = o.d; sh.connDraw = 'vec'; var e = HX.CAT.conns['D38999:15-35'], vi = HX.VECIMG['face:D38999:15-35']; ok(vi, 'figura oficial do 15-35 vetorizada'); delete HX.VECIMG['face:D38999:15-35']; /* caminho procedural */
   var log = []; HX.drawSheetItems(G(log), d.p, d.sheet, {}); var T = log.filter(function (l) { return l[0] === 'T'; }).map(function (l) { return l[1]; });
   ok(e.pins.every(function (q) { return T.indexOf(String(q.n)) >= 0; }), 'todos os ' + e.pins.length + ' contatos numerados');
   ok(log.some(function (l) { return l[0] === 'circle' && l[1] === HX.wireHex({ color: 'RD' }); }), 'contato ligado com a cor do fio');
   var l1 = [], c = { part: 'D38999:15-35', gender: 'P', pins: e.pins }, c2 = { part: 'D38999:15-35', gender: 'S', pins: e.pins };
-  ok(HX.physVecFace(G(l1), c, 0, 0, 30, '#000', null), 'face de pinos'); ok(!HX.physVecFace(G([]), { part: 'D38999:13-35', gender: 'P' }, 0, 0, 30, '#000', null), 'sem posições publicadas: sem vetor');
+  HX.VECIMG['face:D38999:15-35'] = vi; ok(HX.physVecFace(G(l1), c, 0, 0, 30, '#000', null), 'face de pinos'); ok(!HX.physVecFace(G([]), { part: 'D38999:13-35', gender: 'P' }, 0, 0, 30, '#000', null), 'sem posições publicadas: sem vetor');
   void c2;
 });
 test('acessórios com forma real: todos desenham e o rótulo continua', function () {
