@@ -2,7 +2,7 @@
    (Harwin, p. 20, vista frontal "A max." x 7,65 max.), medida em 600 dpi (58,6 px/mm) e montada para qualquer nº de
    vias: as pontas (asa da trava, chanfros, corpo traseiro, faixa) ficam como no datasheet e o miolo cresce no passo
    de 2,00 mm, com as cotas do catálogo (A = B + 5,15; altura 7,65; profundidade 5,45 dupla / 3,50 simples).
-   No desenho físico: face de encaixe à esquerda, fios saindo do corpo traseiro (à direita). */
+   No desenho físico: lado dos terminais (almofadas no passo de 2,00) voltado para o cabo, face de encaixe do lado oposto. */
 (function (G) {
   'use strict';
   var HX = G.HX; if (!HX.COM_SHAPE || !HX.M80) return;
@@ -13,13 +13,13 @@
     var n = (c.pins || []).length || d.n, rows = d.rows || 1, m = HX.M80.dims(n, rows);
     return { cls: 'm80', fam: 'M80', n: n, rows: rows, cols: Math.ceil(n / rows), p: 2.0, A: m.A, D: m.D, L: 7.65, W: m.A, H: m.D };
   };
-  /* figura do datasheet em mm (x ao longo de A, y da traseira = 0 até a face = 7,65; almofadas até 7,79) */
+  /* figura do datasheet em mm (x ao longo de A; y = 0 no corpo estreito da face de encaixe até 7,65; almofadas dos terminais até 7,79) */
   function fig(A, cols) {
     var r = A, P = [], F = [];
     F.push([[0.51, 3.96], [r - 0.51, 3.96], [r - 0.51, 7.14], [r - 1.02, 7.65], [1.02, 7.65], [0.51, 7.14]]); /* corpo frontal (chanfrado) */
-    F.push([[1.23, 0], [r - 1.21, 0], [r - 1.21, 3.14], [1.23, 3.14]]);                                    /* corpo traseiro */
+    F.push([[1.23, 0], [r - 1.21, 0], [r - 1.21, 3.14], [1.23, 3.14]]);                                    /* corpo da face de encaixe */
     F.push([[0, 3.96], [1.02, 3.21], [1.23, 3.14], [r - 1.21, 3.14], [r - 1.0, 3.21], [r, 3.96], [r, 4.61], [r - 0.51, 4.61], [r - 0.51, 3.96], [0.51, 3.96], [0.51, 4.61], [0, 4.61]]); /* asas da trava + faixa */
-    P.push([[2.0, 0], [2.0, 3.14]], [[r - 1.95, 0], [r - 1.95, 3.14]]);                                    /* frisos do corpo traseiro */
+    P.push([[2.0, 0], [2.0, 3.14]], [[r - 1.95, 0], [r - 1.95, 3.14]]);                                    /* frisos */
     P.push([[1.04, 3.35], [r - 1.0, 3.35]], [[1.04, 3.24], [1.04, 3.96]], [[r - 1.0, 3.24], [r - 1.0, 3.96]]);
     P.push([[2.0, 3.14], [1.91, 3.35], [1.91, 3.96]], [[r - 1.95, 3.14], [r - 1.88, 3.35], [r - 1.88, 3.96]]);
     for (var j = 0; j < cols; j++) { var xc = 2.575 + 2 * j; F.push([[xc - 0.735, 7.65], [xc + 0.735, 7.65], [xc + 0.735, 7.79], [xc - 0.735, 7.79]]); }
@@ -30,7 +30,7 @@
   HX.physComDraw = function (g, o, s, col, line, bw) {
     if (o.cls !== 'm80') return d0.apply(this, arguments);
     var D = fig(o.A, o.cols), fill = line ? '#fff' : '#e6e6e6', lw = 0.13;
-    var T = function (P) { return P.map(function (q) { return [-q[1] * s, (q[0] - o.A / 2) * s]; }); }; /* face à esquerda, traseira em x = 0 */
+    var T = function (P) { return P.map(function (q) { return [(q[1] - 7.79) * s, (q[0] - o.A / 2) * s]; }); }; /* terminais em x = 0 (cabo), face de encaixe à esquerda */
     D.F.forEach(function (P) { g.style({ stroke: col, lw: lw, fill: fill, dash: null }); g.poly(T(P), true); });
     g.style({ fill: null });
     D.P.forEach(function (P) { g.style({ stroke: col, lw: lw, dash: null }); g.poly(T(P), false); });
