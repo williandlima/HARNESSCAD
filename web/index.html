@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>HarnessCAD — Esquemas elétricos de cablagens</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/ui2.css">
+<link rel="stylesheet" href="css/light.css">
+</head>
+<body>
+<div id="app">
+  <nav id="menubar"><span class="brand">⚡ HarnessCAD</span><div id="menus" style="display:flex"></div><span class="title" id="docTitle"></span></nav>
+  <div id="toolbar"></div>
+  <main id="layout">
+    <aside id="left">
+      <div class="tabs" id="leftTabs">
+        <button data-p="pConn" class="on">Conectores</button><button data-p="pWire">Fios</button><button data-p="pSplice">Emendas</button>
+      </div>
+      <div class="pane" id="pConn"></div>
+      <div class="pane" id="pWire" style="display:none"></div>
+      <div class="pane" id="pSplice" style="display:none"></div>
+    </aside>
+    <div class="vsplit" id="splitL" title="Arraste para redimensionar · duplo clique recolhe"></div>
+    <section id="center">
+      <div id="canvasWrap"><canvas id="cv" tabindex="0"></canvas></div>
+      <div id="sheetTabs"></div>
+    </section>
+    <div class="vsplit" id="splitR" title="Arraste para redimensionar · duplo clique recolhe"></div>
+    <aside id="right">
+      <div class="tabs"><button class="on">Propriedades</button></div>
+      <div class="pane" id="props"></div>
+    </aside>
+  </main>
+  <div class="hsplit" id="splitB" title="Arraste para redimensionar · duplo clique recolhe"></div>
+  <section id="dock">
+    <div class="tabs" id="dockTabs"></div>
+    <div id="dockBody"></div>
+  </section>
+  <footer id="status"></footer>
+</div>
+<div id="modal"></div>
+<!-- ordem importa: núcleo, catálogos, lógica, desenho, interface -->
+<script src="js/imgpack/lista.js"></script>
+<script src="js/imgpack.js"></script>
+<script src="js/core.js"></script>
+<script src="js/geom.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/cat_mil.js"></script>
+<script src="js/cat_dsubc.js"></script>
+<script src="js/cat_38999_a.js"></script>
+<script src="js/cat_38999_b.js"></script>
+<script src="js/cat_38999.js"></script>
+<script src="js/cat_com.js"></script>
+<script src="js/cat_com2.js"></script>
+<script src="js/cat_official.js"></script>
+<script src="js/cat_wire.js"></script>
+<script src="js/cat_equip.js"></script>
+<script src="js/netlist.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/dims.js"></script>
+<script src="js/dims_len.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/wirelbl.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/symbols.js"></script>
+<script src="js/symbols2.js"></script>
+<script src="js/symbols3.js"></script>
+<script src="js/symbols4.js"></script>
+<script src="js/disc.js"></script>
+<script src="js/faceview.js"></script>
+<script src="js/equip_draw.js"></script>
+<script src="js/equip_icons.js"></script>
+<script src="js/equip_icons2.js"></script>
+<script src="js/equip_icons3.js"></script>
+<script src="js/equip_pins.js"></script>
+<script src="js/equip.js"></script>
+<script src="js/template.js"></script>
+<script src="js/export_pdf.js"></script>
+<script src="js/print.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/faceimg.js"></script>
+<script src="js/edit.js"></script>
+<script src="js/edit2.js"></script>
+<script src="js/wires_keep.js"></script>
+<script src="js/junctions.js"></script>
+<script src="js/pin2pin.js"></script>
+<script src="js/phys_sprites.js"></script>
+<script src="js/phys_geom.js"></script>
+<script src="js/phys_bundle.js"></script>
+<script src="js/phys_dsub.js"></script>
+<script src="js/phys_dsubw.js"></script>
+<script src="js/phys_line.js"></script>
+<script src="js/phys_gen.js"></script>
+<script src="js/phys_gen2.js"></script>
+<script src="js/phys_draw.js"></script>
+<script src="js/phys_items.js"></script>
+<script src="js/phys_table.js"></script>
+<script src="js/phys_cover.js"></script>
+<script src="js/phys_edit.js"></script>
+<script src="js/phys_len.js"></script>
+<script src="js/phys_topo.js"></script>
+<script src="js/phys_sync.js"></script>
+<script src="js/phys_junc.js"></script>
+<script src="js/erc2.js"></script>
+<script src="js/erc_phys.js"></script>
+<script src="js/mfg.js"></script>
+<script src="js/mfg2.js"></script>
+<script src="js/model3.js"></script>
+<script src="js/phys_tree.js"></script>
+<script src="js/phys_flex.js"></script>
+<script src="js/phys_route.js"></script>
+<script src="js/phys_attach.js"></script>
+<script src="js/phys_acc.js"></script>
+<script src="js/phys_check.js"></script>
+<script src="js/phys_rev.js"></script>
+<script src="js/phys_doc.js"></script>
+<script src="js/phys_out.js"></script>
+<script src="js/phys_ds.js"></script>
+<script src="js/phys_layout.js"></script>
+<script src="js/phys_ds2.js"></script>
+<script src="js/phys_dsubvec.js"></script>
+<script src="js/phys_dsubterm.js"></script>
+<script src="js/phys_conndims.js"></script>
+<script src="js/phys_vec.js"></script>
+<script src="js/phys_face2.js"></script>
+<script src="js/phys_acc2.js"></script>
+<script src="js/phys_ms.js"></script>
+<script src="js/phys_rcx.js"></script>
+<script src="js/phys_outline.js"></script>
+<script src="js/phys_com.js"></script>
+<script src="js/phys_com2.js"></script>
+<script src="js/phys_vecart.js"></script>
+<script src="js/phys_vecart2.js"></script>
+<script src="js/phys_vecart3.js"></script>
+<script src="js/phys_branch.js"></script>
+<script src="js/phys_branch2.js"></script>
+<script src="js/phys_loose2.js"></script>
+<script src="js/phys_loose.js"></script>
+<script src="js/phys_loose3.js"></script>
+<script src="js/phys_dim2.js"></script>
+<script src="js/phys_detail.js"></script>
+<script src="js/phys_tag.js"></script>
+<script src="js/phys_tag2.js"></script>
+<script src="js/phys_angle.js"></script>
+<script src="js/phys_prep.js"></script>
+<script src="js/phys_var.js"></script>
+<script src="js/phys_style.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/tools2.js"></script>
+<script src="js/keys.js"></script>
+<script src="js/tools_dim.js"></script>
+<script src="js/tools_trace.js"></script>
+<script src="js/tools_paint.js"></script>
+<script src="js/tools_phys.js"></script>
+<script src="js/tools_phys2.js"></script>
+<script src="js/tools_phys3.js"></script>
+<script src="js/tools_phys4.js"></script>
+<script src="js/io.js"></script>
+<script src="js/ui_dialogs.js"></script>
+<script src="js/ui_lib.js"></script>
+<script src="js/ui_lib2.js"></script>
+<script src="js/ui_faceimg.js"></script>
+<script src="js/ui_toolpanel.js"></script>
+<script src="js/ui_props.js"></script>
+<script src="js/ui_props2.js"></script>
+<script src="js/ui_phys.js"></script>
+<script src="js/ui_phys2.js"></script>
+<script src="js/ui_physimg.js"></script>
+<script src="js/ui_tables.js"></script>
+<script src="js/ui_erc.js"></script>
+<script src="js/ui_menu.js"></script>
+<script src="js/ui_main.js"></script>
+<script src="js/ui_app_dlg.js"></script>
+<script src="js/ui_print.js"></script>
+<script src="js/ui_layout.js"></script>
+<script src="js/ui_view.js"></script>
+<script src="js/ui_phys3.js"></script>
+<script src="js/ui_phys4.js"></script>
+<script src="js/ui_phys5.js"></script>
+<script src="js/ui_phys6.js"></script>
+<script src="js/ui_dsimg.js"></script>
+<script src="js/ui_pin2pin.js"></script>
+<script src="js/ui_branch.js"></script>
+<script src="js/ui_phys7.js"></script>
+<script src="js/ui_phys8.js"></script>
+<script src="js/ui_phys9.js"></script>
+<script src="js/ui_phys10.js"></script>
+<script src="js/ui_conndims.js"></script>
+<script src="js/ui_univ.js"></script>
+<script src="js/model4.js"></script>
+<script src="js/ui_icons.js"></script>
+<script src="js/ui_ribbon_def.js"></script>
+<script src="js/ui_msstd.js"></script>
+<script src="js/ui_route.js"></script>
+<script src="js/phys_schemlayout.js"></script>
+<script src="js/phys_schemlayout2.js"></script>
+<script src="js/phys_custom.js"></script>
+<script src="js/vimg_d38p1.js"></script>
+<script src="js/vimg_f25351.js"></script>
+<script src="js/vimg_f25352.js"></script>
+<script src="js/phys_vecimg.js"></script>
+<script src="js/ui_custom.js"></script>
+<script src="js/ui_ribbon.js"></script>
+<script src="js/ui_ribbon2.js"></script>
+<script src="js/ui_pgrid.js"></script>
+<script src="js/ui_start.js"></script>
+<script src="js/ui_focus.js"></script>
+<script src="js/ui_guard.js"></script>
+<script src="js/ui_fix162.js"></script>
+<script src="js/ui_tag2.js"></script>
+</body>
+</html>

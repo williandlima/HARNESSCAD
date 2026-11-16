@@ -1,0 +1,28 @@
+﻿HarnessCAD - TRANSFERENCIA EM PARTES DE ATE 4 KB
+================================================
+Todos os arquivos desta pasta tem no maximo 3.900 bytes.
+
+IMPORTANTE: as partes (.p001.txt ...) NAO se abrem sozinhas e nao sao
+texto legivel. Quem abre e junta tudo e o montar.py (ou montar.bat).
+
+1) COPIAR
+   Copie TODOS os arquivos para UMA mesma pasta no PC da empresa
+   (ex.: D:\HarnessCAD_inst\):
+     HarnessCAD.zip.p001.txt ... HarnessCAD.zip.p274.txt  (274 partes)
+     HarnessCAD.zip.sha256.txt, montar.py, montar.bat, LEIA-ME.txt
+   Se a rede renomear os arquivos (tirar o .txt, maiusculas, _P001),
+   tudo bem: o montar.py reconhece.
+   Se a rede bloquear .py/.bat, envie como montar.py.txt / montar.bat.txt
+   e tire o ".txt" no destino.
+
+2) MONTAR
+   a) Duplo clique em montar.bat. Ele usa o Python se existir
+      (python ou py) e, se nao, junta com comandos do Windows.
+   b) Ou no prompt:  python montar.py
+   O resultado e HarnessCAD.zip, conferido pelo SHA-256. Se faltar ou
+   estiver errada alguma parte, a mensagem diz qual recopiar.
+
+3) INSTALAR
+   Extraia HarnessCAD.zip (botao direito > Extrair tudo) e leia
+   HarnessCAD\README.md. Para usar: iniciar_servidor_python.bat
+   (servidor) ou abrir_modo_local.bat (sem servidor).

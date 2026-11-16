@@ -1,0 +1,2 @@
+As imagens oficiais ficam embutidas em web\js\imgpack (funcionam com o index.html aberto direto do disco).
+Para trocar ou adicionar uma: ponha o PNG aqui (mesma pasta/nome do original) e rode ferramentas\embutir_imagens.py.

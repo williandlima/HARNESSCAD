@@ -1,0 +1,29 @@
+/* HarnessCAD - MIL-DTL-38999 Série III: arranjos de inserto IAW MIL-STD-1560 (parte 2)
+   Fontes: Glenair "MIL-DTL-38999 Series I-IV" (págs. D-2..D-4, B-2/B-3) e Amphenol "38999 catalog" (págs. 7-30, 42-43).
+   ids: identificação dos contatos ('N13' = 1..13); z: tamanho por contato (d=22D 2=20 6=16 1=12; 'x*' = todos x);
+   p: posição de cada contato na face do inserto de PINOS, vista frontal, chaveta mestra em cima: 4 caracteres base 36
+   por contato (x, y em -1..1 do raio da face; y para baixo); src: de onde veio; c: só contagem (sem desenho no catálogo). */
+(function (G) {
+  'use strict';
+  var HX = G.HX; HX.D38999_ARR = (HX.D38999_ARR || []).concat([
+    {i:'21-35', s3:'G35', ids:'N79', z:'d*', p:'jr3qmv4hpr5vs87wu7aevldawagewajlvlmpu7pls8s3pru4mvvijrw9g8w9d4via8u47rs35spl4emp3pjl3pge4eda5sae7r7wa85vd44hg83qi076la78o58mqmamsedat3get3jlsempqmpdo5rdlasri0tmepsrburd9dpd7lmp6wjl6wge7lda9dambu8mep78ge9xjl9xmhbcoydcpxgepxjloymnmhonjlq2geq2dionb1mna2jla2geb1dcdibcged4jld4m6ezn6i0m6l0jlmvgemvdtl0cti0dtezi0g8jliygeiy', src:'A'},
+    {i:'21-39', s3:'G39', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h i j k m n p q r', z:'222222222222222222222226222222222262222', p:'lh38ph4vsp7cv8akwxeduxpksesnp2vbn7wpimxye6wya1vb6nsn4hpk30lc35ed4uak757cal4veu38i078ml8kq9barcges3kwq5oumup8curm9gou7mkw7xez9obad48ki0c2mcfwm3mhguqcdsmhdzfw', src:'G'},
+    {i:'21-41', s3:'G41', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h i j k m n p q r s t', z:'2*', p:'jm31mk4bs06wtx9cw0dmwqi4w0motxqvqpu0mmw3i2wtdiw49fu767qs43mp3ei543dn669e9f6adi46i13gqp64qncos7h8rgm1ompyk9s3ffrzb6po8hln7ygz9pcbdc94i17ymheqnijgkfncfln0cljddoeni1i5', src:'G'},
+    {i:'23-21', s3:'H21', ids:'A B C D E F G H J K L M N P R S T U V W X', z:'6*', p:'md57rs8hv0dzvdkesjq7o9tvi1vlbutv7kq74qke53dx8c8hdq57i19hn7cvp6jaljokekoeaxjackcvi1i6', src:'G'},
+    {i:'23-32', s3:'H32', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h j', z:'2*', p:'lf2qt46zwjcxx9kpupreomvmhxx9arvm5cre2fkp3hcy6t6zek2qhx6tna7vqebzt2h2s7m9osqlhxs8avqm7km96vh49kbzcq7vljctn5i0kkn7fen7cti3edcwhxhz', src:'G'},
+    {i:'23-34', s3:'H34', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h j k l', z:'2*', p:'hx24o43ysv7kwjc0xjhhxambtzrkqlv1lpwre8wn9cux5yrg2nm72fhd3ebw737gbt3uhx7gp6arskfxsklqn8qghxsycpqc7elm7efsasanhxcyn8gln8m0hxnjcplwcpghhxi4', src:'G'},
+    {i:'23-35', s3:'H35', ids:'N100', z:'d*', p:'5hay4cdh3qg75ui03qjs5hm55hox8a898ab18adt8agl8ajd8am58aox8arpap6vap9napcfapf7api0apksapnkapqcapt4d55hd589d5b1d5dtd5gld5jdd5m5d5oxd5rpd5uhfk43fk6vfk9nfkcffkf7fki0fkksfknkfkqcfkt4fkvwi05hi089i0b1i0dti0gli0jdi0m5i0oxi0rpi0uhkf43kf6vkf9nkfcfkff7kfi0kfkskfnkkfqckft4kfvwmu5hmu89mub1mudtmuglmujdmum5muoxmurpmuuhpa6vpa9npacfpaf7pai0pakspankpaqcpat4rp89rpb1rpdtrpglrpjdrpm5rpoxrprpuiayvndhw9g7u5i0w9jsuim5uiox', src:'A'},
+    {i:'23-36', s3:'H36', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h j k l m n', z:'2*', p:'l62sqj4itt8fxaecxij9weobrvtxncwai0xgcrwb88ty3qod2lja2tee6a8g9k4jex2ti072n28jrydgs9inrinmncr3j9sdcrr58lnn7uip86did28ki0cwlsg4o5jmi0mxd2iud2dii0hy', src:'G'},
+    {i:'23-53', s3:'H53', c:{'20':53}},
+    {i:'23-55', s3:'H55', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h i j k m n p q r s t u v w x y z AA BB CC DD EE FF GG HH', z:'2*', p:'li5ioz7hse9ivwfgvwjdvwngsesxozv1liwxemwwb5ux7qtb48ng48jd48fh7q9cb57hem5mhy7hli9iozbmsedisehhselhsephozrllithhyvhemtkb5rg7qpc7qlc7qhc7qddb5biem9lhybhlidiozfgozjdoznglipihyrgemplb5ngb5jdb5fhemdhhyfhlihhlilhhyngemllemhmhyjd', src:'G'},
+    {i:'23-97', s3:'H97', ids:'A B C D E F G H J K L M N P R S', z:'6*', p:'i55jp68cuzdavijbt6p6ofu5jov9a0th78p64wjb5fdab88ci5c6meinjaledchr', src:'G'},
+    {i:'23-99', s3:'H99', ids:'A B C D E F G H J K L', z:'6*', p:'gi64qwabqej1qvrdfzwmbeqb61iw8saqkedei2kddpd1', src:'G'},
+    {i:'25-4', s3:'J4', c:{'20':48,'16':8}},
+    {i:'25-19', s3:'J19', ids:'A B C D E F G H J K L M N P R S T U V', z:'1*', p:'i567ox67s5cbvli2s5ngoxtci5tcbftc82ng4ti282cbbf67encblbcboxi2lbngenngbfi2i5i2', src:'G'},
+    {i:'25-24', s3:'J24', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a', z:'116116666611611116661166', p:'hv4unt71sx9fudf3sxlwryreojudhvvwbkud85re6glw4if36x9fbb71hvbfoadfn2jjntpohvqsc2pocnjjbkdfhvh1hvm9', src:'G'},
+    {i:'25-29', s3:'J29', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f', z:'6*', p:'if4lpp63tl9rvneivnkotlpepvt1l0urfvuwb0t17ape57kp57ej7a9rb564fv8jl08dovc4rfhlp7mpl0pmfvprbnmp9fhlbzc4ifd1m7hlifl9enhl', src:'G'},
+    {i:'25-35', s3:'J35', ids:'N128', z:'d*', p:'5kar4id23ufj3li03ukg4imx5kp8708q78d278fj78i078kg78mx70r99e6h9e9e9ebu9eeb9egs9ej79elo9eo59eql9et2bj55bj85bjambjd2bjfjbji0bjkgbjmxbjpebjrubjubdu48dp6xdp9edpbudpebdpgsdpj7dplodpo5dpqldpt2dpvjfu5ofu85fuamfud2fufjfui0fukgfumxfupefurufuubi04gi06xi09ei0bui0ebi0gsi0j7i0loi0o5i0qli0t2i0wek55ok585k5amk5d2k5fjk5i0k5kgk5mxk5pek5ruk5ubm548ma6xma9emabumaebmagsmaj7malomao5maqlmat2mavjog55og85ogamogd2ogfjogi0ogkgogmxogpeogruogubql6hql9eqlbuqlebqlgsqlj7qlloqlo5qlqlqlt2sz8qsrd2srfjsri0srkgsrmxszr9ufarvhd2w5fjwei0w5kgvhmxufp8', src:'A'},
+    {i:'25-43', s3:'J43', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h k m n p q r s t u v w x', z:'2222222222222222222222266666666666666666666', p:'ju2xnz3wre5yug8rw9c6xhg2xhk3w9o4ubreritynzw5hxxbbzw78gu05nrg3po62hk52hg43pc85j8t8k60bz3yg42zmw87pbd8rwi3rwn3n0s2hxs2cys283n383i3and8d387hx87kgd8n0i3n0n3hxn3cyn3cyi3fid8hxi3', src:'G'},
+    {i:'25-61', s3:'J61', ids:'A B C D E F G H J K L M N P R S T U V W X Y Z a b c d e f g h i j k m n p q r s t u v w x y z AA BB CC DD EE FF GG HH JJ KK LL MM NN PP', z:'2*', p:'n94lqe6ct28tuzbuw4fawcisvomeu5porushoxulllvwi0wdeevwb2ul85sh5upo4bme3nis3vfa50bu6x8t9l6ccq4lg65ujt5umm89pmafrpdbsogrsikcr4npoqqelks5i0srefs5b9qe8vnp7hkc7bgr8adbadafdd89i08ylxc0oceqp5i9o3lqlio8i0p5eho8bwlqaui9bneqe2c0i0cnktfhlmj3i0ljedj3f6fhi0i0', src:'A'}
+  ]);
+})(typeof window !== 'undefined' ? window : globalThis);

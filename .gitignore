@@ -1,0 +1,12 @@
+# dados do usuário (projetos, biblioteca, backups) — nunca versionar
+dados/*
+!dados/.gitkeep
+__pycache__/
+*.pyc
+*.o
+instalador/setup_base.exe
+# saídas de empacotamento
+/HarnessCAD.zip
+/HarnessCAD_4k/
+/HarnessCAD_lote*.zip
+/Setup_HarnessCAD.exe

@@ -1,0 +1,15 @@
+/* HarnessCAD - campos da etiqueta (só luva termo-retrátil): texto, PN, comprimento, posição pela BORDA da etiqueta
+   até o conector, cota (automática ou valor customizado) e tolerância. */
+(function (G) {
+  'use strict';
+  var HX = G.HX, EXT = HX.ITEM_EXT;
+  EXT.ptag.fields = function (it, doc) {
+    HX.physTagAccessor(it); var sh = doc.cur(), m = HX.physIdx(sh), sg = m[it.seg] || {};
+    return [{ type: 'head', l: 'Etiqueta — luva termo-retrátil impressa' }, { k: 'text', l: 'Texto impresso', tip: 'Ex.: W12, P1, 28V-ALIM' },
+      { k: 'pn', l: 'Part number da luva' }, { k: 'len', l: 'Comprimento da luva (mm)', type: 'number', step: 5 },
+      { type: 'head', l: 'Posição e cota' }, { k: 'edist', l: 'Distância borda da etiqueta → conector (mm)', type: 'number', step: 5, tip: 'Ou arraste a etiqueta no ramo' },
+      { k: 'end', l: 'Conector de referência', type: 'select', opts: [['a', (m[sg.a] || {}).ref || 'ponta A'], ['b', (m[sg.b] || {}).ref || 'ponta B']] },
+      { k: 'dim', l: 'Cotar a posição', type: 'check' }, { k: 'dimText', l: 'Valor customizado da cota (vazio = medido)' }, { k: 'tolP', l: 'Tolerância ± (mm)' },
+      { k: 'dimOff', l: 'Afastamento da cota (mm, vazio = automático)', type: 'number', step: 1 }, { k: 'dimFrom', l: 'Cota a partir de', type: 'select', opts: [['', 'Borda do conector'], ['node', 'Nó do ramo']] }];
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

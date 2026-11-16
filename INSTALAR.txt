@@ -1,0 +1,27 @@
+﻿HarnessCAD - INSTALAÇÃO NO WINDOWS (7 ou mais novo)
+====================================================
+
+1. Extraia o HarnessCAD.zip (fica a pasta HarnessCAD).
+2. Dentro dela, dê duplo clique em  Instalar_HarnessCAD.exe
+   - "Sim": copia o programa para C:\Users\<você>\HarnessCAD
+     (reinstalar não apaga os projetos da pasta dados).
+   - "Não": usa a pasta onde está, sem copiar.
+3. O instalador cria o atalho "HarnessCAD" (com ícone) na Área de Trabalho
+   e no Menu Iniciar, e embute as imagens dos conectores no programa.
+4. Abra sempre pelo atalho (ou pelo HarnessCAD.exe).
+
+Não precisa de Python, .NET nem permissão de administrador.
+
+Imagens dos conectores no PDF: já vêm embutidas no programa (web\js\imgpack),
+então o PDF do desenho físico sai com conectores e vistas mesmo abrindo o
+web\index.html direto. O instalador e o atalho são só comodidade.
+
+O HarnessCAD.exe abre o programa no Edge, Chrome ou Firefox instalados
+(nessa ordem); se não achar nenhum, usa o navegador padrão.
+
+Para a TI (instalação sem perguntas):  Instalar_HarnessCAD.exe /s
+
+Modo servidor (vários usuários, projetos salvos no servidor):
+iniciar_servidor_python.bat  (precisa de Python 3.8) - veja SERVIDOR.md.
+
+Código-fonte dos .exe: pasta instalador (harness_exe.c, compilar.sh).
