@@ -17,5 +17,6 @@ test('M80: desenho em escala, lado dos terminais (almofadas no passo 2,00) volta
   var pads = log.filter(function (l) { return l[0] === 'poly' && l[2] && Math.abs(Math.max.apply(0, l[1].map(function (q) { return q[0]; }))) < 1e-6; }); /* lado dos terminais no cabo (x = 0) */
   eq(pads.length, 6, 'almofadas'); ok(Math.abs(pads[1][1][0][1] - pads[0][1][0][1] - 2) < 1e-6, 'passo 2,00');
   var lf = []; HX.physLineFace(G(lf), c, 0, 0, 30, '#000', false);
-  eq(lf.filter(function (l) { return l[0] === 'text'; }).map(function (l) { return l[1]; }).join(','), c.pins.map(function (p) { return p.n; }).join(','));
+  eq(lf.filter(function (l) { return l[0] === 'text'; }).map(function (l) { return l[1]; }).join(','), '1,2,11,12', 'nº só dos contatos dos cantos, como nas pranchas');
+  eq(lf.filter(function (l) { return l[0] === 'circle'; }).length, 12, 'uma cavidade por contato');
 });

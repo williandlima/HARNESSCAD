@@ -31,7 +31,7 @@ test('sem capa: um traço contínuo por fio do esquemático, curva na derivaçã
   ok(HX.physVisW(o.T.s1, sh, BU) > HX.physVisW(o.s3, sh, BU), 'largura cresce com o nº de fios'); sh.wirePitch = 1; eq(HX.physVisW(o.s3, sh, BU), 4);
 });
 test('cota mostra o nº de fios (ramo e caminho) e o valor digitado define o ramo', function () {
-  var o = harness(), sh = o.sh, C = HX.physCtx(o.d.p, o.d.sheet, {}), dm = sh.items.filter(function (i) { return i.type === 'pdim' && i.seg === o.s3.id; })[0];
+  var o = harness(), sh = o.sh; sh.segInfo = true; var C = HX.physCtx(o.d.p, o.d.sheet, {}), dm = sh.items.filter(function (i) { return i.type === 'pdim' && i.seg === o.s3.id; })[0];
   if (!dm) { dm = { type: 'pdim', id: 'x1', a: o.s3.a, b: o.s3.b, seg: o.s3.id, mode: 'seg', off: 6 }; sh.items.push(dm); C = HX.physCtx(o.d.p, o.d.sheet, {}); }
   eq(HX.physDimValue(dm, C, o.d.p).sub, '4 fios'); dm.hideCount = true; ok(!HX.physDimValue(dm, C, o.d.p).sub); dm.hideCount = false;
   var pd = { type: 'pdim', id: 'x2', a: o.n.J1.id, b: o.n.J2.id, mode: 'path' }; eq(HX.physDimValue(pd, C, o.d.p).sub, '8 fios', 'só os que vão de J1 a J2');

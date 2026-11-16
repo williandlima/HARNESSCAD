@@ -19,7 +19,7 @@
   };
   var dv = HX.physDimValue;
   HX.physDimValue = function (it, C, p) {
-    var V = dv(it, C, p); if (it.hideCount || it.text || V.v == null || !p) return V;
+    var V = dv(it, C, p); if (it.hideCount || it.text || V.v == null || !p || (C.sh && C.sh.segInfo === false && !it.showCount)) return V; /* sem identificação dos ramos: cota só com o valor */
     var W = HX.physDimWires(it, C, p); if (W && W.length) V.sub = W.length + (W.length > 1 ? ' fios' : ' fio');
     return V;
   };

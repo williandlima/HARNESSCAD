@@ -36,19 +36,18 @@
     D.P.forEach(function (P) { g.style({ stroke: col, lw: lw, dash: null }); g.poly(T(P), false); });
     return { x0: -7.79 * s, x1: 0, y0: -o.A / 2 * s, y1: o.A / 2 * s };
   };
-  /* vista frontal (face de encaixe): contorno A x profundidade do catálogo, cavidades no passo de 2,00 mm, numeradas */
+  /* vista frontal (face de encaixe), em pé como o conector aparece no desenho: contorno A x profundidade do catálogo,
+     cavidades no passo de 2,00 mm e o nº dos contatos dos cantos (como nas pranchas); ampliada no mínimo 1,4x */
   var lf = HX.physLineFace;
   HX.physLineFace = function (g, c, x, y, w, col, imgOK, kk) {
     var O = HX.comShape(c); if (!O || O.cls !== 'm80') return lf.apply(this, arguments);
-    var k = w / O.A, W = O.A * k, H = O.D * k, x0 = x - W / 2, y0 = y - H / 2, cw = 1.1 * k, fs = Math.min(1.5, 0.75 * k);
+    var k = Math.max(1.4, w / O.A), H = O.A * k, W = O.D * k, x0 = x - W / 2, y0 = y - H / 2, cw = 1.1 * k, fs = Math.min(1.8, 0.8 * k), ch = 0.5 * k;
     g.style({ stroke: col, lw: 0.25, fill: '#fff', dash: null }); g.rect(x0, y0, W, H);
-    g.poly([[x0, y0 + 0.5 * k], [x0 + 0.5 * k, y0], [x0 + W - 0.5 * k, y0], [x0 + W, y0 + 0.5 * k]], false); g.style({ fill: null });
-    for (var i = 0; i < O.n; i++) {
-      var rw = O.rows === 2 ? i % 2 : 0, cl = O.rows === 2 ? Math.floor(i / 2) : i;
-      var px = x0 + (2.575 + 2 * cl) * k, py = O.rows === 2 ? y + (rw ? 1 : -1) * k : y;
-      g.style({ stroke: col, lw: 0.12 }); g.rect(px - cw / 2, py - cw / 2, cw, cw);
-      g.text(String((c.pins[i] || {}).n || i + 1), px, py, { size: fs, align: 'c', color: col });
-    }
-    return { x0: x0, y0: y0, x1: x0 + W, y1: y0 + H };
+    g.poly([[x0 + ch, y0], [x0, y0 + ch], [x0, y0 + H - ch], [x0 + ch, y0 + H]], false); g.style({ fill: null });
+    var rows = O.rows === 2 ? 2 : 1, pos = function (i) { var rw = rows === 2 ? i % 2 : 0, cl = rows === 2 ? Math.floor(i / 2) : i; return [rows === 2 ? x + (rw ? 1 : -1) * k : x, y0 + (2.575 + 2 * cl) * k]; };
+    var corner = {}; [0, rows - 1, O.n - rows, O.n - 1].forEach(function (i) { if (i >= 0 && i < O.n) corner[i] = 1; });
+    for (var i = 0; i < O.n; i++) { var q = pos(i); g.style({ stroke: col, lw: 0.12 }); g.circle(q[0], q[1], cw / 2);
+      if (corner[i]) { var rgt = rows === 2 ? i % 2 === 1 : true; g.text(String((c.pins[i] || {}).n || i + 1), rgt ? x0 + W + 0.8 : x0 - 0.8, q[1], { size: fs, align: rgt ? 'l' : 'r', color: col }); } }
+    return { x0: x0 - 3, y0: y0, x1: x0 + W + 3, y1: y0 + H };
   };
 })(typeof window !== 'undefined' ? window : globalThis);
