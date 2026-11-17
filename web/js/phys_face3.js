@@ -16,14 +16,15 @@
       a.x = 0; a.y = HX.r3(top - b.y0 - n.y); hMax = Math.max(hMax, h); }); /* topo de todas as vistas na mesma linha */
     sh.items.forEach(function (a) { if (a.type === 'ptable' && (a.kind || 'wiring') === 'wiring') a.y = HX.r3(Math.min(top + hMax + 14, d[1] - M.b - 75)); });
   };
-  /* etiqueta de identificação (luva impressa com a ref.) a 40 mm de cada conector, com a cota da posição */
+  /* identificação: etiqueta sob espaguete transparente a 10 mm da bota de cada conector, cotas TIP. e balão */
   HX.physAutoTags = function (doc, sh) {
     var m = HX.physIdx(sh), N = +sh.scale || 1;
     sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn' && i.ref; }).forEach(function (n) {
       var sg = sh.items.filter(function (q) { return q.type === 'pseg' && (q.a === n.id || q.b === n.id); })[0]; if (!sg) return;
       if (sh.items.some(function (q) { return q.type === 'ptag' && q.seg === sg.id && q.text === n.ref; })) return;
       var L = HX.physSegLen ? HX.physSegLen(sg, m, N) : 200, d = L >= 100 ? 40 : Math.max(5, Math.round(L * 0.3 / 5) * 5);
-      sh.items.push({ type: 'ptag', id: doc.uid('t'), seg: sg.id, end: sg.a === n.id ? 'a' : 'b', dist: d, style: 'sleeve', text: n.ref, pn: sh.tagPN || '', len: 25, wire: '', dim: true, dimOff: '', x: '', y: '' });
+      var tg = { type: 'ptag', id: doc.uid('t'), seg: sg.id, end: sg.a === n.id ? 'a' : 'b', dist: d, style: 'etiqtr', gap: 10, len: 30, lab: 20, text: n.ref, pn: sh.tagPN || '', labPN: sh.tagLabPN || '', wire: '', dim: true, dimOff: '', x: '', y: '' };
+      sh.items.push(tg); sh.items.push({ type: 'pball', id: doc.uid('a'), of: tg.id, x: '', y: '', n: '' }); /* etiqueta sob espaguete transparente + balão */
     });
   };
   var ap0 = HX.applyPhysical;

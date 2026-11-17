@@ -61,7 +61,7 @@ test('etiqueta de identificação: medida do conector mais próximo, cota, tipos
   ok(log.some(function (l) { return l[0] === 'T' && l[1] === String(Math.round(HX.physTagEdist(t))); }), 'cota da posição (borda da etiqueta → conector)'); ok(HX.physTagEdist(t) < t.dist, 'mede da borda, não do meio');
   var B = HX.physBom(d.p, sh); ok(B.key['tag:sleeve:TMS-SCE'].qty === 1 && B.key['tag:flag:TMS-SCE'].qty === 1, 'lista de materiais');
   ok(HX.physMarkers(sh).some(function (r) { return r.text === 'W-J3'; }), 'tabela de marcadores');
-  eq(Object.keys(HX.PTAG), ['sleeve'], 'só luva termo-retrátil'); HX.physTagAccessor(t); t.edist = 40; eq(HX.physTagEdist(t), 40, 'distância pela borda editável');
+  eq(Object.keys(HX.PTAG), ['sleeve', 'etiqtr'], 'luva ou etiqueta sob espaguete'); HX.physTagAccessor(t); t.edist = 40; eq(HX.physTagEdist(t), 40, 'distância pela borda editável');
   t.dimText = '40 MÍN'; var l2 = []; HX.drawSheetItems(G(l2), d.p, d.sheet, {}); ok(l2.some(function (l) { return l[0] === 'T' && l[1] === '40 MÍN'; }), 'cota customizada');
   d.select([t2.id]); HX.ops.copySel(d); ok(true);
 });

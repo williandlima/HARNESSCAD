@@ -18,7 +18,7 @@ test('gera anotações: rótulo por nó, cota por ramo, cota do caminho total, b
   eq(sh.pstyle, 'line'); eq(types(sh, 'pnote').length, 4); eq(types(sh, 'pdim').filter(function (x) { return x.mode === 'seg'; }).length, 3);
   var path = types(sh, 'pdim').filter(function (x) { return x.mode === 'path'; }); eq(path.length, 1);
   var C = { sh: sh, m: HX.physIdx(sh), N: 10 }; eq(HX.physDimValue(path[0], C, null).v, 1500, 'J1→J2 = 700 + 800');
-  eq(types(sh, 'pball').length, 3); eq(types(sh, 'pface').length, 3); eq(types(sh, 'ptable').map(function (t) { return t.kind; }).sort(), ['bom', 'wiring']);
+  eq(types(sh, 'pball').length, 3 + types(sh, 'ptag').length, 'conectores + etiquetas'); eq(types(sh, 'pface').length, 3); eq(types(sh, 'ptable').map(function (t) { return t.kind; }).sort(), ['bom', 'wiring']);
 });
 test('modelo Traço: desenha em linha (sem imagens); balão numerado pela lista de materiais; tabela de ligação', function () {
   var d = cable(), sh = gen(d, { style: 'line', faces: true }), log = [], l0 = [];
