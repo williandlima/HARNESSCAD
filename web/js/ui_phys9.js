@@ -24,7 +24,7 @@
   UI.sheetExtra = function (app, root, sh) {
     if (se0) se0(app, root, sh); if (!HX.isPhys(sh)) return;
     var doc = app.doc, d = document.createElement('div');
-    d.innerHTML = '<h4>Conectores</h4><div class="row"><label>Desenho</label><select id="p9D"><option value="">Desenho técnico (vetor, medidas reais)</option><option value="img"' + (sh.connDraw === 'img' ? ' selected' : '') + '>Imagem do datasheet</option></select></div>' +
+    d.innerHTML = '<h4>Conectores</h4><div class="row"><label>Desenho</label><select id="p9D"><option value="">Desenho técnico (vetor, medidas reais)</option></select></div>' +
       '<p class="muted">Desenho técnico: porca recartilhada, corpo, roscas, faixas vermelha/azul, flange, porca sextavada, backshell e bota com as medidas do datasheet; vista frontal com os contatos numerados na posição real e a cor do fio.</p>';
     d.querySelector('#p9D').onchange = function () {
       var v = this.value; doc.change('Desenho dos conectores', function () { sh.connDraw = v; });

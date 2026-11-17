@@ -51,7 +51,7 @@
     var p = doc.p, old = p.sheets.filter(HX.isPhys)[0], prev = {}, om = old ? HX.physIdx(old) : {};
     if (old) old.items.forEach(function (i) { if (i.type === 'pnode') prev[i.of] = i; if (i.type === 'pseg' && i.dim) prev['seg:' + i.dim] = i; });
     var r = HX.genPhysical(p, Object.assign({ prev: prev }, opt)); if (r.error) return r;
-    var sh = r.sheet, idm = {}; sh.id = old ? old.id : doc.uid('s'); sh.pstyle = opt.style || (old && old.pstyle) || 'img'; if (old && old.lineColor) sh.lineColor = old.lineColor;
+    var sh = r.sheet, idm = {}; sh.id = old ? old.id : doc.uid('s'); sh.pstyle = opt.style || (HX.SO_TECNICO === false ? (old && old.pstyle) || 'img' : 'line'); if (old && old.lineColor) sh.lineColor = old.lineColor;
     sh.items.forEach(function (i) { var n = doc.uid(i.type === 'pnode' ? 'n' : i.type === 'pseg' ? 'g' : 't'); idm[i.id] = n; i.id = n; });
     sh.items.forEach(function (i) { if (i.type === 'pseg') { i.a = idm[i.a]; i.b = idm[i.b]; var o = i.dim && prev['seg:' + i.dim]; if (o) { i.x = o.x || 0; i.y = o.y || 0; } } });
     if (old && opt.keepPos) sh.items.forEach(function (i) { var o = i.type === 'pnode' && prev[i.of]; if (o) { i.x = o.x; i.y = o.y; } });

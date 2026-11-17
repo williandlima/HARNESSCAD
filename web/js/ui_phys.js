@@ -10,7 +10,7 @@
   }
   HX.physSprOpts = sprOpts;
   var scl = function () { return HX.PHYS_SCALES.map(function (n) { return [String(n), '1:' + String(n).replace('.', ',')]; }); };
-  var STY = [['img', 'Imagens (painel / fotos reais)'], ['line', 'Traço — estilo Altium'], ['outline', 'Contorno — formato da casa (espaguete, bota, transição, balões)']];
+  var STY = [['line', 'Desenho técnico (traço — padrão Altium)']];
   EXT.pnode.fields = function (it) {
     if (it.nkind !== 'conn') return [{ type: 'head', l: it.nkind === 'brk' ? 'Ponto de derivação' : it.nkind === 'splice' ? 'Emenda' : 'Nó' }, { k: 'ref', l: 'Referência' }, { k: 'locked', l: 'Bloqueado', type: 'check' }];
     return [{ type: 'head', l: 'Conector ' + it.ref + ' (desenho físico)' },
@@ -48,7 +48,7 @@
   UI.sheetExtra = function (app, root, sh) {
     if (!HX.isPhys(sh)) return;
     var doc = app.doc, d = document.createElement('div'), sel = function (id, opts, cur) { return '<select id="' + id + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(cur) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; };
-    d.innerHTML = '<h4>Desenho físico</h4><div class="row"><label>Escala</label>' + sel('phScale', scl(), sh.scale) + '</div><div class="row"><label>Modelo</label>' + sel('phSty', STY, sh.pstyle || 'img') + '</div>' +
+    d.innerHTML = '<h4>Desenho físico</h4><div class="row"><label>Escala</label>' + sel('phScale', scl(), sh.scale) + '</div><div class="row"><label>Modelo</label>' + sel('phSty', STY, 'line') + '</div>' +
       (sh.pstyle === 'line' || sh.pstyle === 'outline' ? '<div class="row"><label>Cor do traço</label><input id="phCol" type="color" value="' + (sh.lineColor || HX.PHYS_LINE_COLOR) + '"></div>' : '') +
       '<div class="row"><button id="phUpd" style="flex:1">Atualizar do esquemático</button></div><div class="row"><button id="phPal" style="flex:1">Inserir item (imagem)…</button></div>' +
       '<div class="row"><button id="phTw">+ Tabela de ligação</button><button id="phTb">+ Lista de materiais</button></div>' +

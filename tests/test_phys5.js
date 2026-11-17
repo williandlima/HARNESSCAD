@@ -22,7 +22,7 @@ test('imagens de datasheet: PNG < 10 KB, tamanho confere, fonte registrada; fam�
   eq(HX.shellOf(S[o.n.J3.of]), 11); eq(HX.PDS.d38_26.H(13), 29.4, 'Ø do plugue carcaça 13 (tabela p. 53)'); eq(HX.PDS.sr_s.L(25), 31.0);
   o.n.J1.dsImg = 'off'; eq(HX.physDSFor(o.n.J1, S[o.n.J1.of]), null);
 });
-test('montagem: bota 90° faz o conector sair a 90°; tamanho real com connScale=real; ampliação automática', function () {
+L.antigo('montagem: bota 90° faz o conector sair a 90°; tamanho real com connScale=real; ampliação automática', function () {
   var o = harness(true), S = HX.physSchem(o.d.p), E = HX.physAssembly(o.n.J2, S[o.n.J2.of], true);
   eq(E.map(function (e) { return e.id; }), ['boot_90', 'd38_24']);
   var log = [], g = G(log), bb = HX.physDrawAssembly(g, E, 0, 0, 0, 5, 1, false), conn = log.filter(function (l) { return l[1] === 'jam_l'; })[0][2], boot = log.filter(function (l) { return l[1] === 'boot_90_l'; })[0][2];

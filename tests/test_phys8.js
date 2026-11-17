@@ -15,7 +15,7 @@ function G(log) {
   g.style = function (s) { for (var k in s) st[k] = s[k]; }; g.poly = function (P) { log.push(['poly', st.fill, P.length]); };
   g.circle = function () { log.push(['circle', st.fill]); }; g.text = function (t) { log.push(['T', t]); }; g.image = function (im) { log.push(['IMG', im && (im.id || im.url)]); return true; }; g.clip = function () {}; return g;
 }
-test('conector em desenho técnico: sem imagem, medidas do datasheet, cotas e medidas próprias', function () {
+L.antigo('conector em desenho técnico: sem imagem, medidas do datasheet, cotas e medidas próprias', function () {
   var o = harness(), sh = o.sh, d = o.d; sh.connDraw = 'img'; o.n.J1.bootKind = 'boot_s'; o.n.J1.bsKind = 'sr_s';
   var l0 = []; HX.drawSheetItems(G(l0), d.p, d.sheet, {}); ok(l0.some(function (l) { return l[0] === 'IMG' && /plug|wall|jam|line|boot|sr_s/.test(l[1]); }), 'padrão: imagem do datasheet');
   sh.connDraw = 'vec'; o.n.J1.showDims = true; var l1 = []; HX.drawSheetItems(G(l1), d.p, d.sheet, {});
@@ -27,7 +27,7 @@ test('conector em desenho técnico: sem imagem, medidas do datasheet, cotas e me
   ok(tb.indexOf('40,00 × Ø30,00') >= 0, 'medidas próprias'); o.n.J1.draw = 'img'; var l3 = []; HX.drawSheetItems(G(l3), d.p, d.sheet, {}); ok(l3.some(function (l) { return l[0] === 'IMG'; }), 'nó pode voltar para imagem');
   ok(Object.keys(HX.PHYS_VEC).length >= 7, 'peças em vetor');
 });
-test('vista frontal vetorial: contatos numerados na posição real, cor do fio, soquete espelhado', function () {
+L.antigo('vista frontal vetorial: contatos numerados na posição real, cor do fio, soquete espelhado', function () {
   var o = harness(), sh = o.sh, d = o.d; sh.connDraw = 'vec'; var e = HX.CAT.conns['D38999:15-35'], vi = HX.VECIMG['face:D38999:15-35']; ok(vi, 'figura oficial do 15-35 vetorizada'); delete HX.VECIMG['face:D38999:15-35']; /* caminho procedural */
   var log = []; HX.drawSheetItems(G(log), d.p, d.sheet, {}); var T = log.filter(function (l) { return l[0] === 'T'; }).map(function (l) { return l[1]; });
   ok(e.pins.every(function (q) { return T.indexOf(String(q.n)) >= 0; }), 'todos os ' + e.pins.length + ' contatos numerados');

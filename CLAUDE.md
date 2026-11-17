@@ -10,6 +10,13 @@ Responda sempre em **português**.
   divida em `nome2.js`, `nome3.js`… e registre na ordem certa.
 - A transferência para a rede é feita em partes de ≤ 3.900 bytes (ver Empacotamento).
 
+## Padrão de desenho (decisão do usuário, permanente)
+- **Só desenho técnico em traço (padrão Altium)** — nada de imagens/fotos realistas nem desenho "típico".
+- Conector/acessório/vista frontal tem que ser **exatamente como o datasheet oficial, nas mesmas proporções**. Sem
+  datasheet: sai o contorno tracejado "AGUARDANDO DATASHEET" (`phys_tecnico.js`) e **pede-se o datasheet ao usuário**.
+- Desenho novo tirado de datasheet: registrar em `HX.DS_OK` (`phys_tecnico.js`: `OKV` peças, `OKF` famílias).
+  Os desenhos típicos antigos ficam em `HX.PHYS_VEC_TIPICO` (só os testes `[modo antigo]` os usam).
+
 ## Estrutura
 - `web/index.html` carrega os scripts **em ordem**; `tests/lib.js` tem a lista `FILES` na mesma ordem — todo arquivo
   novo de `web/js` entra nos dois lugares.

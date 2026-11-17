@@ -94,3 +94,12 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
 * **Barbante do engate rápido**: no conector, campo "Barbante do engate rápido (mm)" desenha o laço preso no anel de
   engate, puxado ao longo do cabo, com cota "TIP."; soma no barbante da lista (m).
 * Identificação: espaguete transparente desenhado como um só tubo com a etiqueta marcada no meio.
+
+## v1.7.3 — só desenho técnico, fiel ao datasheet
+* O desenho físico agora tem **um modelo só: desenho técnico em traço (padrão Altium)**. As opções "Imagens
+  (realista)", "Contorno" e "Imagem do datasheet" saíram; folhas antigas abrem em traço.
+* Conector, acessório ou vista frontal que ainda **não tem desenho tirado do datasheet oficial** aparece como
+  **contorno tracejado "AGUARDANDO DATASHEET"** (no tamanho de referência, só para o leiaute). Ao gerar a folha, o aviso
+  lista o que falta. Quando o datasheet chegar, o desenho exato entra no lugar.
+* Com desenho do datasheet hoje: D38999/26, /24, /20 e TV01 (Amphenol) e 53 vistas frontais; alívio 620-048 e botas
+  770-001 (Glenair); bota Raychem 202K/222K; Harwin M80; D-Sub M24308/DSUB (Amphenol).

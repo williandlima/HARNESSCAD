@@ -3,7 +3,7 @@
 var L = require('./lib'), HX = L.HX, test = L.test, eq = L.eq, ok = L.ok;
 function G(log) { var g = {}, st = {}; ['line', 'rect', 'push', 'pop', 'clip', 'text'].forEach(function (k) { g[k] = function () { log.push([k, st.stroke]); }; });
   g.style = function (s) { for (var k in s) st[k] = s[k]; }; g.poly = function (P) { log.push(['poly', st.stroke, P.length, st.fill]); }; g.circle = function () { log.push(['circle', st.stroke]); }; return g; }
-test('peças D38999/MS: rosca e recartilhado têm perfil em dente; sextavado com furos; linha de centro', function () {
+L.antigo('peças D38999/MS: rosca e recartilhado têm perfil em dente; sextavado com furos; linha de centro', function () {
   ['ms_r', 'ms_rf'].forEach(function (k) {
     var log = []; HX.PHYS_VEC[k](G(log), 0, 0, 40, 20);
     ok(log.some(function (l) { return l[0] === 'poly' && l[2] > 20; }), k + ': contorno serrilhado (rosca/recartilhado)');

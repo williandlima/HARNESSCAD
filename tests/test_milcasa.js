@@ -8,7 +8,7 @@ test('MS3476/MS26482 usam o desenho MS em traço (plugue/flange/porca) e a carca
   try { eq(HX.physDSFor({}, c), 'ms_p'); c.variant = '70'; eq(HX.physDSFor({}, c), 'ms_rf'); c.variant = '74'; eq(HX.physDSFor({}, c), 'ms_r'); } finally { HX.physVecST = ST; }
   eq(HX.shellOf(c), 20);
 });
-test('desenhos da prancha: porca recartilhada em diamante, adaptador com estrias, bota que afunila em curva', function () {
+L.antigo('desenhos da prancha: porca recartilhada em diamante, adaptador com estrias, bota que afunila em curva', function () {
   var a = [], b = [], c = []; HX.PHYS_VEC.ms_p(G(a), 0, 0, 40, 37); HX.PHYS_VEC.ms_ad(G(b), 0, 0, 35, 34); HX.PHYS_VEC.rc_202K(G(c), 0, 0, 60, 30);
   ok(a.filter(function (l) { return l[0] === 'line' && l[1] < 0.07; }).length > 20, 'recartilhado em diamante');
   ok(a.some(function (l) { return l[0] === 'circle'; }), 'ponto de trava');
@@ -24,7 +24,7 @@ test('lista de materiais: luva de solda e barbante por adaptador (ficam dentro d
   var B = HX.physBom(d.p, sh).rows, f = function (re) { return B.filter(function (x) { return re.test(x.desc); })[0]; };
   eq(f(/^Luva de solda/).qty, 2); eq([f(/^Barbante/).qty, f(/^Barbante/).un], [0.5, 'm']); ok(f(/^Adaptador de cordoalha/), 'adaptador na lista'); ok(f(/202K|Bota/), 'bota na lista');
 });
-test('barbante do engate rápido: laço com cota TIP. e soma no barbante; cordoalha como camada interna', function () {
+L.antigo('barbante do engate rápido: laço com cota TIP. e soma no barbante; cordoalha como camada interna', function () {
   var d = new HX.Doc(), P = d.add(HX.makeConn(d, 'MS3476:20-41', 40, 30)), J = d.add(HX.makeConn(d, 'MS3476:20-41', 200, 30)); J.mx = true;
   var LP = HX.connLayout(P, 2.5).pins, LJ = HX.connLayout(J, 2.5).pins; d.change('w', function () { HX.ops.addWire(d, [LP[0].pt, LJ[0].pt]); });
   var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); var sh = d.p.sheets[r.index];

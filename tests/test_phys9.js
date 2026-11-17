@@ -31,7 +31,7 @@ test('D-SUB vetor: A máx. de crimpagem por contatos e gênero (datasheet)', fun
   o.sh.connDraw = 'vec'; o.n.J2.dsTerm = 'crimp'; o.n.J2.showDims = true; o.n.J2.dsHood = 'none'; var l = []; HX.connDimsDraw(G(l), o.n.J2, o.b, '#000'); ok(l.some(function (x) { return x[1] === 'A máx 17,44'; }), 'consulta: A máx 17,44');
   eq(HX.dsubSide(o.b, { dsTerm: 'crimp', dsHood: 'none' }).total.toFixed(2), '17.44', 'profundidade total = A máx.');
 });
-test('D-SUB vetor: fixação V, capa e volta para imagem', function () {
+L.antigo('D-SUB vetor: fixação V, capa e volta para imagem', function () {
   var o = harness(); o.sh.connDraw = 'vec'; o.n.J1.dsHood = 'none'; texts(o); var w0 = o.n.J1._bb.x1 - o.n.J1._bb.x0;
   o.n.J1.dsLock = 'V'; texts(o); ok(o.n.J1._bb.x1 - o.n.J1._bb.x0 > w0 + 3, 'parafuso fêmea sextavado aumenta a vista');
   o.n.J1.dsHood = 'hood'; var r = texts(o); ok(HX.dsubSide(o.a, o.n.J1).hood, 'com capa'); ok(r.l.some(function (x) { return x[0] === 'poly' && x[2] === 8; }), 'contorno da capa');
