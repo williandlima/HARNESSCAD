@@ -102,3 +102,11 @@ Adesivo à parte (S-1017/S-1048/S-1125). Revestimento opcional reduz as entradas
 
 ## Ainda falta
 - **Plugue MS3476** (MIL-DTL-26482 série 2): o catálogo de backshells não traz a geometria do conector.
+
+## Plugue reto MS3476 / Amphenol MB16 (catálogo Matrix 26482 série 2, p. 10; Milnec BM06 J-15)
+Comprimento 1.420 máx (Milnec: 1.405 carcaças 8–18, 1.465 em 20–24); rosca cheia .290 mín; .320 mín do indicador ao
+fim da rosca; extensão do gromete .130–.190; 3 dentes a 120°; faixa azul; chaveta mestra.
+Carcaça: Ø A máx (recartilhado) / Ø B máx (gromete) / rosca H — 8: .782/.305/.5000-20 UNF · 10: .926/.405/.6250-24 ·
+12: 1.043/.531/.7500-20 · 14: 1.183/.665/.8750-20 · 16: 1.305/.790/1.0000-20 · 18: 1.391/.869/1.0625-18 ·
+20: 1.531/.994/1.1875-18 · 22: 1.656/1.119/1.3125-18 · 24: 1.777/1.244/1.4375-18 (UNEF exceto a 8).
+Desenho: `web/js/phys_ms3476.js` (traço extraído do PDF vetorial; a figura do catálogo é ilustrativa ≈ carcaça 18).

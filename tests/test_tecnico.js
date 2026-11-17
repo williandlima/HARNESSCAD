@@ -21,3 +21,11 @@ test('Harwin M80 e D-Sub continuam com o desenho do datasheet', function () {
   var F = folha('M80:2x5 (10 vias)', 'DSUB:DE-9'), T = []; HX.drawSheetItems(G(T), F.d.p, F.r.index, {});
   ok(T.indexOf('AGUARDANDO') < 0, 'sem pendências');
 });
+test('MS3476 pelo traço oficial Amphenol (MB16): cotas da tabela por carcaça, sem AGUARDANDO', function () {
+  eq(HX.PDS.ms3476.L(20), 36.07, 'comprimento 1,420 máx'); eq(HX.PDS.ms3476.H(8), 19.86, 'Ø A carcaça 8 (.782)'); eq(HX.PDS.ms3476.H(24), 45.14, 'Ø A carcaça 24 (1.777)');
+  ok(HX.DS_OK.pecas.ms3476, 'registrado como desenho de datasheet');
+  [8, 16, 24].forEach(function (s) { var Y = [], X = [], g = { style: function () {}, push: function () {}, pop: function () {}, text: function (t) { ok(t !== 'AGUARDANDO'); }, line: function () {}, circle: function () {}, rect: function () {},
+    poly: function (P) { P.forEach(function (q) { X.push(q[0]); Y.push(q[1]); }); } }, W = HX.PDS.ms3476.L(s), H = HX.PDS.ms3476.H(s);
+    HX.PHYS_VEC.ms3476(g, 0, 0, W, H); var h = Math.max.apply(0, Y) - Math.min.apply(0, Y), w = Math.max.apply(0, X) - Math.min.apply(0, X);
+    ok(Math.abs(h - H) < H * 0.02, 'altura = Ø A (' + s + '): ' + h); ok(Math.abs(w - W) < 0.3, 'comprimento = 1,420 (' + s + '): ' + w); });
+});

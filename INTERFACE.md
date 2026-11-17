@@ -103,3 +103,5 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
   lista o que falta. Quando o datasheet chegar, o desenho exato entra no lugar.
 * Com desenho do datasheet hoje: D38999/26, /24, /20 e TV01 (Amphenol) e 53 vistas frontais; alívio 620-048 e botas
   770-001 (Glenair); bota Raychem 202K/222K; Harwin M80; D-Sub M24308/DSUB (Amphenol).
+
+_Continua em `INTERFACE2.md` (v1.7.4 em diante)._
