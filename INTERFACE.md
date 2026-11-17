@@ -81,3 +81,16 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
   TEXTO e PREENCHIMENTO; tracejado e traço-ponto como tipos de linha; acentos, Ø e — preservados.
 * Cotas, balões e tabelas chegam como linhas e textos (não como objetos nativos do Solid Edge); fundos brancos e
   imagens raster não vão para o DXF.
+
+## v1.7.2 — montagem MIL no padrão da casa (prancha de referência)
+* Conectores **MS3476 / MS26482 / MS5015 / D38999** numa folha nova no padrão da casa saem montados como na prancha:
+  **conector → adaptador de cordoalha → bota Raychem 202K** por cima. A cordoalha é soldada no adaptador com **luva de
+  solda** e amarrada com **barbante** (ficam dentro da bota: entram só na lista de materiais, um de cada por adaptador).
+* Desenho MS em traço: ressalto da face, porca com recartilhado em diamante e ponto de trava, corpo traseiro e cauda;
+  adaptador com anel de rosca, corpo liso, estrias retas e anel liso; bota em cilindro que afunila em curva até o pescoço.
+* Balões como na prancha: o **adaptador** (em cima) e a **bota** (embaixo) têm balão próprio com seta na peça; o
+  conector fica com contatos e tampões.
+* **Cordoalha** (blindagem geral do feixe) como camada interna dos ramos, na lista pelo comprimento.
+* **Barbante do engate rápido**: no conector, campo "Barbante do engate rápido (mm)" desenha o laço preso no anel de
+  engate, puxado ao longo do cabo, com cota "TIP."; soma no barbante da lista (m).
+* Identificação: espaguete transparente desenhado como um só tubo com a etiqueta marcada no meio.

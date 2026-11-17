@@ -10,7 +10,7 @@ function harness(boot) {
   d.add({ type: 'dim', id: 'd1', a: a.id, b: b.id, x: 0, y: 0, x2: 1, y2: 0, orient: 'a', off: 5, len: 1200, tolP: '', tolM: '', text: '' });
   var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); d.sheet = r.index;
   var sh = d.cur(), n = {}; sh.items.forEach(function (i) { if (i.type === 'pnode') n[i.ref] = i; });
-  if (boot) { n.J1.bsKind = 'sr_s'; n.J1.bootKind = 'boot_s'; n.J2.bootKind = 'boot_90'; }
+  if (boot) { n.J1.bsKind = 'sr_s'; n.J1.bootKind = 'boot_s'; n.J2.bootKind = 'boot_90'; n.J2.bsKind = ''; }
   return { d: d, sh: sh, n: n };
 }
 function G(log) { var g = { _m: [] }; ['style', 'rect', 'circle', 'line', 'poly'].forEach(function (k) { g[k] = function () {}; }); g.push = function (m) { g._m.push(m); }; g.pop = function () {}; g.text = function (s, x, y, o) { log.push(['T', s, o && o.size]); }; g.image = function (im) { log.push(['I', im.id, g._m[g._m.length - 1]]); return true; }; return g; }

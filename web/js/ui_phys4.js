@@ -12,6 +12,7 @@
     return (it.nkind === 'conn' ? [{ type: 'head', l: 'Imagem real (datasheet)' }, { k: 'dsImg', l: 'Conector', type: 'select', opts: DS('conn', 'Automático pela família').concat([['off', 'Não usar datasheet']]), tip: 'Desenho/foto recortados do catálogo, em tamanho real pela carcaça' },
       { k: 'bsKind', l: 'Backshell / alívio (imagem)', type: 'select', opts: DS('bs', 'Nenhum') }, { k: 'bootKind', l: 'Bota termo-retrátil (imagem)', type: 'select', opts: DS('boot', 'Nenhuma'), tip: 'Bota 90° faz o cabo sair a 90° do conector' },
       { type: 'head', l: 'Acessórios e montagem' }, { k: 'backshell', l: 'Backshell (PN)' }, { k: 'boot', l: 'Boot (PN)' }, { k: 'strain', l: 'Alívio de tensão (PN)' },
+      { k: 'lany', l: 'Barbante do engate rápido (mm)', type: 'number', step: 10, tip: 'Laço preso no anel de engate, ao longo do cabo; cota TIP. e item na lista. Vazio = sem' },
       { k: 'peso', l: 'Peso do conector montado (g)', type: 'number', step: 1 }, { k: 'crimpTool', l: 'Ferramenta de crimpagem', tip: 'Vazio = típica pela família/contato' }, { k: 'crimpPos', l: 'Posicionador / matriz', tip: 'Vazio = típico' }] : []).concat([VAR]);
   });
   add('pseg', function () { return COV.concat([VAR]); });

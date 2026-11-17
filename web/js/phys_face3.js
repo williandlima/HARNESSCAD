@@ -32,7 +32,7 @@
     var had = doc.p.sheets.some(HX.isPhys), r = ap0.apply(this, arguments), sh = r && r.index != null && doc.p.sheets[r.index];
     if (sh && casa(sh)) {
       sh.items = sh.items.filter(function (i) { return !(i.type === 'text' && /^DESENHO FÍSICO DA CABLAGEM|^Cotas em mm \(comprimento real\)/.test(i.text || '')); });
-      if (!had) { HX.physViewsBand(doc.p, sh); sh.segInfo = false; if (opt && opt.tags !== false) HX.physAutoTags(doc, sh); } /* ramos sem o nº de fios e o diâmetro, como nas pranchas */
+      if (!had) { HX.physViewsBand(doc.p, sh); sh.segInfo = false; if (opt && opt.tags !== false) HX.physAutoTags(doc, sh); if (HX.physMilCasa) HX.physMilCasa(doc, sh); } /* ramos sem o nº de fios e o diâmetro, como nas pranchas */
     }
     return r;
   };

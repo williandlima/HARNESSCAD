@@ -33,8 +33,8 @@
     var col = C.line ? C.col : (o.theme && o.theme.txt) || '#222', BU = HX.physBundleCtx(p, s, o), W = HX.physVisW(sg, C.sh, BU), h = W / 2 + 0.45;
     var u = A.d, cx = A.pt[0], cy = A.pt[1], ang = Math.atan2(u[1], u[0]), flip = Math.cos(ang) < -1e-6, ps = Ls * k, plb = Ll * k, txt = it.text || '';
     g.push([u[0], u[1], -u[1], u[0], cx, cy]);
-    g.style({ stroke: col, lw: 0.2, fill: C.line ? '#fff' : '#eef3f6' }); g.rect(-ps / 2, -h - 0.35, ps, 2 * h + 0.7); g.style({ fill: null }); /* espaguete transparente */
-    g.style({ stroke: col, lw: 0.25, fill: C.line ? '#fff' : '#fbfbf2' }); g.rect(-plb / 2, -h, plb, 2 * h); g.style({ fill: null });           /* etiqueta */
+    g.style({ stroke: col, lw: 0.25, fill: C.line ? '#fff' : '#f4f7f8' }); g.rect(-ps / 2, -h - 0.4, ps, 2 * h + 0.8); g.style({ fill: null }); /* espaguete transparente (contorno) */
+    g.style({ stroke: col, lw: 0.2 }); g.line(-plb / 2, -h - 0.4, -plb / 2, h + 0.4); g.line(plb / 2, -h - 0.4, plb / 2, h + 0.4); /* etiqueta = trecho do meio, mesma altura (como na prancha) */
     g.pop();
     if (txt) { var fs = Math.min(1.8, h * 0.95), a2 = flip ? ang + Math.PI : ang, lines = String(txt).split(/\s*\/\s*|\n/); if (lines.length > 1) lines = lines.map(function (l, i) { return i < lines.length - 1 ? l + '/' : l; });
       g.push([Math.cos(a2), Math.sin(a2), -Math.sin(a2), Math.cos(a2), cx, cy]);
