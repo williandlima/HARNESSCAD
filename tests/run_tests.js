@@ -46,5 +46,6 @@ require('./test_model4');
 require('./test_ms');
 require('./test_fix162');
 require('./test_route');
+require('./test_tag4');
 console.log('\n' + L.R.pass + ' passaram, ' + L.R.fail + ' falharam');
 process.exit(L.R.fail ? 1 : 0);
