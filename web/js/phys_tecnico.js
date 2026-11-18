@@ -82,6 +82,7 @@
   var ap0 = HX.applyPhysical;
   HX.applyPhysical = function (doc) {
     var r = ap0.apply(this, arguments), sh = r && r.index != null && doc.p.sheets[r.index]; if (!sh || HX.SO_TECNICO === false) return r;
+    var S = HX.physSchem(doc.p); sh.items.forEach(function (n) { var c = n.type === 'pnode' && n.nkind === 'conn' && S[n.of]; if (c && c.backshell && !n.backshell) n.backshell = c.backshell; }); /* periférico antigo do esquema passa para a fase física */
     var L = HX.physPendentes(doc.p, sh); if (L.length) { r.warn = r.warn || []; r.warn.push('Aguardando datasheet (desenho em contorno tracejado até chegar): ' + L.join('; ')); }
     return r;
   };

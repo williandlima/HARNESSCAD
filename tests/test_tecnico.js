@@ -36,3 +36,9 @@ test('Pre-Shield Amphenol (M85049/109 J e /115 L): tabelas do catálogo, PN, bot
   HX._preEnt = ''; HX.PHYS_VEC.pre_j(g, 0, 0, HX.PDS.pre_j.L(20), 41.53); ok(Math.abs(Math.max.apply(0, Y) - Math.min.apply(0, Y) - 41.53) < 0.5, 'altura = Ø A');
   ok(HX.DS_OK.pecas.pre_j && HX.DS_OK.pecas.pre_l);
 });
+test('fases: periférico (backshell) não é do esquema — o valor antigo vai para o nó físico ao gerar', function () {
+  var d = new HX.Doc(), P = d.add(HX.makeConn(d, 'D38999:21-39', 40, 30)), J = d.add(HX.makeConn(d, 'D38999:21-39', 200, 30)); J.mx = true; P.backshell = 'M85049/88-21W03';
+  var LP = HX.connLayout(P, 2.5).pins, LJ = HX.connLayout(J, 2.5).pins; d.change('w', function () { HX.ops.addWire(d, [LP[0].pt, LJ[0].pt]); });
+  var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); var sh = d.p.sheets[r.index], S = HX.physSchem(d.p);
+  var n = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn' && S[i.of] === P; })[0]; eq(n.backshell, 'M85049/88-21W03');
+});

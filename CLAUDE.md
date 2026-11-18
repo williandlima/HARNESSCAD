@@ -17,6 +17,14 @@ Responda sempre em **português**.
 - Desenho novo tirado de datasheet: registrar em `HX.DS_OK` (`phys_tecnico.js`: `OKV` peças, `OKF` famílias).
   Os desenhos típicos antigos ficam em `HX.PHYS_VEC_TIPICO` (só os testes `[modo antigo]` os usam).
 
+## Regras de funcionamento (fluxo de trabalho do usuário, permanente)
+1. **Esquema elétrico = fase de DEFINIÇÃO do projeto**: conectores (família, arranjo, gênero, variante), contatos,
+   fios (tipo, bitola, cor), emendas, equipamentos — tudo o que é pertinente ao esquema.
+2. **Cablagem física = fase de CUSTOMIZAÇÃO**: periféricos e itens implementados na cablagem — adaptador, bota,
+   backshell, cordoalha, luva de solda, barbante, etiquetas/espaguete, coberturas, transições, cotas, vistas, lista.
+   Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
+   ao nó físico ao gerar).
+
 ## Estrutura
 - `web/index.html` carrega os scripts **em ordem**; `tests/lib.js` tem a lista `FILES` na mesma ordem — todo arquivo
   novo de `web/js` entra nos dois lugares.

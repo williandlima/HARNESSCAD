@@ -37,9 +37,9 @@
           if (f.variants) F.push({ k: 'variant', l: 'Variante', type: 'select', opts: f.variants.map(function (v) { return [v.v, v.d]; }) });
           (f.opts || []).forEach(function (o) { F.push({ k: o.k, l: o.l, type: 'select', opts: o.opts }); });
           return F.concat([{ k: 'gender', l: 'Gênero', type: 'select', opts: [['S', 'Soquete (fêmea)'], ['P', 'Pino (macho)']] },
-            { k: 'pnOverride', l: 'PN manual', tip: 'Substitui o PN gerado' }, { k: 'backshell', l: 'Backshell' },
+            { k: 'pnOverride', l: 'PN manual', tip: 'Substitui o PN gerado' }].concat(it.backshell ? [{ k: 'backshell', l: 'Backshell (antigo)', tip: 'Periférico: defina na cablagem física (nó do conector). Vai para a folha física ao gerar' }] : []).concat([
             { k: 'side', l: 'Lado pinos', type: 'select', opts: [['R', 'Direita'], ['L', 'Esquerda'], ['B', 'Ambos (passante)']], geo: true },
-            { k: 'wu', l: 'Largura (un)', type: 'number', geo: true }, { k: 'locked', l: 'Bloqueado', type: 'check' }, { k: 'note', l: 'Observação' }]);
+            { k: 'wu', l: 'Largura (un)', type: 'number', geo: true }, { k: 'locked', l: 'Bloqueado', type: 'check' }, { k: 'note', l: 'Observação' }]));
         }
         case 'wire': {
           var t = HX.wireType(it.wtype) || { gauges: [it.gauge] };

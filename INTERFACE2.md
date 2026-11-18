@@ -20,3 +20,10 @@
 * Lista de materiais: PN completo, ex. M85049/109-20TW11-6 (spin, cordoalha estanhada, cádmio oliva, 6"); a bota 202K
   é escolhida pelo Ø do corpo do adaptador.
 * Folha nova da casa: MS3476 recebe /109 e D38999 recebe /115 automaticamente (MS26482/MS5015 seguem aguardando).
+
+## v1.7.6 — duas fases de trabalho
+1. **Esquema elétrico = definição do projeto**: conectores, contatos, fios, emendas, equipamentos.
+2. **Cablagem física = customização**: periféricos e itens da cablagem (adaptador, bota, backshell, cordoalha, luva de
+   solda, barbante, etiquetas, coberturas, transições, cotas, vistas, lista de materiais).
+* O campo "Backshell" saiu das propriedades do conector no esquema (periférico é da fase física). Em projetos antigos
+  ele ainda aparece como "Backshell (antigo)" se tiver valor, e é levado ao nó do conector ao gerar a folha física.
