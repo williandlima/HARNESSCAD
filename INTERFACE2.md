@@ -77,3 +77,9 @@
 * Alça **Luvas de solda** com a tabela exata do catálogo TE/Raychem (p. 52): 5 tamanhos (Ø máx. da capa / Ø mín. da
   blindagem) × sem fio terra (M83519/1, S01), com fio terra 20/22/24/26 AWG (M83519/2-1…20, S02) e com tira de malha
   estanhada ou niquelada (M83519/3, S03). Substitui a lista anterior, que não vinha de datasheet.
+
+## v1.8.3 — receptáculos MS34 pelo datasheet
+* **MS3470** (flange estreito), **MS3471** (de cabo, variante nova "71") e **MS3474** (porca) desenhados pelo traço
+  vetorial do catálogo Amphenol Matrix (pp. 8–9), sem as cotas. Medidas da tabela por carcaça: corpo Ø C, flange A
+  (espessura F exata), porca K e rosca de fixação J (MS3474), rosca H, gromete D, comprimento 1,405 / 1,465.
+* Saem do "aguardando datasheet". O adaptador Pre-Shield rosqueia na rosca de acessório de cada um.
