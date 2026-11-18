@@ -13,3 +13,4 @@
 | TE Raychem Electrical Interconnect (88 p.) | SolderSleeve: emendas (7–12), SolderGrip (13–18), DuraSeal (19–20), MiniSeal (23–28), terminais (29–40), terminadores de fio (42–45), **blindagem M83519 (47–55)** ✅, coaxiais (57–60), BNC/TNC (61–66), emendas de cabo (68–75), SolderTacts (77–83) | alça Luvas de solda ✅ (p. 52); biblioteca de Emendas e Terminais (passo 7) |
 | Micro-D (2 p.) | M83513/03 e /04 | 1–2 | Micro-D M83513 (lote B) |
 | SolderTacts (8 p.) | contatos blindados de solda | 4–7 tabelas | contatos coaxiais/blindados (passo 5) |
+| Metaltex KF KM (1 p.) | kits de retenção D-Sub (fêmea KF, macho KM) e conector Centronics CS | 13 | alça Kits de retenção ✅ |

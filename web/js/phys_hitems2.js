@@ -20,7 +20,7 @@
     if (conn && !HX.hitemFits(it, c)) return 'Este item não serve neste conector (família/carcaça).';
     if (conn && (u === 'bs' || u === 'boot')) { if (u === 'bs') { t.bsKind = it.pds; t.bsPN = it.pn; } else { t.bootKind = it.pds; t.bootPN = it.pn; } return ''; }
     if (conn && u === 'hood') { t.dsHood = 'hood'; t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); return ''; }
-    if (conn && (u === 'acc' || u === 'tag')) { t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); return ''; }
+    if (conn && (u === 'acc' || u === 'tag')) { t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); if (it.lock) t.dsLock = it.lock; return ''; } /* kit KF: fixação V (espaçador sextavado 4-40) no desenho do D-Sub */
     if (t.type === 'pseg' && u === 'cover') { t.cover = it.spr; t.coverTxt = it.pn || it.n; return ''; }
     if (t.type === 'pseg' && u === 'pacc') { var si = doc.p.sheets.findIndex(function (q) { return q.items.indexOf(t) >= 0; }); if (si >= 0) doc.sheet = si; var a = HX.physAddAcc(doc, t, it.kind); a.pn = it.pn; a.text = it.n; return ''; }
     if (t.type === 'pnode' && t.nkind === 'brk' && u === 'trans') { t.trans = 'auto'; t.transPN = it.pn; return ''; }

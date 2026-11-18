@@ -36,3 +36,9 @@ test('trava: no físico não se apaga conector/emenda (definido no esquema); ite
   ok(HX.physLocked(d, F.n)); d.sel = new Set([F.n.id, t.id]); HX.ops.deleteSel(d);
   ok(F.sh.items.indexOf(F.n) >= 0, 'conector continua'); ok(F.sh.items.indexOf(t) < 0, 'etiqueta apagada');
 });
+test('kits de retenção Metaltex KF/KM (folha do fabricante): PN, medidas, só em D-Sub, KF põe a fixação sextavada no desenho', function () {
+  var kf = HX.HITEMS['h:ret:KF'], km = HX.HITEMS['h:ret:KM']; eq([kf.pn, km.pn, kf.mfr], ['KF', 'KM', 'Metaltex']); ok(/4-40 UNC/.test(kf.desc) && /8,5/.test(km.desc));
+  var F = folha('DSUB:DE-9', 'DSUB:DE-9'), S = HX.physSchem(F.d.p), n = F.sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn'; })[0];
+  eq(HX.hitemApply(F.d, 'h:ret:KF', n), ''); eq(n.dsLock, 'V'); var G2 = folha(); ok(/não serve/.test(HX.hitemApply(G2.d, 'h:ret:KF', G2.n)), 'não serve no D38999');
+  ok(HX.physBom(F.d.p, F.sh).rows.some(function (r) { return r.pn === 'KF' && /Metaltex/.test(r.desc); }));
+});

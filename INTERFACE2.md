@@ -83,3 +83,8 @@
   vetorial do catálogo Amphenol Matrix (pp. 8–9), sem as cotas. Medidas da tabela por carcaça: corpo Ø C, flange A
   (espessura F exata), porca K e rosca de fixação J (MS3474), rosca H, gromete D, comprimento 1,405 / 1,465.
 * Saem do "aguardando datasheet". O adaptador Pre-Shield rosqueia na rosca de acessório de cada um.
+
+## v1.8.4 — kits de retenção Metaltex
+* Alça **Kits de retenção**: **KF** (fêmea — espaçador sextavado 4-40 UNC, porca, arruelas) e **KM** (macho — parafuso
+  4-40 UNC com presilha) da Metaltex, com as medidas da folha do fabricante; servem só em D-Sub. Aplicar o **KF** num
+  D-Sub já põe a fixação "V — parafuso fêmea sextavado 4-40" no desenho.

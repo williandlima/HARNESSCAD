@@ -42,7 +42,12 @@
     add('cap:d38r:' + s, { grp: 'cap', use: 'acc', n: 'Tampa protetora p/ receptáculo D38999/32 — carcaça ' + s, pn: '', desc: 'PN pelo acabamento e corrente', fam: 'D38999', shell: s }); });
   J.forEach(function (s) { add('cap:26482:' + s, { grp: 'cap', use: 'acc', n: 'Tampa protetora MIL-DTL-26482 — carcaça ' + s, pn: '', fam: 'MS3476', shell: s }); });
   /* ---------- Kits de retenção ---------- */
-  [['jk440', 'Kit parafuso-trava (jackscrew) 4-40 UNC — D-Sub'], ['jkm3', 'Kit parafuso-trava M3 — D-Sub'], ['sl440', 'Kit pino-trava fêmea (screwlock) 4-40 — D-Sub'],
+  var DS = 'DSUB,DSUBC,DSUBW,M24308', MT = 'Metaltex, folha Kit de retenção para DB (KF KM), p. 13';
+  add('ret:KF', { grp: 'ret', use: 'acc', lock: 'V', n: 'Kit de retenção D-Sub fêmea KF (espaçador sextavado 4-40 UNC)', pn: 'KF', mfr: 'Metaltex', fam: DS, src: MT,
+    desc: 'espaçador sext. 4,75 (5,48 máx.) × 5,8 c/ rosca 4-40 UNC 7,0; porca 4,75 × 2,0; arruela Ø5,30/Ø3,25 × 1,03 e lisa Ø5,50/Ø2,95 × 0,50; latão niquelado; painel ≤ 1,2 mm; torque ≤ 0,2 N·m' });
+  add('ret:KM', { grp: 'ret', use: 'acc', n: 'Kit de retenção D-Sub macho KM (parafuso 4-40 UNC c/ presilha)', pn: 'KM', mfr: 'Metaltex', fam: DS, src: MT,
+    desc: 'parafuso de fenda 4-40 UNC, comprimento 8,5 (rosca 5,7), cabeça 4,0; presilha 5,0 × 5,5 (chapa 0,25); latão niquelado; painel ≤ 1,2 mm; torque ≤ 0,2 N·m' });
+  [['jkm3', 'Kit parafuso-trava M3 — D-Sub'],
     ['srdsub', 'Kit alívio de tensão (braçadeira) — D-Sub'], ['clip', 'Kit clipes de retenção de contato'], ['seal', 'Kit tampões de vedação (reposição)']].forEach(function (r) { add('ret:' + r[0], { grp: 'ret', use: 'acc', n: r[1], pn: '', fam: /D-Sub/.test(r[1]) ? 'DSUB,DSUBC,DSUBW,M24308' : '' }); });
   /* ---------- Espaguetes (termo-retrátil 2:1) ---------- */
   function inch(t) { var p = t.split('-'), q = p[p.length - 1].split('/'); return (p.length > 1 ? +p[0] : 0) + (q[1] ? +q[0] / +q[1] : +q[0]); }
