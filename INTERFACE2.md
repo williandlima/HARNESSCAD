@@ -88,3 +88,10 @@
 * Alça **Kits de retenção**: **KF** (fêmea — espaçador sextavado 4-40 UNC, porca, arruelas) e **KM** (macho — parafuso
   4-40 UNC com presilha) da Metaltex, com as medidas da folha do fabricante; servem só em D-Sub. Aplicar o **KF** num
   D-Sub já põe a fixação "V — parafuso fêmea sextavado 4-40" no desenho.
+
+## v1.8.5 — adaptadores e bota pelo datasheet
+* **Adaptadores Amphenol** que estavam "aguardando": /60-1 e /69 (para bota), /26 e /20 (anel de crimpagem), /82 e /88
+  (band lock) agora desenhados pela vista externa do catálogo Backshells M85049 (traço vetorial, metade sem corte).
+  Medidas da tabela: porca Ø A, traseira pelo Ø de saída de cada tipo, comprimento; a porca rosqueia no conector.
+* **Bota Raychem 202K** com o perfil exato da tabela TE (corpo R, transição até P−Y, pescoço Y, 2/3 lábios na zona U);
+  o tamanho escolhido na biblioteca (PN) passa a valer também no desenho.

@@ -54,7 +54,7 @@
   var as0 = HX.physAssembly;
   HX.physAssembly = function (nd, c, line) {
     var E = as0.apply(this, arguments); if (!E) return E; HX._preEnt = nd && nd.preEntry;
-    E.forEach(function (e, i) { var cn = E[i + 1]; if (/^pre_/.test(e.id) && cn && cn.conn && OVC[cn.id]) e.ov = Math.min(0.6, (cn.L - OVC[cn.id] * cn.L) / e.L); });
+    E.forEach(function (e, i) { var cn = E[i + 1]; if (/^(pre_|adp)/.test(e.id) && cn && cn.conn && OVC[cn.id]) e.ov = Math.min(0.6, (cn.L - OVC[cn.id] * cn.L) / e.L); });
     E.forEach(function (e, i) { var ad = E[i + 1]; if (e.id === 'rc_202K' && ad && /^pre_/.test(ad.id)) e.ov = Math.min(0.6, (ad.L - UG * MM) / e.L); });
     return E;
   }; /* posição da ranhura da bota a partir da frente da porca (mm) */

@@ -25,3 +25,11 @@ test('receptáculos MS3470/3471/3474 pelo traço Amphenol: tamanho da tabela por
     HX.PHYS_VEC[id](g, 0, 0, W, H); ok(Math.abs(Math.max.apply(0, X) - Math.min.apply(0, X) - W) < 0.6, id + ' ' + s + ' comprimento');
     ok(Math.abs(Math.max.apply(0, Y) - Math.min.apply(0, Y) - H) < H * 0.04, id + ' ' + s + ' altura ' + (Math.max.apply(0, Y) - Math.min.apply(0, Y)) + ' / ' + H); }); });
 });
+test('adaptadores Amphenol /60-1, /69, /26, /20, /82, /88 com traço do catálogo (sem AGUARDANDO), porca = Ø A da tabela', function () {
+  ['adp60', 'adp69', 'adp26', 'adp20', 'adp82', 'adp88'].forEach(function (id) {
+    ok(HX.DS_OK.pecas[id], id); var s = /6|8/.test(id.slice(-1)) && id !== 'adp88' && id !== 'adp69' ? 16 : 17; if (id === 'adp60' || id === 'adp26' || id === 'adp82') s = 16;
+    var Y = [], X = [], g = { style: function () {}, push: function () {}, pop: function () {}, line: function () {}, circle: function () {}, rect: function () {}, text: function (t) { ok(t !== 'AGUARDANDO', id); },
+      poly: function (P) { P.forEach(function (q) { X.push(q[0]); Y.push(q[1]); }); } }, W = HX.PDS[id].L(s), H = HX.PDS[id].H(s);
+    HX.PHYS_VEC[id](g, 0, 0, W, H); ok(Math.abs(Math.max.apply(0, Y) - Math.min.apply(0, Y) - H) < 0.6, id + ' altura ' + (Math.max.apply(0, Y) - Math.min.apply(0, Y)) + '/' + H);
+    ok(Math.abs(Math.max.apply(0, X) - Math.min.apply(0, X) - W) < 0.6, id + ' comprimento'); });
+});
