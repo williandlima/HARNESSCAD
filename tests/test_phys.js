@@ -14,7 +14,7 @@ function sample() {
 }
 function nodes(sh) { var m = {}; sh.items.forEach(function (i) { if (i.type === 'pnode') m[i.ref] = i; }); return m; }
 test('43 imagens do painel: PNG < 10 KB, transparentes, tamanho confere', function () {
-  var k = Object.keys(HX.PSPR); eq(k.filter(function (id) { return HX.PSPR[id].cat !== 'ds'; }).length, 43);
+  var k = Object.keys(HX.PSPR); k = k.filter(function (id) { return !HX.PSPR[id].clone; }); eq(k.filter(function (id) { return HX.PSPR[id].cat !== 'ds'; }).length, 43); /* coberturas novas da biblioteca reusam a imagem */
   k.forEach(function (id) { var s = HX.PSPR[id], b = L.imgBytes(s.url); ok(b.length < 10000, id); eq([b.readUInt32BE(16), b.readUInt32BE(20)], [s.w, s.h], id); ok(s.len > 0 && s.ey > 0 && s.ey < 1, id); });
 });
 test('imagem automática pelo tipo do conector (família + estilo)', function () {

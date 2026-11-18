@@ -45,3 +45,14 @@
   com o PN, fabricante e características, e numa **folha física nova** os conectores da família/carcaça vinculada já a
   recebem (troque no nó se quiser outra).
 * A figura recortada é o datasheet do usuário: conta como desenho oficial (não "aguardando").
+
+## v1.7.9 — customização da cablagem (biblioteca de itens)
+* Painel da folha física: **Customização da cablagem…** (tabela: por conector adaptador/backshell, bota, capa do D-Sub,
+  barbante e acessórios; por ramo cobertura e PN) e **Biblioteca de itens…** (itens comuns por categoria + do usuário).
+* Painel do conector no físico: bloco **Definido no esquemático** (só leitura) e **Acessórios do conector**: adicionar
+  da biblioteca, quantidade, PN, remover, ou **Novo item na biblioteca…** (PN, fabricante, características, unidade,
+  quantidade por contato ligado, vínculo família/carcaça).
+* Itens comuns: tampa protetora, cordão, O-ring, porca de painel, junta, etiqueta, luva de solda, anel de crimpagem,
+  cinta, fio dreno, anilha, espaguete na solda, ponteira, adesivo, fita, selante; coberturas novas (malha PET, fita, tubo,
+  luva anti-abrasão); itens de ramo novos (abraçadeira com base, barbante de amarração, base adesiva).
+* Trava: no físico não se apaga conector nem emenda (vêm do esquemático). Detalhes: `docs/CUSTOMIZACAO_CABLAGEM.md`.
