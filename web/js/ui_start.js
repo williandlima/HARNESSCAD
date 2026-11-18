@@ -16,7 +16,7 @@
     };
     function cmd(t) { var c = app.commands().filter(function (x) { return x.tab === 'Arquivo' && x.t.indexOf(t) === 0; })[0]; return c; }
     var NAV = [['Novo projeto', 'novo'], ['Abrir…', 'abrir'], ['Salvar', 'salvar'], ['Salvar como…', 'salvar'], ['Importar arquivo', 'importar'], ['Exportar arquivo', 'exportar'],
-      ['Imprimir / PDF…', 'imprimir'], ['Configurar página', 'pagina'], ['Backups no servidor…', 'backup'], ['Exportar lista de fios', 'tabela'], ['Exportar BOM', 'bom']];
+      ['Imprimir / PDF…', 'imprimir'], ['Configurar página', 'pagina'], ['Backups no servidor…', 'backup'], ['Exportar DXF (Solid Edge / AutoCAD)…', 'exportar'], ['Exportar lista de fios', 'tabela'], ['Exportar BOM', 'bom']];
     function card(id, ic, t, s) { return '<button class="scard" data-a="' + id + '">' + svg(ic) + '<b>' + t + '</b><small>' + s + '</small></button>'; }
     function render() {
       var rec = HX.io.localGet('hx-recent') || [], a = HX.io.localGet('hx-autosave'), on = HX.io.online;

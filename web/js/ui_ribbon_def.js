@@ -18,7 +18,7 @@
       ['Aparência', ['*u:theme', 'm:Fios na cor real', 'm:Estilo dos símbolos', 'm:Grade…']], ['Marcadores', ['m:Marcadores do ERC', 'm:Rastro do fio']]]],
     ['Ferramentas', [['Verificação', ['*m:Verificação elétrica']], ['Projeto', ['*m:Gerar desenho físico', '*m:Conectar pino a pino', 'm:Conector personalizado', 'm:Pincel']],
       ['Utilitários', ['m:Medir', 'm:Meu nome']]]],
-    ['Relatórios', [['Tabelas', ['d:*']], ['Exportar', ['*m:Arquivo/Imprimir', 'm:Exportar lista de fios', 'm:Exportar BOM']]]],
+    ['Relatórios', [['Tabelas', ['d:*']], ['Exportar', ['*m:Arquivo/Imprimir', '*m:Exportar DXF', 'm:Exportar lista de fios', 'm:Exportar BOM']]]],
     ['Ajuda', [['Ajuda', ['*u:cmdk', '*m:Atalhos', '*m:Sobre']]]],
     ['Desenho físico', [['Chicote', ['*e:dim', '*e:brk', '*e:pdet', '*e:ptag']], ['Organizar', ['m:Alinhar nós na h', 'm:Alinhar nós na v', 'm:Distribuir nós na h', 'm:Distribuir nós na v']],
       ['Gerar', ['*m:Gerar desenho físico']]], 'ctx']

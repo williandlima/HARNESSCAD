@@ -29,3 +29,5 @@
 * **Sem conflito entre cotas e tolerâncias**: o texto (já com a tolerância) vai no meio quando cabe; senão antes do
   início ou depois do fim, desviando dos outros textos e das linhas de chamada. A cota do ramo fica por fora da pilha.
 * Painel da etiqueta: **Refazer cotas (padrão)** apaga as cotas daquela etiqueta e cria de novo.
+* **Exportar DXF (Solid Edge / AutoCAD)** agora aparece na tela **Arquivo** (lista à esquerda) e na faixa **Relatórios ›
+  Exportar** (antes só pela busca Ctrl+K).
