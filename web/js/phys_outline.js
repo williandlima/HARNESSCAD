@@ -33,6 +33,7 @@
     q.text = function () { if (dep > 0) return g.text.apply(g, arguments); }; q.line = function () { if (dep > 0) return g.line.apply(g, arguments); };
     return pa.call(this, q, it, p, s, o);
   };
+  HX.physOutlineShade = function () { return OUT ? SHADE : null; }; /* bota sombreada no modelo Contorno (usado pela figura vetorizada) */
   var V = HX.PHYS_VEC;
   if (V) ['boot_s', 'boot_90'].forEach(function (k) {
     var v0 = V[k]; V[k] = function () { var st = HX.physVecST && HX.physVecST(); if (!OUT || !st) return v0.apply(this, arguments); var b = st.boot; st.boot = SHADE; st.line = false;

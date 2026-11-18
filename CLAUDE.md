@@ -10,6 +10,13 @@ Responda sempre em **português**.
   divida em `nome2.js`, `nome3.js`… e registre na ordem certa.
 - A transferência para a rede é feita em partes de ≤ 3.900 bytes (ver Empacotamento).
 
+## Padrão de desenho (decisão do usuário, permanente)
+- **Só desenho técnico em traço (padrão Altium)** — nada de imagens/fotos realistas nem desenho "típico".
+- Conector/acessório/vista frontal tem que ser **exatamente como o datasheet oficial, nas mesmas proporções**. Sem
+  datasheet: sai o contorno tracejado "AGUARDANDO DATASHEET" (`phys_tecnico.js`) e **pede-se o datasheet ao usuário**.
+- Desenho novo tirado de datasheet: registrar em `HX.DS_OK` (`phys_tecnico.js`: `OKV` peças, `OKF` famílias).
+  Os desenhos típicos antigos ficam em `HX.PHYS_VEC_TIPICO` (só os testes `[modo antigo]` os usam).
+
 ## Estrutura
 - `web/index.html` carrega os scripts **em ordem**; `tests/lib.js` tem a lista `FILES` na mesma ordem — todo arquivo
   novo de `web/js` entra nos dois lugares.
@@ -18,8 +25,14 @@ Responda sempre em **português**.
   `pdim`, `pdimx`, `ptable`, `pface`, `pdetail`.
 - Desenho dos conectores (vetorial): `phys_vec.js` (peças `HX.PHYS_VEC`), `phys_vecart*.js` (traço de catálogo),
   `phys_com*.js` (comerciais), `phys_vecimg.js` + `vimg_*.js` (figuras de datasheet vetorizadas).
+- Padrão das pranchas da casa (modelos de traço): `phys_table2.js` (diagrama de ligação), `phys_table3.js` (lista de
+  materiais sobre o carimbo), `phys_lines.js` (feixe em linhas), `phys_ball2.js` (balões em cadeia), `phys_face3.js`
+  (faixa de vistas, VISTA A/B, etiquetas automáticas). Folha: `wstyle`/`bstyle`/`bundleLook`/`ballStyle` voltam ao antigo.
+- Vistas frontais oficiais vetorizadas: `vimg_f<arranjo>N.js`, carregadas por `vimg_faces.js` (lista única; o
+  `index.html` tem só o carregador e `tests/lib.js` lista os arquivos). Regerar: `ferramentas/vetorizar.py` (opções
+  no cabeçalho) + `vetorizar_js.py`.
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
-- Documentação do usuário: `README.md`, `INTERFACE.md` (novidades por versão), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
+- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` (novidades por versão; novas seções no 2), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 
 ## Testes
 - `node tests/run_tests.js` — tem que terminar com `N passaram, 0 falharam`. Testes novos: `tests/test_*.js` e um
@@ -29,7 +42,7 @@ Responda sempre em **português**.
 - Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` (Playwright) gera PNG em `/tmp`.
 
 ## Versão
-- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE.md`.
+- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE2.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
 
 ## Empacotamento / entrega (a partir da raiz do repositório)
 1. `python3 ferramentas/pacote/empacotar.py` → `../HarnessCAD.zip` (sem os PNG de `web/img`, que já vão em `web/js/imgpack`).
@@ -44,6 +57,7 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 `C:\Users\willi\Desktop\GERAL`.
 
 ## Pendências conhecidas (aguardando dados do usuário)
-- Datasheet do adaptador de cordoalha (candidato: M85049/88-25W02/W03 + cinta AS85049/128 para D38999/26 tamanho 25).
+- Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
+  MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
 - Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow no dev).

@@ -61,25 +61,29 @@
   };
   A.loadText = function (text, name) {
     var p; try { p = JSON.parse(text); } catch (e) { return UI.toast('Arquivo inválido: ' + e.message, true); }
-    if (!p || !p.sheets) return UI.toast('Arquivo não é um projeto HarnessCAD', true);
-    this.doc.load(p, name); this.clearAutosave(); UI.toast('Projeto carregado: ' + name);
+    if (!p || !p.sheets) { UI.toast('Arquivo não é um projeto HarnessCAD', true); return false; }
+    this.doc.load(p, name); this.clearAutosave(); UI.toast('Projeto carregado: ' + name); return true;
   };
-  A.importFile = function () { var app = this; app.confirmDiscard().then(function (ok) { if (ok) HX.io.pickFile().then(function (f) { app.serverName = ''; app.loadText(f.text, f.name); }); }); };
+  A.importFile = function () { var app = this; app.confirmDiscard().then(function (ok) { if (ok) HX.io.pickFile().then(function (f) { if (app.loadText(f.text, f.name)) { app.serverName = ''; app.serverMtime = 0; } }); }); };
   A.exportFile = function () { HX.io.download(HX.io.safeName(this.doc.p.meta.docNo + '_rev' + this.doc.p.meta.rev) + '.json', JSON.stringify(this.doc.p, null, 1), 'application/json'); this.doc.dirty = false; this.clearAutosave(); this.title(); };
   A.save = function (as) {
     var app = this, doc = this.doc;
     if (!HX.io.online) { app.exportFile(); return; }
     if (!HX.io.user && doc.p.meta.author) HX.io.setUser(doc.p.meta.author);
+    var fail = function (e) { UI.toast('Erro ao salvar: ' + e.message, true); };
+    var done = function (name, msg) { return function (r) { app.serverName = name; app.serverMtime = r.mtime; doc.dirty = false; app.clearAutosave(); app.title(); UI.toast(msg); }; };
     var go = function (name) {
       if (!name) return;
       name = HX.io.safeName(name);
-      HX.io.save(name, doc.p, name === app.serverName ? app.serverMtime : 0).then(function (r) {
-        app.serverName = name; app.serverMtime = r.mtime; doc.dirty = false; app.clearAutosave(); app.title(); UI.toast('Salvo no servidor: ' + name);
-      }).catch(function (e) {
-        if (e.status === 409) UI.confirm('Conflito', 'O arquivo foi alterado por outro usuário desde que você abriu. Sobrescrever mesmo assim?').then(function (ok) {
-          if (ok) HX.io.save(name, doc.p, 0).then(function (r) { app.serverName = name; app.serverMtime = r.mtime; doc.dirty = false; app.clearAutosave(); app.title(); UI.toast('Salvo'); });
+      /* outro nome (Salvar como / primeiro salvamento): 'new' faz o servidor recusar se já existir projeto com esse nome */
+      var isNew = name !== app.serverName || !app.serverMtime;
+      HX.io.save(name, doc.p, isNew ? 'new' : app.serverMtime).then(done(name, 'Salvo no servidor: ' + name)).catch(function (e) {
+        if (e.status !== 409) return fail(e);
+        var msg = isNew ? 'Já existe um projeto "' + name + '" no servidor. Substituir? (o atual fica nos backups)'
+          : 'O arquivo foi alterado por outro usuário desde que você abriu. Sobrescrever mesmo assim?';
+        UI.confirm(isNew ? 'Nome já existe' : 'Conflito', msg).then(function (ok) {
+          if (ok) HX.io.save(name, doc.p, 0).then(done(name, 'Salvo')).catch(fail);
         });
-        else UI.toast('Erro ao salvar: ' + e.message, true);
       });
     };
     if (!as && app.serverName) go(app.serverName);
@@ -87,7 +91,7 @@
   };
   A.openServer = function (name) {
     var app = this;
-    HX.io.load(name).then(function (r) { app.serverName = name; app.serverMtime = r.mtime; app.loadText(JSON.stringify(r.project), name); })
+    HX.io.load(name).then(function (r) { if (app.loadText(JSON.stringify(r.project), name)) { app.serverName = name; app.serverMtime = r.mtime; } })
       .catch(function (e) { UI.toast('Erro ao abrir: ' + e.message, true); });
   };
   A.csv = function (t) { this.showTab(t); UI.$('#tCsv').click(); };

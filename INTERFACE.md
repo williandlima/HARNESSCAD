@@ -53,3 +53,55 @@ Botão da lua no topo, em Exibir › Aparência ou na tela inicial. A escolha fi
   convertida traço a traço em linhas: igual ao datasheet, nítida em qualquer zoom/PDF e na cor da caneta.
 * Vista frontal 25-35 (128 contatos) também vetorizada da figura do catálogo, com os números.
 * Ferramenta: ferramentas/vetorizar.py + vetorizar_js.py para converter outras figuras do datasheet.
+
+## v1.6.19 — servidor, salvar e transferência mais seguros
+* **Salvar como** com um nome que já existe no servidor agora pergunta antes de substituir (o projeto antigo fica nos backups).
+* Abrir do servidor um arquivo que não é projeto não "troca" mais o nome do projeto aberto (o Ctrl+S seguinte não sobrescreve o arquivo errado).
+* Erros ao excluir (sem permissão) e ao sobrescrever depois de um conflito agora aparecem na tela.
+* Servidor 1.2.0 (Python e Java): backups de `CAB` não se misturam mais com os de `CAB__v2`; nomes reservados do Windows
+  (CON, NUL, COM1…) são recusados; o Java não aceita mais JSON inválido na biblioteca (um item ruim derrubava a biblioteca de todos).
+* Pacote de transferência: não leva mais a pasta `.git` nem os dados de `dados\` (cerca de 60% menor); o `.sha256` tem o hash
+  de **todas** as partes (continua em `.sha256-2.txt`… se preciso), então o montar aponta exatamente qual recopiar; aceita mais de 999 partes.
+
+## v1.7.0 — prancha no padrão da casa e desenhos dos datasheets oficiais
+* **Diagrama de ligação** como nas pranchas: bloco de cada conector com cantos arredondados, nº do pino dentro, sinal
+  fora, referência em cima e PN embaixo; par do cabo com o símbolo de trança e o dreno até o seu pino; cor/bitola só
+  nas exceções e a nota "TODOS OS CABOS SÃO BITOLA xx AWG". Formato antigo: propriedades da tabela › Formato.
+* **Lista de materiais** sobre o carimbo, item 1 embaixo, QTD com unidade ("2.800 mm"), descrição em maiúsculas e código.
+* Modelos de traço: **feixe em linhas finas**, **balões em cadeia** com seta, **vistas frontais numa faixa** com
+  "VISTA A/B" e a seta com a letra no conector, **etiquetas de identificação** (P3, J3…) no feixe, sem o título no topo.
+* **Desenhos dos datasheets oficiais vetorizados**: D38999 /24, /20, TV01 (Amphenol), alívio de tensão e botas reta/90°
+  (Glenair) e as **53 vistas frontais** do D38999 — iguais ao catálogo e nítidos no PDF.
+* **Harwin Datamate L-Tek (M80)** no catálogo, desenhada pela figura oficial (lado dos terminais voltado para o cabo).
+
+## v1.7.1 — exportação DXF (Solid Edge / AutoCAD)
+* **Arquivo › Exportar DXF (Solid Edge / AutoCAD)…**: folha atual ou todas (um arquivo por folha), tudo em preto ou nas
+  cores do desenho. DXF R12 em mm, escala 1:1 da folha, com moldura e carimbo — o mesmo desenho do PDF.
+* No Solid Edge: Arquivo › Abrir › escolha o .dxf e salve como .dft. Camadas FINO / MEDIO / GROSSO (espessura do traço),
+  TEXTO e PREENCHIMENTO; tracejado e traço-ponto como tipos de linha; acentos, Ø e — preservados.
+* Cotas, balões e tabelas chegam como linhas e textos (não como objetos nativos do Solid Edge); fundos brancos e
+  imagens raster não vão para o DXF.
+
+## v1.7.2 — montagem MIL no padrão da casa (prancha de referência)
+* Conectores **MS3476 / MS26482 / MS5015 / D38999** numa folha nova no padrão da casa saem montados como na prancha:
+  **conector → adaptador de cordoalha → bota Raychem 202K** por cima. A cordoalha é soldada no adaptador com **luva de
+  solda** e amarrada com **barbante** (ficam dentro da bota: entram só na lista de materiais, um de cada por adaptador).
+* Desenho MS em traço: ressalto da face, porca com recartilhado em diamante e ponto de trava, corpo traseiro e cauda;
+  adaptador com anel de rosca, corpo liso, estrias retas e anel liso; bota em cilindro que afunila em curva até o pescoço.
+* Balões como na prancha: o **adaptador** (em cima) e a **bota** (embaixo) têm balão próprio com seta na peça; o
+  conector fica com contatos e tampões.
+* **Cordoalha** (blindagem geral do feixe) como camada interna dos ramos, na lista pelo comprimento.
+* **Barbante do engate rápido**: no conector, campo "Barbante do engate rápido (mm)" desenha o laço preso no anel de
+  engate, puxado ao longo do cabo, com cota "TIP."; soma no barbante da lista (m).
+* Identificação: espaguete transparente desenhado como um só tubo com a etiqueta marcada no meio.
+
+## v1.7.3 — só desenho técnico, fiel ao datasheet
+* O desenho físico agora tem **um modelo só: desenho técnico em traço (padrão Altium)**. As opções "Imagens
+  (realista)", "Contorno" e "Imagem do datasheet" saíram; folhas antigas abrem em traço.
+* Conector, acessório ou vista frontal que ainda **não tem desenho tirado do datasheet oficial** aparece como
+  **contorno tracejado "AGUARDANDO DATASHEET"** (no tamanho de referência, só para o leiaute). Ao gerar a folha, o aviso
+  lista o que falta. Quando o datasheet chegar, o desenho exato entra no lugar.
+* Com desenho do datasheet hoje: D38999/26, /24, /20 e TV01 (Amphenol) e 53 vistas frontais; alívio 620-048 e botas
+  770-001 (Glenair); bota Raychem 202K/222K; Harwin M80; D-Sub M24308/DSUB (Amphenol).
+
+_Continua em `INTERFACE2.md` (v1.7.4 em diante)._

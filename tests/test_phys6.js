@@ -20,7 +20,7 @@ function G(log) {
   g.clip = function () { log.push('clip'); }; g.clipCircle = function () { log.push('clipCircle'); }; return g;
 }
 test('sem capa: um traço contínuo por fio do esquemático, curva na derivação, ordem sem cruzar', function () {
-  var o = harness(), sh = o.sh; sh.loose = 'wires'; var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
+  var o = harness(), sh = o.sh; sh.loose = 'wires'; sh.bundleLook = 'fios'; var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
   var col = log.filter(function (l) { return l[0] === 'poly' && /^#/.test(l[1] || '') && l[1] !== '#111111' && l[2] > 0.25 && l[3] > 20; }); // contorno das peças do conector tem traço fino
   eq(col.length, 12, 'um traço por fio (8 J1-J2 + 4 J1-J3) ' + col.map(function (l) { return l[1] + ':' + l[2]; }).join(','));
   var C = HX.physCtx(o.d.p, o.d.sheet, {}), BU = HX.physBundle(o.d.p, sh), O1 = HX.physLooseOrder(o.T.s1, sh, C, BU), O2 = HX.physLooseOrder(o.T.s2, sh, C, BU), O3 = HX.physLooseOrder(o.s3, sh, C, BU);
@@ -31,7 +31,7 @@ test('sem capa: um traço contínuo por fio do esquemático, curva na derivaçã
   ok(HX.physVisW(o.T.s1, sh, BU) > HX.physVisW(o.s3, sh, BU), 'largura cresce com o nº de fios'); sh.wirePitch = 1; eq(HX.physVisW(o.s3, sh, BU), 4);
 });
 test('cota mostra o nº de fios (ramo e caminho) e o valor digitado define o ramo', function () {
-  var o = harness(), sh = o.sh, C = HX.physCtx(o.d.p, o.d.sheet, {}), dm = sh.items.filter(function (i) { return i.type === 'pdim' && i.seg === o.s3.id; })[0];
+  var o = harness(), sh = o.sh; sh.segInfo = true; var C = HX.physCtx(o.d.p, o.d.sheet, {}), dm = sh.items.filter(function (i) { return i.type === 'pdim' && i.seg === o.s3.id; })[0];
   if (!dm) { dm = { type: 'pdim', id: 'x1', a: o.s3.a, b: o.s3.b, seg: o.s3.id, mode: 'seg', off: 6 }; sh.items.push(dm); C = HX.physCtx(o.d.p, o.d.sheet, {}); }
   eq(HX.physDimValue(dm, C, o.d.p).sub, '4 fios'); dm.hideCount = true; ok(!HX.physDimValue(dm, C, o.d.p).sub); dm.hideCount = false;
   var pd = { type: 'pdim', id: 'x2', a: o.n.J1.id, b: o.n.J2.id, mode: 'path' }; eq(HX.physDimValue(pd, C, o.d.p).sub, '8 fios', 'só os que vão de J1 a J2');
@@ -61,7 +61,7 @@ test('etiqueta de identificação: medida do conector mais próximo, cota, tipos
   ok(log.some(function (l) { return l[0] === 'T' && l[1] === String(Math.round(HX.physTagEdist(t))); }), 'cota da posição (borda da etiqueta → conector)'); ok(HX.physTagEdist(t) < t.dist, 'mede da borda, não do meio');
   var B = HX.physBom(d.p, sh); ok(B.key['tag:sleeve:TMS-SCE'].qty === 1 && B.key['tag:flag:TMS-SCE'].qty === 1, 'lista de materiais');
   ok(HX.physMarkers(sh).some(function (r) { return r.text === 'W-J3'; }), 'tabela de marcadores');
-  eq(Object.keys(HX.PTAG), ['sleeve'], 'só luva termo-retrátil'); HX.physTagAccessor(t); t.edist = 40; eq(HX.physTagEdist(t), 40, 'distância pela borda editável');
+  eq(Object.keys(HX.PTAG), ['sleeve', 'etiqtr'], 'luva ou etiqueta sob espaguete'); HX.physTagAccessor(t); t.edist = 40; eq(HX.physTagEdist(t), 40, 'distância pela borda editável');
   t.dimText = '40 MÍN'; var l2 = []; HX.drawSheetItems(G(l2), d.p, d.sheet, {}); ok(l2.some(function (l) { return l[0] === 'T' && l[1] === '40 MÍN'; }), 'cota customizada');
   d.select([t2.id]); HX.ops.copySel(d); ok(true);
 });

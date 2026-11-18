@@ -3,13 +3,25 @@
 var L = require('./lib'), HX = L.HX, test = L.test, eq = L.eq, ok = L.ok;
 function G(log) { var g = {}, st = {}; ['line', 'rect', 'push', 'pop', 'clip', 'text'].forEach(function (k) { g[k] = function () { log.push([k, st.stroke]); }; });
   g.style = function (s) { for (var k in s) st[k] = s[k]; }; g.poly = function (P) { log.push(['poly', st.stroke, P.length, st.fill]); }; g.circle = function () { log.push(['circle', st.stroke]); }; return g; }
-test('peças D38999/MS: rosca e recartilhado têm perfil em dente; sextavado com furos; linha de centro', function () {
-  ['d38_24', 'd38_20', 'tv01', 'sr_s', 'ms_p', 'ms_r', 'ms_rf'].forEach(function (k) {
+L.antigo('peças D38999/MS: rosca e recartilhado têm perfil em dente; sextavado com furos; linha de centro', function () {
+  ['ms_r', 'ms_rf'].forEach(function (k) {
     var log = []; HX.PHYS_VEC[k](G(log), 0, 0, 40, 20);
     ok(log.some(function (l) { return l[0] === 'poly' && l[2] > 20; }), k + ': contorno serrilhado (rosca/recartilhado)');
     ok(log.filter(function (l) { return l[0] === 'line'; }).length > 10, k + ': filetes/estrias');
   });
-  var log = []; HX.PHYS_VEC.d38_24(G(log), 0, 0, 40, 20); ok(log.filter(function (l) { return l[0] === 'circle'; }).length >= 3, 'porca com furos de frenagem');
+});
+test('figuras oficiais vetorizadas: /24, /20, TV01, alívio de tensão e botas traço a traço, com faixas cheias e fundo', function () {
+  ['d38_24', 'd38_20', 'tv01', 'sr_s', 'boot_s', 'boot_90'].forEach(function (k) {
+    ok(HX.vecImgHas(k), k + ': dados da figura');
+    var log = []; HX.PHYS_VEC[k](G(log), 0, 0, 40, 20); var polys = log.filter(function (l) { return l[0] === 'poly'; });
+    ok(polys.length > 40, k + ': traços da figura (' + polys.length + ')');
+    ok(polys[0][3] && polys[0][2] > 8, k + ': silhueta pintada antes dos traços');
+    if (/d38|tv01/.test(k)) ok(log.some(function (l) { return l[0] === 'line'; }), k + ': linha de centro');
+  });
+  ['d38_24', 'd38_20', 'tv01'].forEach(function (k) {
+    var log = []; HX.PHYS_VEC[k](G(log), 0, 0, 40, 20);
+    ok(log.filter(function (l) { return l[0] === 'poly' && l[3] === l[1] && l[1]; }).length >= 2, k + ': faixas de acoplamento cheias na cor da caneta');
+  });
 });
 test('comerciais: todas as classes desenham em traço de catálogo e devolvem a caixa', function () {
   ['M12:A 4p', 'M8:3p', 'COAX:BNC', 'DT:4 vias', 'XLR:XLR3', 'RJ:RJ45 T568B', 'USB:USB-A', 'HAN:3A', 'MicroFit:2 vias', 'MSTB:2 vias', 'TERM:Terminal olhal'].forEach(function (p) {

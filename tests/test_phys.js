@@ -51,7 +51,7 @@ test('atualizar mantém imagem, tamanho, cobertura, acessórios e (opcional) pos
   eq([m.X1.sprite, m.J1.size, m.J1.x], ['m12', 80, n.J1.x]); ok(sh.items.some(function (i) { return i.type === 'pseg' && i.cover === 'cov_conduit'; }) && sh.items.some(function (i) { return i.id === 'm1'; }));
   sh.items.forEach(function (i) { if (i.type === 'pseg') { ok(sh.items.some(function (q) { return q.id === i.a; }) && sh.items.some(function (q) { return q.id === i.b; }), 'ramo ligado'); } });
 });
-test('desenho: imagens, cotas, "fora de escala"; editar: girar, apagar nó leva o ramo, colar, nova escala', function () {
+L.antigo('desenho: imagens, cotas, "fora de escala"; editar: girar, apagar nó leva o ramo, colar, nova escala', function () {
   var d = sample(), r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 10 }); }); d.sheet = r.index;
   var log = [], g = {}; ['style', 'line', 'poly', 'rect', 'circle', 'push', 'pop'].forEach(function (k) { g[k] = function () {}; });
   g.text = function (s) { log.push(String(s)); }; g.image = function (im) { log.push('IMG:' + im.id); return true; };

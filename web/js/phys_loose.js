@@ -32,7 +32,7 @@
   }
   function trimmed(P, tA, tB) { var L0 = HX.polyLen(P); if (!(tA || tB) || L0 <= tA + tB + 0.5) return P; return HX.physTrim(P, tA / L0, 1 - tB / L0); }
   function junR(sh, id, C, BU) { var r = 0; segsAt(sh, id).forEach(function (s) { r = Math.max(r, HX.physVisW(s, sh, BU)); }); return Math.max(2.5, r * 0.9 + 1.2); }
-  function stroke(g, Q, w, lw) { g.style({ stroke: '#111111', lw: lw + 0.06, fill: null, dash: null }); g.poly(Q, false); g.style({ stroke: HX.wireHex(w), lw: lw }); g.poly(Q, false); }
+  function stroke(g, Q, w, lw) { if (HX.physStrokeWire && HX.physStrokeWire(g, Q, w, lw)) return; g.style({ stroke: '#111111', lw: lw + 0.06, fill: null, dash: null }); g.poly(Q, false); g.style({ stroke: HX.wireHex(w), lw: lw }); g.poly(Q, false); }
   function bez(a, c1, c2, b) { var out = []; for (var i = 0; i <= 16; i++) { var t = i / 16, u = 1 - t; out.push([u * u * u * a[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * b[0], u * u * u * a[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * b[1]]); } return out; }
   // geometria de um ramo sem capa: traçado recortado, ordem, passo e afunilamento no conector
   function segGeo(sg, sh, C, BU) {
@@ -57,7 +57,7 @@
     sh.items.forEach(function (sg) { if (sg.type === 'pseg' && HX.physLooseOf(sg, sh)) { var S = segGeo(sg, sh, C, BU); if (S) { geo[sg.id] = S; any = true; } } });
     HX._looseNodes = sh.items.filter(function (i) { return i.type === 'pnode' && HX._looseConn[i.id]; }); if (!any) return; var lw = HX.physWireLW(sh, BU), seen = [];
     Object.keys(geo).forEach(function (id) { geo[id].ws.forEach(function (w) { if (seen.indexOf(w) < 0) seen.push(w); }); });
-    if (HX.physLooseSort) seen = HX.physLooseSort(seen, geo);
+    if (HX.physLooseSort) seen = HX.physLooseSort(seen, geo); if (HX.physLooseSeen) HX.physLooseSeen(seen, sh, C);
     seen.forEach(function (w) {
       var segs = sh.items.filter(function (x) { return x.type === 'pseg' && (BU.seg[x.id] || { wires: [] }).wires.indexOf(w) >= 0; }), deg = {};
       segs.forEach(function (x) { deg[x.a] = (deg[x.a] || 0) + 1; deg[x.b] = (deg[x.b] || 0) + 1; });

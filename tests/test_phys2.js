@@ -18,19 +18,19 @@ test('gera anotações: rótulo por nó, cota por ramo, cota do caminho total, b
   eq(sh.pstyle, 'line'); eq(types(sh, 'pnote').length, 4); eq(types(sh, 'pdim').filter(function (x) { return x.mode === 'seg'; }).length, 3);
   var path = types(sh, 'pdim').filter(function (x) { return x.mode === 'path'; }); eq(path.length, 1);
   var C = { sh: sh, m: HX.physIdx(sh), N: 10 }; eq(HX.physDimValue(path[0], C, null).v, 1500, 'J1→J2 = 700 + 800');
-  eq(types(sh, 'pball').length, 3); eq(types(sh, 'pface').length, 3); eq(types(sh, 'ptable').map(function (t) { return t.kind; }).sort(), ['bom', 'wiring']);
+  eq(types(sh, 'pball').length, 3 + types(sh, 'ptag').length, 'conectores + etiquetas'); eq(types(sh, 'pface').length, 3); eq(types(sh, 'ptable').map(function (t) { return t.kind; }).sort(), ['bom', 'wiring']);
 });
-test('modelo Traço: desenha em linha (sem imagens); balão numerado pela lista de materiais; tabela de ligação', function () {
+L.antigo('modelo Traço: desenha em linha (sem imagens); balão numerado pela lista de materiais; tabela de ligação', function () {
   var d = cable(), sh = gen(d, { style: 'line', faces: true }), log = [], l0 = [];
   HX.drawSheetItems(fakeG(l0), d.p, d.sheet, {}); ok(!l0.some(function (x) { return /^T:VISTA FRONTAL/.test(x); }), 'vista sem descrição por padrão');
   sh.items.forEach(function (i) { if (i.type === 'pface') i.desc = 'on'; }); HX.drawSheetItems(fakeG(log), d.p, d.sheet, {});
   eq(log.filter(function (x) { return /^IMG/.test(x); }).length, 0, 'sem imagens no traço');
-  ok(log.indexOf('T:TABELA DE LIGAÇÃO') >= 0 && log.indexOf('T:LISTA DE MATERIAIS') >= 0 && log.indexOf('T:VISTA FRONTAL J1 — ESC. 1:1') >= 0 && log.some(function (x) { return /^T:face de (pinos|soquetes) · carcaça E$/.test(x); }) && log.indexOf('T:1500') >= 0);
-  ok(log.indexOf('T:J1:1') >= 0 && log.indexOf('T:S0') >= 0, 'linha J1:1 com o sinal');
+  ok(log.some(function (x) { return /^T:(OBS: )?TODOS OS CABOS SÃO BITOLA/.test(x); }) && log.indexOf('T:DESCRIÇÃO') >= 0 && log.indexOf('T:CÓDIGO') >= 0 && log.indexOf('T:VISTA FRONTAL J1 — ESC. 1:1') >= 0 && log.some(function (x) { return /^T:face de (pinos|soquetes) · carcaça E$/.test(x); }) && log.indexOf('T:1500') >= 0);
+  ok(log.indexOf('T:J1') >= 0 && log.indexOf('T:S0') >= 0, 'diagrama: bloco J1 com o sinal');
   var bom = HX.physBom(d.p, sh); eq(bom.rows[0].qty, 3, '3 conectores do mesmo PN = item 1'); ok(log.indexOf('T:1') >= 0, 'balão 1');
   var log2 = []; sh.pstyle = 'img'; sh.connDraw = 'img'; HX.drawSheetItems(fakeG(log2), d.p, d.sheet, {}); ok(log2.indexOf('IMG:dsub_bs') >= 0, 'modelo Imagens');
 });
-test('foto real do usuário (por PN) tem prioridade sobre o painel, com espelho e altura da saída', function () {
+L.antigo('foto real do usuário (por PN) tem prioridade sobre o painel, com espelho e altura da saída', function () {
   var d = cable(), sh = gen(d, {}), log = []; sh.connDraw = 'img'; HX.PHYS_USER = { 'M24308:DE-9': { id: 'usr:x', data: 'data:image/png;base64,AA==', w: 200, h: 100, ey: 0.4, len: 60, mirror: true } };
   HX.drawSheetItems(fakeG(log), d.p, d.sheet, {}); HX.PHYS_USER = {};
   eq(log.filter(function (x) { return x === 'IMG:usr:x'; }).length, 3); void sh;

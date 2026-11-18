@@ -15,7 +15,7 @@ test('par trançado e N/C marcados no esquema; oval do par na tabela de ligaçã
   HX.drawSheetItems(G(log), d.p, 0, {}); eq(log.filter(function (x) { return x === 'T:TP1'; }).length, 1, 'um símbolo 8 para o par');
   d.p.view.twistSym = 'sine'; var ls = []; HX.drawSheetItems(G(ls), d.p, 0, {}); eq(ls.filter(function (x) { return x === 'T:TP1'; }).length, 2, 'senoide: marca em cada fio'); delete d.p.view.twistSym;
   var R = HX.physWiring(d.p); eq(R.filter(function (r) { return r.twist === 'TP1'; }).length, 2);
-  var sh = d.p.sheets[o.r.index], t = { type: 'ptable', id: 'tw', kind: 'wiring', x: 0, y: 0, w: 170 }; sh.items.push(t); var l2 = []; HX.drawSheetItems(G(l2), d.p, o.r.index, {}); ok(l2.indexOf('T:TP1') >= 0, 'oval TP1 na tabela');
+  var sh = d.p.sheets[o.r.index], t = { type: 'ptable', id: 'tw', kind: 'wiring', x: 0, y: 0, w: 170 }; sh.items.push(t); var l2 = []; HX.drawSheetItems(G(l2), d.p, o.r.index, {}); eq(HX.physDiagram(d.p).rows.filter(function (r) { return r.cable === 'T:TP1'; }).length, 2, 'par TP1 agrupado no diagrama');
   ok(HX.CAT.splices.tap && /tap/.test(HX.CAT.splices.tap.d));
 });
 test('cobertura parcial atravessando BR: comprimento real = caminho − recuos; entra na lista de materiais', function () {

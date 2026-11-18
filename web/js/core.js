@@ -2,7 +2,7 @@
 (function (G) {
   'use strict';
   var HX = G.HX = G.HX || {};
-  HX.VERSION = '1.6.18';
+  HX.VERSION = '1.7.5';
 
   // Folhas (paisagem: largura x altura em mm)
   HX.SHEETS = {

@@ -35,12 +35,12 @@
   UI.physDialog = function (app) {
     var doc = app.doc, p = doc.p, old = p.sheets.filter(HX.isPhys)[0], legacy = [];
     p.sheets.forEach(function (sh) { if (!HX.isPhys(sh)) sh.items.forEach(function (i) { if (i.type === 'dim' || i.type === 'brk') legacy.push(i.id); }); });
-    var scl = HX.PHYS_SCALES.map(function (n) { return [String(n), '1:' + String(n).replace('.', ',')]; }), STY = [['img', 'Imagens (realista)'], ['line', 'Traço (estilo desenho técnico)'], ['outline', 'Contorno (formato da casa)']];
+    var scl = HX.PHYS_SCALES.map(function (n) { return [String(n), '1:' + String(n).replace('.', ',')]; }), STY = [['line', 'Desenho técnico (traço — padrão Altium)']];
     var F = [{ k: 'scale', l: 'Escala', type: 'select', opts: scl }, { k: 'style', l: 'Modelo do desenho', type: 'select', opts: STY }];
     if (!old) F = F.concat([{ k: 'faces', l: 'Vistas frontais dos conectores', type: 'check' }, { k: 'balloons', l: 'Balões + lista de materiais', type: 'check' }, { k: 'tables', l: 'Tabelas (ligação e materiais)', type: 'check' }]);
     else F.push({ k: 'rebuild', l: 'Refazer o traçado do zero (perde ramificação e posições ajustadas)', type: 'check' });
     if (legacy.length) F.push({ k: 'drop', l: 'Apagar do esquemático as ' + legacy.length + ' cota(s)/derivação(ões) antigas (o físico passa a ser a referência)', type: 'check' });
-    var v = { scale: String(old ? old.scale : 5), style: old ? old.pstyle || 'img' : 'line', faces: true, balloons: true, tables: true, rebuild: false, drop: !old };
+    var v = { scale: String(old ? old.scale : 5), style: 'line', faces: true, balloons: true, tables: true, rebuild: false, drop: !old };
     UI.modal(old ? 'Atualizar desenho físico' : 'Gerar desenho físico',
       '<p class="muted">' + (old ? 'Traz do esquemático só o que é elétrico: conectores e emendas novos entram num ramo novo (ajuste depois), removidos saem, referências e fios atualizados. <b>O traçado, as derivações, as posições e as cotas do desenho físico são mantidos.</b>'
         : 'Cria a folha "Desenho físico" com os conectores ligados pelos circuitos' + (legacy.length ? ' e as cotas antigas do esquemático' : '') + '. A partir daí a <b>formatação e as cotas do chicote são feitas no desenho físico</b>: Ramo (W), Derivação (B), Cota (D) e arrastando nós e ramos.') + '</p>' + UI.form(F, v),

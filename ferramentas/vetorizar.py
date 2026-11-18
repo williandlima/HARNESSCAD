@@ -1,5 +1,5 @@
 # HarnessCAD - vetoriza figura do datasheet (traço central + contatos). Uso no PC de desenvolvimento (numpy, scipy, scikit-image, Pillow):
-#   TH=128 TOL=0.5 python vetorizar.py figura.png x0,y0,x1,y1 6 saida.json [dots]   ->   python vetorizar_js.py chave saida.json 0|1 web/js/vimg_nome
+#   TH=128 TOL=0.5 [FILL=2.2 FILLT=4] [SIL=1] python vetorizar.py figura.png x0,y0,x1,y1 6 saida.json [dots]   ->   python vetorizar_js.py chave saida.json 0|1 web/js/vimg_nome
 import sys, numpy as np, json
 from PIL import Image
 from skimage.morphology import skeletonize
@@ -12,21 +12,78 @@ bw = g < float(__import__("os").environ.get("TH","135"))
 circles = []
 if dots:  # contatos -> círculos (cheios ou meio cheios: preenche o furo antes)
     hl = ndi.binary_fill_holes(bw) & ~bw; lh, nh = ndi.label(hl); sz = ndi.sum(hl, lh, range(1, nh+1))
-    small = np.isin(lh, [i+1 for i, v in enumerate(sz) if v < (K*5)**2]); fl = bw | small
+    small = np.isin(lh, [i+1 for i, v in enumerate(sz) if v < (K*float(__import__('os').environ.get('HOLE', '5')))**2]); fl = bw | small  # HOLE: furo do contato meio cheio
     rr = int(K*float(__import__("os").environ.get("DR","2.2")))
     yy0, xx0 = np.ogrid[-rr:rr+1, -rr:rr+1]; disk = xx0**2 + yy0**2 <= rr*rr
     op = ndi.binary_opening(fl, structure=disk)
     lab, n = ndi.label(op); C = []
     for i in range(1, n+1):
         ys, xs = np.where(lab == i); a = len(xs)
-        if a > (K*12)**2: continue
+        if a > (K*float(__import__('os').environ.get('AMAX', '12')))**2: continue  # AMAX: maior contato aceito (px)
         C.append([xs.mean()/K, ys.mean()/K, np.sqrt(a/np.pi)/K])
     med = float(np.median([c[2] for c in C])) if C else 0
-    circles = [[round(c[0], 2), round(c[1], 2), round(c[2], 2)] for c in C if 0.6*med < c[2] < 1.6*med]
+    lo, hi = [float(v) for v in __import__('os').environ.get('CR', '0.6,1.6').split(',')]  # faixa de raio aceita (x mediana)
+    circles = [[round(c[0], 2), round(c[1], 2), round(c[2], 2)] for c in C if lo*med < c[2] < hi*med]
     EX=[tuple(map(float,t.split(':'))) for t in __import__('os').environ.get('EXCL','').split() if t]
     circles=[c for c in circles if not any(abs(c[0]-a)<2 and abs(c[1]-b)<2 for a,b in EX)]
+    IN = float(__import__('os').environ.get('INSIDE', '0'))  # vista frontal: só contatos dentro do inserto (fração do raio)
+    if IN > 0: circles = [c for c in circles if ((c[0] - W / 2)**2 + (c[1] - H / 2)**2) ** 0.5 < IN * min(W, H) / 2]
     yy, xx = np.ogrid[:H*K, :W*K]
-    for c in circles: bw[(xx - c[0]*K)**2 + (yy - c[1]*K)**2 <= (c[2]*K + K*0.9)**2] = False
+    if __import__('os').environ.get('REFINE') == '1':  # centro/raio pelo anel do contato, numa janela local (o inserto não fecha ali)
+        C3 = []
+        for c in circles:
+            R_ = c[2]*K*2.2; y0_, y1_ = int(max(0, c[1]*K - R_)), int(min(H*K, c[1]*K + R_ + 1)); x0_, x1_ = int(max(0, c[0]*K - R_)), int(min(W*K, c[0]*K + R_ + 1))
+            sub = ndi.binary_fill_holes(bw[y0_:y1_, x0_:x1_]); lb_, _ = ndi.label(sub); li = lb_[int(c[1]*K) - y0_, int(c[0]*K) - x0_] if 0 <= int(c[1]*K) - y0_ < lb_.shape[0] and 0 <= int(c[0]*K) - x0_ < lb_.shape[1] else 0
+            if li:
+                ys_, xs_ = np.nonzero(lb_ == li); r2 = np.sqrt(len(xs_)/np.pi)/K
+                if 0.85*c[2] < r2 < 1.7*c[2]: c = [round((xs_.mean() + x0_)/K, 2), round((ys_.mean() + y0_)/K, 2), round(r2, 2)]
+            C3.append(c)
+        circles = C3
+    # lado escuro de cada contato meio cheio: ângulo (graus, y para baixo) do centroide escuro + fração escura
+    C2 = []
+    for c in circles:
+        cx, cy, rr2 = c[0]*K, c[1]*K, (c[2]*K*0.85)**2; y0_, y1_ = int(max(0, cy - c[2]*K)), int(min(H*K, cy + c[2]*K + 1)); x0_, x1_ = int(max(0, cx - c[2]*K)), int(min(W*K, cx + c[2]*K + 1))
+        sub = bw[y0_:y1_, x0_:x1_]; my, mx = np.ogrid[y0_:y1_, x0_:x1_]; ins = (mx - cx)**2 + (my - cy)**2 <= rr2; dk = sub & ins
+        dy_, dx_ = np.nonzero(dk); a = float(np.degrees(np.arctan2((dy_ + y0_).mean() - cy, (dx_ + x0_).mean() - cx))) if dk.any() else 180.0
+        C2.append(c + [round(a), round(float(dk.sum()) / max(1, ins.sum()), 2)])
+    circles = C2
+    if __import__('os').environ.get('SNAP') == '1' and circles:  # arranjo do datasheet: todas as metades no mesmo sentido (dominante, múltiplo de 90°)
+        sx_ = sum(np.cos(np.radians(c[3])) for c in circles); sy_ = sum(np.sin(np.radians(c[3])) for c in circles)
+        dom = int(round(np.degrees(np.arctan2(sy_, sx_)) / 90.0)) * 90
+        circles = [c[:3] + [dom] + c[4:] for c in circles]
+    RM = float(__import__('os').environ.get('RM', '0.9'))  # margem (px) apagada em volta do contato: some o anel do desenho
+    RMF = float(__import__('os').environ.get('RMF', '0'))  # margem proporcional ao raio (contatos grandes)
+    for c in circles: bw[(xx - c[0]*K)**2 + (yy - c[1]*K)**2 <= (c[2]*K + max(K*RM, c[2]*K*RMF))**2] = False
+# regiões cheias (faixas de acoplamento, corte do painel): viram polígonos preenchidos, não um traço central
+# FILL=raio em px da figura original (0 = desliga); só manchas mais largas que 2x esse raio
+fills_raw = []
+FR = float(__import__("os").environ.get("FILL", "0"))
+FT = float(__import__("os").environ.get("FILLT", "0")) or FR * 1.15  # meia-espessura mínima (px) de uma região cheia
+if FR > 0:
+    from skimage import measure
+    rf = max(1, int(round(K * FR))); yy1, xx1 = np.ogrid[-rf:rf+1, -rf:rf+1]; dk = xx1**2 + yy1**2 <= rf*rf
+    thick = ndi.binary_dilation(ndi.binary_opening(bw, structure=dk), iterations=K) & bw  # recupera os cantos sem fechar frestas
+    lab_t, nt = ndi.label(thick); dt0 = ndi.distance_transform_edt(bw); keep = np.zeros_like(bw)
+    for i in range(1, nt+1):
+        m = lab_t == i
+        # cruzamento de traços (mancha pequena ou fina) não é região cheia: continua como linha
+        if m.sum() < (K*7)**2 or dt0[m].max() < K*FT: continue
+        cs = measure.find_contours(np.pad(m, 1).astype(float), 0.5)
+        if not cs: continue
+        P = max(cs, key=len); ys_, xs_ = np.array([q[0] for q in P]), np.array([q[1] for q in P])
+        if m.sum() < 0.6 * abs(np.dot(xs_, np.roll(ys_, 1)) - np.dot(ys_, np.roll(xs_, 1))) / 2: continue  # anel (oco): não é região cheia
+        fills_raw.append([(float(r) - 1, float(c) - 1) for r, c in P]); keep |= m
+    bw = bw & ~ndi.binary_dilation(keep, iterations=max(1, K // 2))
+# silhueta (SIL=1): contorno externo da peça, pintado com o fundo antes dos traços (esconde o que fica atrás)
+sil_raw = []
+if __import__("os").environ.get("SIL") == "1":
+    from skimage import measure
+    sm = ndi.binary_fill_holes(ndi.binary_closing(g < float(__import__("os").environ.get("TH", "135")), iterations=K * 2))
+    ls, ns = ndi.label(sm)
+    if ns:
+        big = ls == (1 + int(np.argmax(ndi.sum(sm, ls, range(1, ns + 1)))))
+        cs = measure.find_contours(np.pad(big, 1).astype(float), 0.5)
+        if cs: sil_raw = [(float(r) - 1, float(c) - 1) for r, c in max(cs, key=len)]
 dt = ndi.distance_transform_edt(bw)
 sk = skeletonize(bw)
 # grafo do esqueleto
@@ -59,5 +116,10 @@ for P in lines:
     w = float(np.median([dt[p] for p in P])) * 2 / K
     Q = dp(P, K*float(__import__("os").environ.get("TOL","0.35")))
     res.append([round(w, 1), [[round(p[1]/K, 2), round(p[0]/K, 2)] for p in Q]])
-json.dump({'w': W, 'h': H, 'lines': res, 'circles': circles}, open(out, 'w'))
-print(W, H, len(res), sum(len(r[1]) for r in res), len(circles), sorted(set(r[0] for r in res))[:12])
+fills = []
+for P in fills_raw:
+    Q = dp(P + [P[0]], K*float(__import__("os").environ.get("TOL","0.35")))
+    if len(Q) >= 4: fills.append([[round(p[1]/K, 2), round(p[0]/K, 2)] for p in Q])
+sil = [[round(p[1]/K, 2), round(p[0]/K, 2)] for p in dp(sil_raw + sil_raw[:1], K*0.5)] if sil_raw else []
+json.dump({'w': W, 'h': H, 'lines': res, 'circles': circles, 'fills': fills, 'sil': sil}, open(out, 'w'))
+print(W, H, len(res), sum(len(r[1]) for r in res), len(circles), len(fills), sorted(set(r[0] for r in res))[:12])

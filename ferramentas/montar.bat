@@ -39,6 +39,7 @@ set /a i=2
 :prox
 set "n=00%i%"
 set "n=%n:~-3%"
+if %i% GEQ 1000 set "n=%i%"
 if not exist "%dest%.p%n%%suf%" goto :eof
 copy /y /b "%dest%"+"%dest%.p%n%%suf%" "%dest%" >nul
 set /a i+=1

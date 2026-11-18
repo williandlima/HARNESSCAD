@@ -30,7 +30,7 @@ test('feixe com capa: corpo único com juntas redondas na derivação; sem capa:
   sh.loose = 'wires'; o.s3.loose = ''; ok(HX.physLooseOf(o.T.s1, sh), 'padrão da folha'); o.T.s1.cover = 'cov_braid'; ok(!HX.physLooseOf(o.T.s1, sh), 'cobertura vence');
 });
 test('identificação do ramo: nº de fios, Ø e amarração; desligável', function () {
-  var o = harness(), sh = o.sh; o.T.s1.bind = 'tie'; var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
+  var o = harness(), sh = o.sh; o.T.s1.bind = 'tie'; sh.segInfo = true; /* folha nova da casa sai sem; o usuário liga */ var log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
   ok(log.some(function (l) { return l[0] === 'T' && /^12 fios · Ø.* · abraçadeira de nylon$/.test(l[1]); }), 'texto do tronco');
   sh.segInfo = false; var l2 = []; HX.drawSheetItems(G(l2), o.d.p, o.d.sheet, {}); ok(!l2.some(function (l) { return l[0] === 'T' && /fios · Ø/.test(l[1]); }));
 });

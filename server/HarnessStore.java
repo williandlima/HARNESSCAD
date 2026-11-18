@@ -10,10 +10,14 @@ import java.util.regex.Pattern;
 public class HarnessStore {
     static final Pattern NAME = Pattern.compile("^[\\w\\-. ]{1,80}$");
     static final int KEEP = 30;
+    /* nomes de dispositivo do Windows: "con.json", "nul.json"... não são arquivos */
+    static final Pattern RESERVED = Pattern.compile("^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$", Pattern.CASE_INSENSITIVE);
     final Path data, proj, bak, info, lib;
     final Object lock = new Object();
 
     public static class Conflict extends Exception { }
+    /** Projeto novo (Salvar como) com nome que já existe no servidor. */
+    public static class Exists extends Conflict { }
 
     HarnessStore(Path data) throws IOException {
         this.data = data; proj = data.resolve("projects"); bak = proj.resolve(".bak"); info = proj.resolve(".info"); lib = data.resolve("library");
@@ -24,7 +28,13 @@ public class HarnessStore {
         if (n == null) return null;
         n = n.trim();
         if (n.toLowerCase().endsWith(".json")) n = n.substring(0, n.length() - 5);
-        return NAME.matcher(n).matches() && !n.startsWith(".") ? n : null;
+        if (!NAME.matcher(n).matches() || n.startsWith(".") || n.endsWith(".")) return null;
+        return RESERVED.matcher(n.split("\\.", 2)[0].trim()).matches() ? null : n;
+    }
+
+    /** Backup deste projeto (nome__AAAAMMDD-HHMMSS.json), e não de outro cujo nome começa igual (ex.: nome__v2). */
+    static boolean isBackupOf(String name, String f) {
+        return f.matches(Pattern.quote(name) + "__\\d{8}-\\d{6}\\.json");
     }
 
     static String safeKey(String k) {
@@ -86,14 +96,15 @@ public class HarnessStore {
         String st = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date(Files.getLastModifiedTime(src).toMillis()));
         Files.copy(src, bak.resolve(name + "__" + st + ".json"), StandardCopyOption.REPLACE_EXISTING);
         List<String> l = new ArrayList<>();
-        try (DirectoryStream<Path> ds = Files.newDirectoryStream(bak, name + "__*.json")) { for (Path p : ds) l.add(p.getFileName().toString()); }
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(bak, name + "__*.json")) { for (Path p : ds) if (isBackupOf(name, p.getFileName().toString())) l.add(p.getFileName().toString()); }
         Collections.sort(l);
         for (int i = 0; i < l.size() - KEEP; i++) Files.deleteIfExists(bak.resolve(l.get(i)));
     }
 
-    double saveProject(String name, byte[] d, Double base, String user, String ip) throws IOException, Conflict {
+    double saveProject(String name, byte[] d, Double base, String user, String ip, boolean isNew) throws IOException, Conflict {
         Path p = path(name, false);
         synchronized (lock) {
+            if (isNew && Files.exists(p)) throw new Exists();
             if (base != null && Files.exists(p) && Math.abs(mtime(p) - base) > 0.001) throw new Conflict();
             backup(name); write(p, d);
             write(info.resolve(name + ".json"), ("{\"user\":\"" + esc(user) + "\",\"ip\":\"" + esc(ip) + "\",\"time\":" + System.currentTimeMillis() / 1000.0 + "}").getBytes(StandardCharsets.UTF_8));
@@ -111,7 +122,7 @@ public class HarnessStore {
     String listBackups(String name) throws IOException {
         List<String> l = new ArrayList<>();
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(bak, name + "__*.json")) {
-            for (Path p : ds) { String f = p.getFileName().toString(); l.add("{\"name\":\"" + esc(f.substring(0, f.length() - 5)) + "\",\"mtime\":" + mtime(p) + "}"); }
+            for (Path p : ds) { String f = p.getFileName().toString(); if (!isBackupOf(name, f)) continue; l.add("{\"name\":\"" + esc(f.substring(0, f.length() - 5)) + "\",\"mtime\":" + mtime(p) + "}"); }
         }
         Collections.sort(l, Collections.reverseOrder());
         return "[" + String.join(",", l) + "]";
@@ -129,7 +140,7 @@ public class HarnessStore {
         StringBuilder b = new StringBuilder("{");
         try (DirectoryStream<Path> ds = Files.newDirectoryStream(lib, "*.lib")) {
             for (Path p : ds) {
-                String t = read(p); int i = t.indexOf('\n'); if (i < 0) continue;
+                String t = read(p); int i = t.indexOf('\n'); if (i < 0 || !JsonCheck.isObject(t.substring(i + 1))) continue; /* item inválido não derruba a biblioteca */
                 if (b.length() > 1) b.append(',');
                 b.append('"').append(esc(t.substring(0, i))).append("\":").append(t.substring(i + 1));
             }

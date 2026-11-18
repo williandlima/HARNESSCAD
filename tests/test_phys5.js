@@ -10,7 +10,7 @@ function harness(boot) {
   d.add({ type: 'dim', id: 'd1', a: a.id, b: b.id, x: 0, y: 0, x2: 1, y2: 0, orient: 'a', off: 5, len: 1200, tolP: '', tolM: '', text: '' });
   var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); d.sheet = r.index;
   var sh = d.cur(), n = {}; sh.items.forEach(function (i) { if (i.type === 'pnode') n[i.ref] = i; });
-  if (boot) { n.J1.bsKind = 'sr_s'; n.J1.bootKind = 'boot_s'; n.J2.bootKind = 'boot_90'; }
+  if (boot) { n.J1.bsKind = 'sr_s'; n.J1.bootKind = 'boot_s'; n.J2.bootKind = 'boot_90'; n.J2.bsKind = ''; }
   return { d: d, sh: sh, n: n };
 }
 function G(log) { var g = { _m: [] }; ['style', 'rect', 'circle', 'line', 'poly'].forEach(function (k) { g[k] = function () {}; }); g.push = function (m) { g._m.push(m); }; g.pop = function () {}; g.text = function (s, x, y, o) { log.push(['T', s, o && o.size]); }; g.image = function (im) { log.push(['I', im.id, g._m[g._m.length - 1]]); return true; }; return g; }
@@ -22,7 +22,7 @@ test('imagens de datasheet: PNG < 10 KB, tamanho confere, fonte registrada; fam�
   eq(HX.shellOf(S[o.n.J3.of]), 11); eq(HX.PDS.d38_26.H(13), 29.4, 'Ø do plugue carcaça 13 (tabela p. 53)'); eq(HX.PDS.sr_s.L(25), 31.0);
   o.n.J1.dsImg = 'off'; eq(HX.physDSFor(o.n.J1, S[o.n.J1.of]), null);
 });
-test('montagem: bota 90° faz o conector sair a 90°; tamanho real com connScale=real; ampliação automática', function () {
+L.antigo('montagem: bota 90° faz o conector sair a 90°; tamanho real com connScale=real; ampliação automática', function () {
   var o = harness(true), S = HX.physSchem(o.d.p), E = HX.physAssembly(o.n.J2, S[o.n.J2.of], true);
   eq(E.map(function (e) { return e.id; }), ['boot_90', 'd38_24']);
   var log = [], g = G(log), bb = HX.physDrawAssembly(g, E, 0, 0, 0, 5, 1, false), conn = log.filter(function (l) { return l[1] === 'jam_l'; })[0][2], boot = log.filter(function (l) { return l[1] === 'boot_90_l'; })[0][2];
@@ -43,7 +43,7 @@ test('PDF: imagem com transparência vira /SMask', function () {
 test('rótulo/balão automáticos ficam fora da montagem; cota total só em tronco reto', function () {
   var o = harness(true), log = []; HX.drawSheetItems(G(log), o.d.p, o.d.sheet, {});
   var J1 = o.n.J1, note = o.sh.items.filter(function (i) { return i.type === 'pnote' && i.of === J1.id; })[0], ball = o.sh.items.filter(function (i) { return i.type === 'pball' && i.of === J1.id; })[0];
-  eq(note.pos, 'auto'); ok(note._bb.y0 >= J1._bb.y1, 'rótulo abaixo da montagem'); ok(ball._bb ? ball._bb.y1 <= J1._bb.y0 + 0.01 : true, 'balão acima');
+  eq(note.pos, 'auto'); ok(note._bb.y0 >= J1._bb.y1, 'rótulo abaixo da montagem'); var nb = note._bb, bb = ball._bb; ok(!bb || (HX.physBallCasa(o.sh) ? bb.y0 >= J1._bb.y1 - 0.01 - 2.6 && (bb.x1 - 0.01 <= nb.x0 || bb.x0 + 1.5 >= nb.x1 || bb.y0 >= nb.y1) : bb.y1 <= J1._bb.y0 + 0.01), 'balão fora da montagem, sem cobrir o rótulo');
   var paths = o.sh.items.filter(function (i) { return i.type === 'pdim' && i.mode === 'path'; }); ok(paths.every(function (d) { var a = HX.physIdx(o.sh)[d.a], b = HX.physIdx(o.sh)[d.b]; return Math.abs(a.y - b.y) < 1 || Math.abs(a.x - b.x) < 1; }), 'sem cota total inclinada');
 });
 test('realismo: bota/alívio × Ø do feixe (datasheet), derivação colada no conector; organizar rótulos; texto mínimo', function () {

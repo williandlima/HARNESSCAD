@@ -10,7 +10,7 @@
   }
   HX.physSprOpts = sprOpts;
   var scl = function () { return HX.PHYS_SCALES.map(function (n) { return [String(n), '1:' + String(n).replace('.', ',')]; }); };
-  var STY = [['img', 'Imagens (painel / fotos reais)'], ['line', 'Traço — estilo Altium'], ['outline', 'Contorno — formato da casa (espaguete, bota, transição, balões)']];
+  var STY = [['line', 'Desenho técnico (traço — padrão Altium)']];
   EXT.pnode.fields = function (it) {
     if (it.nkind !== 'conn') return [{ type: 'head', l: it.nkind === 'brk' ? 'Ponto de derivação' : it.nkind === 'splice' ? 'Emenda' : 'Nó' }, { k: 'ref', l: 'Referência' }, { k: 'locked', l: 'Bloqueado', type: 'check' }];
     return [{ type: 'head', l: 'Conector ' + it.ref + ' (desenho físico)' },
@@ -38,7 +38,7 @@
   };
   EXT.pball.fields = function () { return [{ type: 'head', l: 'Balão' }, { k: 'n', l: 'Número', tip: 'Vazio = automático (item da lista de materiais)' }, { k: 'assoc', l: 'Mostrar peças associadas (contatos, tampões)', type: 'check' }]; };
   EXT.pface.fields = function () { return [{ type: 'head', l: 'Vista frontal' }, { k: 'esc', l: 'Escala de detalhe (D-Sub)', type: 'select', opts: [['', 'Automática'], ['1', '1:1'], ['2', '2:1'], ['3', '3:1'], ['4', '4:1'], ['5', '5:1']] }, { k: 'w', l: 'Largura (mm, circular)', type: 'number', step: 1 }]; };
-  EXT.ptable.fields = function (it) { return [{ type: 'head', l: it.kind === 'bom' ? 'Lista de materiais' : 'Tabela de ligação' }].concat(it.kind === 'bom' ? [] : [{ k: 'w', l: 'Largura (mm)', type: 'number', step: 5 }]); };
+  EXT.ptable.fields = function (it) { return [{ type: 'head', l: it.kind === 'bom' ? 'Lista de materiais' : 'Tabela de ligação' }].concat(it.kind === 'bom' ? [{ k: 'bstyle', l: 'Formato', type: 'select', opts: [['', 'Sobre o carimbo, item 1 embaixo (padrão da casa)'], ['tabela', 'Tabela (formato antigo)']] }] : [{ k: 'wstyle', l: 'Formato', type: 'select', opts: [['', 'Diagrama de ligação (padrão da casa)'], ['tabela', 'Tabela (formato antigo)']] }, { k: 'w', l: 'Largura (mm)', type: 'number', step: 5 }]); };
   EXT.pimg.fields = function () {
     return [{ type: 'head', l: 'Item (imagem)' }, { k: 'sprite', l: 'Imagem', type: 'select', opts: sprOpts(Object.keys(HX.PSPR_CATS)) }, { k: 'pn', l: 'Part number' },
       { k: 'size', l: 'Comprimento real (mm)', type: 'number', step: 1 }, { k: 'rot', l: 'Ângulo (°)', type: 'number', step: 15 }, { k: 'flip', l: 'Espelhar', type: 'check' }, { k: 'label', l: 'Rótulo' }];
@@ -48,7 +48,7 @@
   UI.sheetExtra = function (app, root, sh) {
     if (!HX.isPhys(sh)) return;
     var doc = app.doc, d = document.createElement('div'), sel = function (id, opts, cur) { return '<select id="' + id + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(cur) ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select>'; };
-    d.innerHTML = '<h4>Desenho físico</h4><div class="row"><label>Escala</label>' + sel('phScale', scl(), sh.scale) + '</div><div class="row"><label>Modelo</label>' + sel('phSty', STY, sh.pstyle || 'img') + '</div>' +
+    d.innerHTML = '<h4>Desenho físico</h4><div class="row"><label>Escala</label>' + sel('phScale', scl(), sh.scale) + '</div><div class="row"><label>Modelo</label>' + sel('phSty', STY, 'line') + '</div>' +
       (sh.pstyle === 'line' || sh.pstyle === 'outline' ? '<div class="row"><label>Cor do traço</label><input id="phCol" type="color" value="' + (sh.lineColor || HX.PHYS_LINE_COLOR) + '"></div>' : '') +
       '<div class="row"><button id="phUpd" style="flex:1">Atualizar do esquemático</button></div><div class="row"><button id="phPal" style="flex:1">Inserir item (imagem)…</button></div>' +
       '<div class="row"><button id="phTw">+ Tabela de ligação</button><button id="phTb">+ Lista de materiais</button></div>' +

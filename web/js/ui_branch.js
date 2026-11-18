@@ -22,6 +22,7 @@
     d.innerHTML = '<h4>Ramos (padrão da folha)</h4>' +
       '<div class="row"><label>Identificar ramos (nº de fios, Ø)</label><input id="brI" type="checkbox"' + (sh.segInfo === false ? '' : ' checked') + '></div>' +
       '<div class="row"><label>Feixe</label>' + sel('brL', [['jacket', 'Com capa'], ['wires', 'Sem capa — fios aparentes']], sh.loose || 'wires') + '</div>' +
+      '<div class="row"><label>Desenho do feixe sem capa</label>' + sel('brK', [['', 'Automático (traço = linhas da casa)'], ['lines', 'Linhas finas na cor da caneta (padrão da casa)'], ['fios', 'Um traço por fio, na cor do fio']], sh.bundleLook) + '</div>' +
       '<div class="row"><label title="Distância entre fios vizinhos no papel. Vazio = automático (cabe o ramo mais cheio)">Passo dos fios sem capa (mm)</label><input id="brP" type="number" step="0.05" min="0.2" placeholder="automático" value="' + HX.esc(sh.wirePitch || '') + '"></div>' +
       '<div class="row"><label>Amarração</label>' + sel('brB', [['', 'Nenhuma']].concat(K.map(function (k) { return [k, HX.PHYS_BIND[k].n]; })), sh.bind) + '</div>' +
       '<div class="row"><label>Passo (mm)</label><input id="brS" type="number" step="5" placeholder="automático" value="' + HX.esc(sh.bindStep || '') + '"></div>' +
@@ -35,6 +36,7 @@
     d.querySelector('#brClean').onclick = function () { var k = 0; set('Remover derivações sem ramificação', function () { k = HX.physCleanBR(doc, sh, false); }); HX.UI.toast(k ? k + ' derivação(ões) removida(s); os ramos foram unidos.' : 'Todas as derivações têm ramificação.'); };
     d.querySelector('#brI').onchange = function () { var v = this.checked; set('Identificar ramos', function () { sh.segInfo = v; }); };
     d.querySelector('#brL').onchange = function () { var v = this.value; set('Feixe', function () { sh.loose = v; }); };
+    d.querySelector('#brK').onchange = function () { var v = this.value; set('Desenho do feixe', function () { sh.bundleLook = v; }); };
     d.querySelector('#brP').onchange = function () { var v = this.value; set('Passo dos fios', function () { sh.wirePitch = v; }); };
     d.querySelector('#brB').onchange = function () { var v = this.value; set('Amarração', function () { sh.bind = v; }); };
     d.querySelector('#brS').onchange = function () { var v = this.value; set('Passo da amarração', function () { sh.bindStep = v; }); };
