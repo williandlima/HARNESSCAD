@@ -21,17 +21,26 @@
     var S = {}; e.pins.forEach(function (q) { S[q.sz] = 1; }); e.sz = Object.keys(S).sort().reverse().join('/');
     e.desc = fam.desc + ' ' + ins; HX.CAT.conns[key] = e;
   });
+  /* arco de raio constante (carcaça, arco externo) redesenhado liso: o PDF traz poucos pontos por arco */
+  function smooth(P) {
+    if (P.length < 3) return P; var out = [P[0]], i, k;
+    for (i = 1; i < P.length; i++) { var p = P[i - 1], q = P[i], r0 = Math.hypot(p[0], p[1]), r1 = Math.hypot(q[0], q[1]), a0 = Math.atan2(p[1], p[0]), da = Math.atan2(q[1], q[0]) - a0;
+      if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI;
+      if (r0 > 0.3 && Math.abs(r1 - r0) < 0.03 * r0 && Math.abs(da) > 0.03) for (k = 1; k < 8; k++) { var t = k / 8, r = r0 + (r1 - r0) * t; out.push([r * Math.cos(a0 + da * t), r * Math.sin(a0 + da * t)]); } /* trecho de arco */
+      out.push(q); }
+    return out;
+  }
   /* vista frontal */
   var lf = HX.physLineFace;
   HX.physLineFace = function (g, c, x, y, w, col, imgOK, k) {
     var d = c && HX.CAT.conns[c.part], f = d && d.fam === 'MS3476' && HX.ms34Face(d.ins); if (!f) return lf.apply(this, arguments);
     var r = w / 2, m = c.gender === 'S' ? -1 : 1, X = function (u) { return x + m * u * r; }, Y = function (v) { return y + v * r; }, pt = r / (f.D / 2);
-    f.s.forEach(function (s) { g.style({ stroke: col, lw: s.t === 'o' ? 0.25 : 0.15, fill: s.t === 'f' ? col : null, dash: null }); g.poly(s.p.map(function (q) { return [X(q[0]), Y(q[1])]; }), s.t === 'f'); });
+    f.s.forEach(function (s) { g.style({ stroke: col, lw: s.t === 'o' ? 0.2 : 0.12, fill: s.t === 'f' ? col : null, dash: null }); g.poly(smooth(s.p).map(function (q) { return [X(q[0]), Y(q[1])]; }), s.t === 'f'); });
     f.p.forEach(function (q) { var cx = X(q.x), cy = Y(q.y), rr = DIA[q.sz] * pt / 2;
-      if (q.sz === '16') { g.style({ stroke: col, lw: 0.15, fill: col }); g.circle(cx, cy, rr); }
-      else { g.style({ stroke: col, lw: 0.15, fill: '#fff' }); g.circle(cx, cy, rr); }
+      if (q.sz === '16') { g.style({ stroke: col, lw: 0.1, fill: col }); g.circle(cx, cy, rr); }
+      else { g.style({ stroke: col, lw: 0.1, fill: '#fff' }); g.circle(cx, cy, rr); }
       if (q.sz === '12') { var P = [], i; for (i = 0; i <= 12; i++) { var a = Math.PI * i / 12; P.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]); } g.style({ fill: col }); g.poly(P, true); }
-      g.style({ fill: null }); g.text(q.n, X(q.lx), Y(q.ly) + f.h * r * 0.35, { size: Math.max(0.6, f.h * r * 0.95), align: 'c', color: col }); });
+      g.style({ fill: null }); g.text(q.n, X(q.lx), Y(q.ly), { size: Math.max(0.55, f.h * r * 0.7), align: 'c', color: col }); }); /* o motor já centra o texto na vertical */
     return { x0: x - r, y0: y - r, x1: x + r, y1: y + r, geom: { shell: d.ins.split('-')[0] } };
   };
   if (HX.DS_OK) HX.DS_OK.faces = (HX.DS_OK.faces || []).concat(['MS3476']);
