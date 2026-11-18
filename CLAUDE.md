@@ -57,6 +57,7 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 `C:\Users\willi\Desktop\GERAL`.
 
 ## Pendências conhecidas (aguardando dados do usuário)
-- Datasheet do adaptador de cordoalha (candidato: M85049/88-25W02/W03 + cinta AS85049/128 para D38999/26 tamanho 25).
+- Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
+  MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
 - Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow no dev).

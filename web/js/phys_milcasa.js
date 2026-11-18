@@ -66,13 +66,13 @@
   HX.physMilCasa = function (doc, sh) {
     var S = HX.physSchem(doc.p), n = 0;
     sh.items.forEach(function (i) { var c = i.type === 'pnode' && i.nkind === 'conn' && S[i.of], d = c && HX.CAT.conns[c.part];
-      if (d && /^(MS3476|MS26482|MS5015|D38999)$/.test(d.fam) && !i.bsKind && !i.bootKind) { i.bsKind = 'ms_ad'; i.bootKind = 'rc_202K'; n++; } });
+      if (d && /^(MS3476|MS26482|MS5015|D38999)$/.test(d.fam) && !i.bsKind && !i.bootKind) { i.bsKind = d.fam === 'MS3476' && PDS.pre_j ? 'pre_j' : d.fam === 'D38999' && PDS.pre_l ? 'pre_l' : 'ms_ad'; i.bootKind = 'rc_202K'; n++; } });
     return n;
   };
   /* lista de materiais: luva de solda + barbante por adaptador (dentro da bota) */
   var bom = HX.physBom;
   HX.physBom = function (p, sh) {
-    var B = bom(p, sh), n = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn' && i.bsKind === 'ms_ad'; });
+    var B = bom(p, sh), n = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn' && /^(ms_ad|pre_j|pre_l)$/.test(i.bsKind); });
     if (!n.length) return B; B.assoc = B.assoc || {};
     [['ss:' + (sh.ssPN || ''), sh.ssPN || '', 'Luva de solda (cordoalha no adaptador)', 1, 'pç'], ['barb:' + (sh.barbPN || ''), sh.barbPN || '', 'Barbante sintético (amarração da cordoalha)', +sh.barbM || 0.25, 'm']].forEach(function (d) {
       var r = B.key[d[0]]; if (!r) { r = { k: d[0], pn: d[1], desc: d[2], qty: 0, un: d[4] }; B.rows.push(r); B.key[d[0]] = r; }

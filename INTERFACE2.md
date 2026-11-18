@@ -8,3 +8,15 @@
   Ø B máx do gromete e rosca H; extensão do gromete 0,190 (máx da faixa 0,130–0,190).
 * Ainda aguardando: o adaptador de cordoalha (confirmar o tipo — Amphenol "Pre-Shield" M85049/109 ou "Shrink Boot"
   M85049/60-1 para a família J) e as vistas frontais dos arranjos MS3476.
+
+## v1.7.5 — adaptador Pre-Shield (cordoalha) pelo datasheet oficial
+* O adaptador da prancha da casa é o **Amphenol Pre-Shield** reto: **M85049/109** no MS3476 (MIL-DTL-26482 Sér. 2) e
+  **M85049/115** no D38999 série III. Sai de fábrica com a cordoalha de cobre, que é soldada na cordoalha do cabo com a
+  luva de solda; a bota Raychem 202K agarra na ranhura do corpo e cobre a emenda.
+* Desenho = traço vetorial oficial do catálogo Amphenol Backshells M85049 (pp. 546 e 501), **vista externa** (sem corte),
+  a mesma figura em todas as carcaças, só a proporção muda: corpo 1,19 máx (30,2 mm), Ø A da porca pela carcaça, Ø Z/W
+  da cordoalha pela entrada (padrão: a maior entrada permitida na carcaça).
+* A porca rosqueia sobre a rosca de acessório do conector (cobre rosca e gromete, sem linhas aparecendo por baixo).
+* Lista de materiais: PN completo, ex. M85049/109-20TW11-6 (spin, cordoalha estanhada, cádmio oliva, 6"); a bota 202K
+  é escolhida pelo Ø do corpo do adaptador.
+* Folha nova da casa: MS3476 recebe /109 e D38999 recebe /115 automaticamente (MS26482/MS5015 seguem aguardando).

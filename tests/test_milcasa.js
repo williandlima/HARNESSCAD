@@ -28,7 +28,7 @@ L.antigo('barbante do engate rápido: laço com cota TIP. e soma no barbante; co
   var d = new HX.Doc(), P = d.add(HX.makeConn(d, 'MS3476:20-41', 40, 30)), J = d.add(HX.makeConn(d, 'MS3476:20-41', 200, 30)); J.mx = true;
   var LP = HX.connLayout(P, 2.5).pins, LJ = HX.connLayout(J, 2.5).pins; d.change('w', function () { HX.ops.addWire(d, [LP[0].pt, LJ[0].pt]); });
   var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); var sh = d.p.sheets[r.index];
-  var N = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn'; }); eq(N[0].bsKind, 'ms_ad'); eq(sh.under, 'cov_braid');
+  var N = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn'; }); eq(N[0].bsKind, 'pre_j'); eq(sh.under, 'cov_braid');
   N[0].lany = 230; var B = HX.physBom(d.p, sh).rows, b = B.filter(function (x) { return /^Barbante/.test(x.desc); })[0]; eq(b.qty, 0.73);
   ok(B.some(function (x) { return /^Cordoalha/.test(x.desc); }), 'cordoalha na lista');
   var log = [], g = G(log); g.text = function (t) { log.push(['text', t]); }; HX.ITEM_EXT.pnode.draw(g, N[0], d.p, r.index, {});
