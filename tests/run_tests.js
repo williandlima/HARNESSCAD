@@ -39,6 +39,7 @@ require('./test_dxf');
 require('./test_milcasa');
 require('./test_tecnico');
 require('./test_hitems');
+require('./test_ms34');
 require('./test_ui2');
 require('./test_univ');
 require('./test_model4');
