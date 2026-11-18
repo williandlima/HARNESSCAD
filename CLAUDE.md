@@ -45,7 +45,7 @@ Responda sempre em **português**.
   `phys_hitems3.js` (catálogo por alça, tamanhos dos datasheets), `phys_hitems2.js` (aplicar, `acc`, PN do adaptador/bota,
   lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janela com alças, painel do conector, tabela).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
-- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` (novidades por versão; novas seções no 2), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
+- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` (novidades por versão; novas seções no 3), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 
 ## Testes
 - `node tests/run_tests.js` — tem que terminar com `N passaram, 0 falharam`. Testes novos: `tests/test_*.js` e um
@@ -55,14 +55,15 @@ Responda sempre em **português**.
 - Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` (Playwright) gera PNG em `/tmp`.
 
 ## Versão
-- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE2.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
+- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE3.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
 
 ## Empacotamento / entrega (a partir da raiz do repositório)
 1. `python3 ferramentas/pacote/empacotar.py` → `../HarnessCAD.zip` (sem os PNG de `web/img`, que já vão em `web/js/imgpack`).
 2. `python3 ferramentas/dividir.py ../HarnessCAD.zip ../HarnessCAD_4k --tam 3900`
 3. `python3 ferramentas/pacote/lotes.py ../HarnessCAD_4k ..` → `HarnessCAD_lote1de4.zip` … `4de4`
 4. `sh ferramentas/pacote/testar_montagem.sh ../HarnessCAD_4k` (confere a remontagem)
-5. Instalador: `instalador/compilar.sh` (mingw-w64 i686) → `Setup_HarnessCAD.exe`.
+5. Instalador: `instalador/compilar.sh` (mingw-w64 i686) → `Setup_HarnessCAD.exe` + cópia em `atualizacao/` (commitar:
+   é de lá que o HarnessCAD.exe se atualiza pela internet — `instalador/atualiza.c`).
 
 ## Instalação no PC de casa do usuário
 Preferência permanente: quando houver nova versão e o PC "willian" estiver conectado, atualizar
