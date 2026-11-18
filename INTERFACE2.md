@@ -95,3 +95,14 @@
   Medidas da tabela: porca Ø A, traseira pelo Ø de saída de cada tipo, comprimento; a porca rosqueia no conector.
 * **Bota Raychem 202K** com o perfil exato da tabela TE (corpo R, transição até P−Y, pescoço Y, 2/3 lábios na zona U);
   o tamanho escolhido na biblioteca (PN) passa a valer também no desenho.
+
+## v1.8.6 — ajustes da prancha (feixe, vista, etiqueta, lista)
+* **Feixe no padrão da casa**: as linhas finas agora são por ramo, distribuídas em toda a largura e centradas no traçado —
+  entram no centro do pescoço da bota (antes podiam ficar todas de um lado em chicotes com derivação).
+* **Vista frontal MS34** mais limpa: letras ao lado dos contatos (sem deslocamento), traço fino, carcaça e arco externo lisos.
+* **Etiqueta**: altura editável (vazio = espessura do feixe, com folga mínima); comprimento da etiqueta e do espaguete já
+  editáveis. O **balão** aponta para a linha de extremidade da etiqueta, não para o centro.
+* **Cotas da etiqueta editáveis**: texto de cada cota (vazio = medido, "-" esconde), texto "TIP.", afastamento das cotas
+  externas e internas e tamanho do texto.
+* **Lista de materiais editável** (botão no painel da tabela): título, largura e ordem das colunas; ordem das linhas,
+  linha visível ou escondida, texto de cada célula (vazio = automático), linhas manuais, altura da linha e tamanho do texto.

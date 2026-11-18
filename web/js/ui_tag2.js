@@ -11,7 +11,11 @@
       { k: 'len', l: 'Comprimento do espaguete (mm)', type: 'number', step: 5 }, { type: 'head', l: 'Posição e cotas' },
       { k: 'gap', l: 'Folga fim da bota → espaguete (mm, vazio = arrastar)', type: 'number', step: 5 },
       { k: 'end', l: 'Conector de referência', type: 'select', opts: [['a', (m[sg.a] || {}).ref || 'ponta A'], ['b', (m[sg.b] || {}).ref || 'ponta B']] },
-      { k: 'dim', l: 'Cotas TIP. (folga, 5, etiqueta, espaguete)', type: 'check' }, { k: 'dimOff', l: 'Cotas embaixo do feixe (1) ou em cima (vazio)', type: 'number', step: 1 }];
+      { k: 'alt', l: 'Altura da etiqueta (mm no desenho, vazio = espessura do feixe)', type: 'number', step: 0.5 },
+      { k: 'dim', l: 'Cotas TIP. (folga, 5, etiqueta, espaguete)', type: 'check' }, { k: 'dimOff', l: 'Cotas embaixo do feixe (1) ou em cima (vazio)', type: 'number', step: 1 },
+      { type: 'head', l: 'Texto das cotas (vazio = medido, - = esconde)' }, { k: 'dimT1', l: 'Folga bota → espaguete' }, { k: 'dimT2', l: 'Espaguete' }, { k: 'dimT3', l: 'Margem (5)' }, { k: 'dimT4', l: 'Etiqueta' },
+      { k: 'dimTip', l: 'Texto sob a cota (vazio = TIP., - = nenhum)' }, { k: 'dimD1', l: 'Afastamento cotas externas (mm)', type: 'number', step: 1 }, { k: 'dimD2', l: 'Afastamento cotas internas (mm)', type: 'number', step: 1 },
+      { k: 'dimSz', l: 'Tamanho do texto das cotas (mm)', type: 'number', step: 0.1 }];
     return [{ type: 'head', l: 'Etiqueta — luva termo-retrátil impressa' }, ST, { k: 'text', l: 'Texto impresso', tip: 'Ex.: W12, P1, 28V-ALIM' },
       { k: 'pn', l: 'Part number da luva' }, { k: 'len', l: 'Comprimento da luva (mm)', type: 'number', step: 5 },
       { type: 'head', l: 'Posição e cota' }, { k: 'edist', l: 'Distância borda da etiqueta → conector (mm)', type: 'number', step: 5, tip: 'Ou arraste a etiqueta no ramo' },
