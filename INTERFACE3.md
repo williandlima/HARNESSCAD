@@ -11,3 +11,13 @@
 * Opções em `dados\atualizar.txt`: `perguntar=0` (atualiza sem perguntar), `internet=0` (só pastas locais/rede).
   `HarnessCAD.exe /n` abre sem procurar.
 * Esta é a última vez que é preciso rodar o Setup à mão: a partir da 1.8.7 as próximas versões chegam sozinhas.
+
+## v1.8.8 — cotas e balão da etiqueta
+* **Sem conflito de cotas**: quando duas cotas TIP. da etiqueta são estreitas (ex.: margem 10 e etiqueta 20 em escala
+  pequena), o texto de uma vai antes do início e o da outra depois do fim, com a linha de cota prolongada até ele.
+* **Separar cotas (editar cada uma)** — botão no painel da etiqueta: as 4 cotas viram **cotas livres**, cada uma
+  selecionável e editável como as outras (texto, tolerância, afastamento, deslocar o texto, tamanho, setas, "TIP." no
+  campo *Texto sob o valor*). Continuam presas aos pontos da etiqueta: mudar a folga ou o comprimento leva as cotas junto.
+  Cota livre estreita passa a ter setas por fora; texto deslocado para fora ganha a linha de cota até ele.
+* **Balão da etiqueta**: campo *Ponto de conexão na etiqueta* — extremidade oposta (padrão) ou do lado do conector,
+  linhas da etiqueta, centro, borda de cima ou de baixo.

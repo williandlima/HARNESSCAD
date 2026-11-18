@@ -8,7 +8,7 @@
   HX.PTAG.etiqtr = 'Etiqueta sob espaguete transparente';
   function arrow(g, x, y, ux, uy, col) { var a = 1.4, w = 0.4; g.style({ fill: col, stroke: col }); g.poly([[x, y], [x - ux * a - uy * w, y - uy * a + ux * w], [x - ux * a + uy * w, y - uy * a - ux * w]], true); g.style({ fill: null }); }
   /* cota paralela ao ramo entre as distâncias s0 e s1 (papel, ao longo de u a partir de O), afastada d; texto "v" + "TIP." */
-  function dim(g, O, u, s0, s1, d, v, col, tip, fz) {
+  function dim(g, O, u, s0, s1, d, v, col, tip, fz, lv) {
     if (v === '-') return null; tip = tip == null ? 'TIP.' : tip; fz = fz || 1.6;
     var nx = -u[1], ny = u[0], a = [O[0] + u[0] * s0 + nx * d, O[1] + u[1] * s0 + ny * d], b = [O[0] + u[0] * s1 + nx * d, O[1] + u[1] * s1 + ny * d], sg = d < 0 ? -1 : 1;
     g.style({ stroke: col, lw: 0.15, fill: null, dash: null }); g.line(a[0], a[1], b[0], b[1]);
@@ -18,10 +18,15 @@
     else { /* cota estreita: setas por fora e o texto antes do início */
       g.line(a[0] - u[0] * sgn * 2.2, a[1] - u[1] * sgn * 2.2, a[0], a[1]); g.line(b[0], b[1], b[0] + u[0] * sgn * 2.2, b[1] + u[1] * sgn * 2.2);
       arrow(g, a[0], a[1], u[0] * sgn, u[1] * sgn, col); arrow(g, b[0], b[1], -u[0] * sgn, -u[1] * sgn, col); }
-    var ta = Math.atan2(u[1], u[0]); if (Math.cos(ta) < -1e-6) ta += Math.PI; var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
-    if (narrow) { mx = a[0] - u[0] * sgn * (2.4 + tw / 2); my = a[1] - u[1] * sgn * (2.4 + tw / 2); }
+    var ta = Math.atan2(u[1], u[0]); if (Math.cos(ta) < -1e-6) ta += Math.PI; lv = lv || [];
+    /* texto sem conflito: no meio; estreita: antes do início, depois do fim, ou além dos textos já postos nesta linha */
+    var lo = Math.min(s0, s1), hi = Math.max(s0, s1), C0 = narrow ? [lo - 2.4 - tw / 2, hi + 2.4 + tw / 2] : [(s0 + s1) / 2], fr = function (c) { return lv.every(function (q) { return c + tw / 2 + 0.6 <= q[0] || c - tw / 2 - 0.6 >= q[1]; }); };
+    var c = C0.filter(fr)[0]; if (c == null) { c = hi + 2.4 + tw / 2; lv.forEach(function (q) { if (q[1] + 0.8 + tw / 2 > c) c = q[1] + 0.8 + tw / 2; }); }
+    lv.push([c - tw / 2, c + tw / 2]); var mx = O[0] + u[0] * c + nx * d, my = O[1] + u[1] * c + ny * d;
+    if (narrow && (c < lo || c > hi)) { var e2 = c < lo ? lo - tw - 1.6 : hi + tw + 1.6; if (c < lo) g.line(O[0] + u[0] * (lo - 2.2) + nx * d, O[1] + u[1] * (lo - 2.2) + ny * d, O[0] + u[0] * Math.min(lo - 2.2, e2) + nx * d, O[1] + u[1] * Math.min(lo - 2.2, e2) + ny * d);
+      else g.line(O[0] + u[0] * (hi + 2.2) + nx * d, O[1] + u[1] * (hi + 2.2) + ny * d, O[0] + u[0] * Math.max(hi + 2.2, e2) + nx * d, O[1] + u[1] * Math.max(hi + 2.2, e2) + ny * d); } /* linha de cota prolongada sob o texto */
     [[String(v), fz * 1.62, fz], [tip, fz * 0.69, fz * 0.69]].forEach(function (t) { if (!t[0]) return; g.push([Math.cos(ta), Math.sin(ta), -Math.sin(ta), Math.cos(ta), mx + nx * sg * t[1], my + ny * sg * t[1]]); g.text(t[0], 0, 0, { size: t[2], align: 'c', color: col }); g.pop(); });
-    return { x0: Math.min(a[0], b[0]) - 2, y0: Math.min(a[1], b[1], my + ny * sg * 4) - 2, x1: Math.max(a[0], b[0]) + 2, y1: Math.max(a[1], b[1], my + ny * sg * 4) + 2 };
+    return { x0: Math.min(a[0], b[0], mx - tw / 2) - 2, y0: Math.min(a[1], b[1], my + ny * sg * 4) - 2, x1: Math.max(a[0], b[0], mx + tw / 2) + 2, y1: Math.max(a[1], b[1], my + ny * sg * 4) + 2 };
   }
   var d0 = EXT.ptag.draw;
   EXT.ptag.draw = function (g, it, p, s, o) {
@@ -45,26 +50,14 @@
       var dir = [cx - A.from.x, cy - A.from.y], dl = Math.hypot(dir[0], dir[1]) || 1, uu = [dir[0] / dl, dir[1] / dl], O = [A.from.x, A.from.y], c0 = dl;
       var side = (uu[0] >= 0 ? -1 : 1) * (+it.dimOff > 0 ? -1 : 1); /* normal (-u.y, u.x): cotas acima do feixe na tela; dimOff > 0 = embaixo */
       var s0 = c0 - ps / 2, sl = c0 - plb / 2, L1 = side * (h + (+it.dimD1 > 0 ? +it.dimD1 : 11)), L2 = side * (h + (+it.dimD2 > 0 ? +it.dimD2 : 5)), tp = it.dimTip === '' || it.dimTip == null ? 'TIP.' : it.dimTip === '-' ? '' : it.dimTip, fz = +it.dimSz > 0 ? +it.dimSz : 1.6, tx = function (k, v) { var t = it[k]; return t === '' || t == null ? v : t; }; /* fora: folga e espaguete; dentro: 5 e etiqueta (como na prancha) */
-      var D = [dim(g, O, uu, e0, s0, L1, tx('dimT1', Math.round(Math.max(0, (s0 - e0) / k))), col, tp, fz), dim(g, O, uu, s0, s0 + ps, L1, tx('dimT2', Math.round(Ls)), col, tp, fz),
-        dim(g, O, uu, s0, sl, L2, tx('dimT3', Math.round((Ls - Ll) / 2)), col, tp, fz), dim(g, O, uu, sl, sl + plb, L2, tx('dimT4', Math.round(Ll)), col, tp, fz)].filter(Boolean);
+      var V1 = [], V2 = [], D = [dim(g, O, uu, e0, s0, L1, tx('dimT1', Math.round(Math.max(0, (s0 - e0) / k))), col, tp, fz, V1), dim(g, O, uu, s0, s0 + ps, L1, tx('dimT2', Math.round(Ls)), col, tp, fz, V1),
+        dim(g, O, uu, s0, sl, L2, tx('dimT3', Math.round((Ls - Ll) / 2)), col, tp, fz, V2), dim(g, O, uu, sl, sl + plb, L2, tx('dimT4', Math.round(Ll)), col, tp, fz, V2)].filter(Boolean);
       D.forEach(function (q) { B = { x0: Math.min(B.x0, q.x0), y0: Math.min(B.y0, q.y0), x1: Math.max(B.x1, q.x1), y1: Math.max(B.y1, q.y1) }; });
     }
+    if (A.from) { var dr = [cx - A.from.x, cy - A.from.y], dn = Math.hypot(dr[0], dr[1]) || 1, w = [dr[0] / dn, dr[1] / dn], q = function (t) { return [A.from.x + w[0] * t, A.from.y + w[1] * t]; }, z0 = dn - ps / 2, zl = dn - plb / 2, nn = [-w[1], w[0]], fl = nn[1] > 0 || (Math.abs(nn[1]) < 1e-9 && nn[0] < 0) ? -1 : 1, sd = (w[0] >= 0 ? -1 : 1) * (+it.dimOff > 0 ? -1 : 1);
+      HX.physHide(it, '_kp', { k: k, e0: q(e0), s0: q(z0), sl: q(zl), sl2: q(zl + plb), s1: q(z0 + ps), near: q(z0), ext: q(z0 + ps), c: [cx, cy], labN: q(zl), labF: q(zl + plb), top: [cx + nn[0] * fl * (h + 0.4), cy + nn[1] * fl * (h + 0.4)], bot: [cx - nn[0] * fl * (h + 0.4), cy - nn[1] * fl * (h + 0.4)],
+        o1: sd * fl * (h + (+it.dimD1 > 0 ? +it.dimD1 : 11)), o2: sd * fl * (h + (+it.dimD2 > 0 ? +it.dimD2 : 5)) }); } /* pontos para balão e cotas livres (phys_tag4.js) */
     var dsg = A.from && (u[0] * (cx - A.from.x) + u[1] * (cy - A.from.y)) < 0 ? -1 : 1; HX.physHide(it, '_bb', B); HX.physHide(it, '_pt', [cx + u[0] * dsg * ps / 2, cy + u[1] * dsg * ps / 2]); /* balão na linha de extremidade */ HX.physHide(it, '_lp', null); HX.physHide(it, '_lb', null); HX.physHide(it, '_dim', null);
   };
-  /* lista de materiais: etiqueta (pç) + espaguete transparente (mm); balão do item = etiqueta, associado = espaguete */
-  var bom = HX.physBom;
-  HX.physBom = function (p, sh) {
-    var Bm = bom(p, sh), T = sh.items.filter(function (i) { return i.type === 'ptag' && i.style === 'etiqtr'; }); if (!T.length) return Bm;
-    Bm.rows = Bm.rows.filter(function (r) { return !/^tag:etiqtr:/.test(r.k); }); Object.keys(Bm.key).forEach(function (k) { if (/^tag:etiqtr:/.test(k)) delete Bm.key[k]; });
-    Bm.assoc = Bm.assoc || {};
-    T.forEach(function (i) {
-      var kl = 'etq:' + (i.labPN || ''), ks = 'esp:' + (i.pn || ''), rl = Bm.key[kl], rs = Bm.key[ks];
-      if (!rl) { rl = { k: kl, pn: i.labPN || '', desc: 'Etiqueta de identificação', qty: 0, un: 'pç' }; Bm.rows.push(rl); Bm.key[kl] = rl; }
-      if (!rs) { rs = { k: ks, pn: i.pn || '', desc: 'Espaguete termo-retrátil transparente', qty: 0, un: 'mm' }; Bm.rows.push(rs); Bm.key[ks] = rs; }
-      rl.qty += 1; rs.qty += +i.len || 30; Bm.assoc[i.id] = [ks];
-    });
-    Bm.rows.forEach(function (r, j) { r.n = j + 1; }); return Bm;
-  };
-  var ik = HX.physItemKey;
-  HX.physItemKey = function (p, it, m) { return it && it.type === 'ptag' && it.style === 'etiqtr' ? 'etq:' + (it.labPN || '') : ik(p, it, m); };
+  /* lista de materiais da etiqueta: phys_tag4.js */
 })(typeof window !== 'undefined' ? window : globalThis);

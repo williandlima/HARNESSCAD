@@ -27,7 +27,8 @@ Responda sempre em **português**.
 
 ## Estrutura
 - `web/index.html` carrega os scripts **em ordem**; `tests/lib.js` tem a lista `FILES` na mesma ordem — todo arquivo
-  novo de `web/js` entra nos dois lugares.
+  novo de `web/js` entra nos dois lugares. O `index.html` está no limite: arquivo novo entra na lista do carregador
+  `web/js/ui_mais.js` (último script) e, se não for `ui_*`, no fim de `FILES`.
 - Namespace global `HX`. Padrão de extensão: wrapper/override (`var f0 = HX.fn; HX.fn = function(){ … f0.apply(this, arguments) }`).
 - Itens do desenho: `HX.ITEM_EXT[tipo] = {draw, bbox, hit, fields}`. Físico: `pnode`, `pseg`, `pacc`, `ptag`, `pball`,
   `pdim`, `pdimx`, `ptable`, `pface`, `pdetail`.

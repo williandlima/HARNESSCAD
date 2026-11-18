@@ -38,10 +38,13 @@
       var pa = [ux * ta + nx * d, uy * ta + ny * d], pb = [ux * tb + nx * d, uy * tb + ny * d], len = Math.abs(tb - ta), v = Math.round(len * C.N * 10) / 10;
       g.style({ stroke: col, lw: +it.sLw || 0.18, fill: null, dash: null }); g.line(pa[0], pa[1], pb[0], pb[1]);
       if (it.ext !== false) { [[a, pa], [b, pb]].forEach(function (e) { var P = e[0], Q = e[1], ex = Q[0] - P[0], ey = Q[1] - P[1], el = Math.hypot(ex, ey) || 1; g.line(P[0] + ex / el * 0.8, P[1] + ey / el * 0.8, Q[0] + ex / el * 1.2, Q[1] + ey / el * 1.2); }); }
-      if (it.arrows !== false && len > 0.5) { var sx = tb >= ta ? 1 : -1; arrow(g, pa[0], pa[1], -ux * sx, -uy * sx, col, fs * 0.6); arrow(g, pb[0], pb[1], ux * sx, uy * sx, col, fs * 0.6); }
+      var sx = tb >= ta ? 1 : -1, nar = len < fs * 1.5; /* estreita: setas por fora */
+      if (it.arrows !== false && len > 0.3) { var q = nar ? -1 : 1; arrow(g, pa[0], pa[1], -ux * sx * q, -uy * sx * q, col, fs * 0.6); arrow(g, pb[0], pb[1], ux * sx * q, uy * sx * q, col, fs * 0.6);
+        if (nar) { g.line(pa[0], pa[1], pa[0] - ux * sx * fs, pa[1] - uy * sx * fs); g.line(pb[0], pb[1], pb[0] + ux * sx * fs, pb[1] + uy * sx * fs); } }
       var t = (it.text ? String(it.text) : HX.fmtNum(Math.round(v))) + (it.tolP || it.tolM ? ' +' + (it.tolP || 0) + '/-' + (it.tolM || 0) : ''), an = Math.atan2(uy, ux); if (Math.cos(an) < -1e-6 || (Math.abs(Math.cos(an)) < 1e-6 && Math.sin(an) > 0)) an += Math.PI;
-      var mx = (pa[0] + pb[0]) / 2 + nx * (fs * 0.7) + ux * (+it.tx || 0), my = (pa[1] + pb[1]) / 2 + ny * (fs * 0.7) + uy * (+it.tx || 0);
-      g.push([Math.cos(an), Math.sin(an), -Math.sin(an), Math.cos(an), mx, my]); g.text(t, 0, 0, { size: fs, align: 'c', color: col }); g.pop();
+      var fo = fs * (it.sub ? 1.3 : 0.7), mx = (pa[0] + pb[0]) / 2 + nx * fo + ux * (+it.tx || 0), my = (pa[1] + pb[1]) / 2 + ny * fo + uy * (+it.tx || 0);
+      var tx2 = +it.tx || 0, hw = HX.textW(t, fs) / 2, sl = len / 2; if (Math.abs(tx2) > sl) { var e1 = sl * (tx2 > 0 ? 1 : -1), e2 = tx2 + hw * (tx2 > 0 ? 1 : -1), cm = [(pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2]; g.line(cm[0] + ux * e1, cm[1] + uy * e1, cm[0] + ux * e2, cm[1] + uy * e2); } /* texto fora: linha de cota até ele */
+      g.push([Math.cos(an), Math.sin(an), -Math.sin(an), Math.cos(an), mx, my]); g.text(t, 0, 0, { size: fs, align: 'c', color: col }); if (it.sub) g.text(String(it.sub), 0, fs * 0.85, { size: fs * 0.69, align: 'c', color: col }); g.pop(); /* texto sob o valor (ex.: TIP.) */
       var w = HX.textW(t, fs) / 2 + 1; hide(it, '_seg', [pa[0], pa[1], pb[0], pb[1]]); hide(it, '_val', v);
       hide(it, '_bb', { x0: Math.min(pa[0], pb[0], mx - w) - 1, y0: Math.min(pa[1], pb[1], my - w) - 1, x1: Math.max(pa[0], pb[0], mx + w) + 1, y1: Math.max(pa[1], pb[1], my + w) + 1 });
     },
