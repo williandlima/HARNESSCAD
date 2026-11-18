@@ -42,3 +42,8 @@ test('kits de retenção Metaltex KF/KM (folha do fabricante): PN, medidas, só 
   eq(HX.hitemApply(F.d, 'h:ret:KF', n), ''); eq(n.dsLock, 'V'); var G2 = folha(); ok(/não serve/.test(HX.hitemApply(G2.d, 'h:ret:KF', G2.n)), 'não serve no D38999');
   ok(HX.physBom(F.d.p, F.sh).rows.some(function (r) { return r.pn === 'KF' && /Metaltex/.test(r.desc); }));
 });
+test('lista de materiais editável: texto das células, linha escondida, ordem, linha manual e ordem das colunas', function () {
+  var B = [{ k: 'a', n: 1, qty: 2, un: 'pç', desc: 'Contato', pn: 'X1' }, { k: 'b', n: 2, qty: 1, un: 'pç', desc: 'Bota', pn: 'Y2' }, { k: 'c', n: 3, qty: 1, un: 'pç', desc: 'Tampa', pn: '' }];
+  var it = { ov: { a: { d: 'Contato crimp #20' }, c: { h: true }, b: { o: 0 } }, extra: [{ n: '9', q: '1', d: 'Selo', c: 'Z9' }] }, R = HX.bomRowsEdit(it, B);
+  eq(R.map(function (r) { return r.v[0]; }), [2, 1, '9'], 'b para baixo, c escondida, manual no fim'); eq(R[1].v[2], 'Contato crimp #20'); eq(R[2].v, ['9', '1', 'SELO', 'Z9']);
+});

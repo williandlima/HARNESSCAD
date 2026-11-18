@@ -56,6 +56,7 @@
     var C = HX.physCtx(p, s, o), sh = C.sh, BU = HX.physBundleCtx(p, s, o), geo = {}, any = false; HX._looseConn = {};
     sh.items.forEach(function (sg) { if (sg.type === 'pseg' && HX.physLooseOf(sg, sh)) { var S = segGeo(sg, sh, C, BU); if (S) { geo[sg.id] = S; any = true; } } });
     HX._looseNodes = sh.items.filter(function (i) { return i.type === 'pnode' && HX._looseConn[i.id]; }); if (!any) return; var lw = HX.physWireLW(sh, BU), seen = [];
+    if (HX.physLinesSeg && HX.physLinesSeg(g, geo, offsetPts, trimmed, sh, C)) return; /* padrão da casa: linhas por ramo, centradas */
     Object.keys(geo).forEach(function (id) { geo[id].ws.forEach(function (w) { if (seen.indexOf(w) < 0) seen.push(w); }); });
     if (HX.physLooseSort) seen = HX.physLooseSort(seen, geo); if (HX.physLooseSeen) HX.physLooseSeen(seen, sh, C);
     seen.forEach(function (w) {
