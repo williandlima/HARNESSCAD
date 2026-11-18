@@ -118,7 +118,7 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   QUIET = cmd && cmd[0] == L'/' && (cmd[1] | 32) == L's'; /* /s = silencioso (TI): instala em %USERPROFILE%\\HarnessCAD sem perguntar */
   GetModuleFileNameW(NULL, src, MAX_PATH); s = src + lstrlenW(src); while (s > src && *s != L'\\') s--; *s = 0;
   junta(t, src, L"web\\index.html"); if (!existe(t)) { msg(L"Rode o instalador de dentro da pasta HarnessCAD extraída (junto das pastas web e server).", MB_ICONERROR); return 1; }
-  GetEnvironmentVariableW(L"USERPROFILE", t, MAX_PATH); junta(dst, t, L"HarnessCAD"); mesmo = !lstrcmpiW(src, dst);
+  GetEnvironmentVariableW(L"USERPROFILE", t, MAX_PATH); junta(dst, t, L"HarnessCAD"); if (cmd && wcsstr(cmd, L"/aqui")) lstrcpyW(dst, src); mesmo = !lstrcmpiW(src, dst);
   wsprintfW(t, L"Instalar o HarnessCAD em:\n%s\n\nSim = instalar ali (projetos em \"dados\" são mantidos)\nNão = usar esta pasta mesmo:\n%s", dst, src);
   if (!mesmo && !QUIET) { int r = MessageBoxW(NULL, t, L"Instalar HarnessCAD", MB_YESNOCANCEL | MB_ICONQUESTION); if (r == IDCANCEL) return 0; if (r == IDNO) lstrcpyW(dst, src); }
   if (lstrcmpiW(src, dst) && !copia(src, dst, 0)) { msg(L"Alguns arquivos não foram copiados (programa aberto? sem permissão?). Feche o HarnessCAD e rode de novo.", MB_ICONWARNING); }
@@ -130,9 +130,11 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   (void)hi; (void)hp; (void)cmd; (void)sw; return 0;
 }
 #else
+int hx_atualiza(const WCHAR *root);
 int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   WCHAR *s; GetModuleFileNameW(NULL, ROOT, MAX_PATH); s = ROOT + lstrlenW(ROOT); while (s > ROOT && *s != L'\\') s--; *s = 0;
   if (cmd && cmd[0] == L'/' && (cmd[1] | 32) == L'e') return embute(ROOT, 1) ? 0 : 2; /* HarnessCAD.exe /embutir: só refaz as imagens */
+  if (!(cmd && cmd[0] == L'/' && (cmd[1] | 32) == L'n') && hx_atualiza(ROOT)) return 0; /* atualiza.c */
   abre(ROOT); (void)hi; (void)hp; (void)cmd; (void)sw; return 0;
 }
 #endif

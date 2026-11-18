@@ -106,3 +106,5 @@
   externas e internas e tamanho do texto.
 * **Lista de materiais editável** (botão no painel da tabela): título, largura e ordem das colunas; ordem das linhas,
   linha visível ou escondida, texto de cada célula (vazio = automático), linhas manuais, altura da linha e tamanho do texto.
+
+_Continua em `INTERFACE3.md` (v1.8.7 em diante)._

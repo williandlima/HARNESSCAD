@@ -9,7 +9,7 @@ import zipfile
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, "..", ".."))
 SAIDA = os.path.join(RAIZ, "..", "HarnessCAD.zip")
-PULAR_PASTAS = {"__pycache__", "node_modules"}
+PULAR_PASTAS = {"__pycache__", "node_modules", "atualizacao"}  # atualizacao/ = Setup p/ download (não vai dentro dele)
 PULAR_EXT = (".pyc", ".lib", ".o", ".tmp")
 SAIDAS = {"HarnessCAD.zip", "Setup_HarnessCAD.exe"}  # resultados de empacotamento (caso caiam na raiz)
 

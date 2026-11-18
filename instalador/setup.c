@@ -19,7 +19,7 @@ static int pasta(WCHAR *dst) { // escolher outra pasta (diálogo do Windows)
 }
 int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   WCHAR exe[MAX_PATH], dst[MAX_PATH], out[MAX_PATH * 2], rel[600]; HANDLE f, o; DWORD sz, rd, n, i, start, wr; unsigned char tail[16], *buf; char path[600];
-  int quiet = cmd && cmd[0] == L'/' && (cmd[1] | 32) == L's', ruins = 0, novos = 0, r;
+  int quiet = cmd && cmd[0] == L'/' && (cmd[1] | 32) == L's', aut = cmd && wcsstr(cmd, L"/a ") != NULL, tent, ruins = 0, novos = 0, r;
   GetModuleFileNameW(NULL, exe, MAX_PATH);
   f = CreateFileW(exe, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL); if (f == INVALID_HANDLE_VALUE) { msg(L"Não consegui ler o instalador.", MB_ICONERROR); return 1; }
   sz = GetFileSize(f, NULL); SetFilePointer(f, sz - 16, NULL, FILE_BEGIN); ReadFile(f, tail, 16, &rd, NULL);
@@ -27,6 +27,8 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
   n = *(DWORD *)tail; start = *(DWORD *)(tail + 4);
   CoInitialize(NULL);
   GetEnvironmentVariableW(L"USERPROFILE", dst, MAX_PATH); lstrcatW(dst, L"\\HarnessCAD");
+  if (cmd && wcsstr(cmd, L"/d=")) lstrcpyW(dst, wcsstr(cmd, L"/d=") + 3); /* atualização automática: mesma pasta */
+  if (aut) Sleep(1500); /* espera o HarnessCAD.exe que chamou fechar */
   if (!quiet) {
     wsprintfW(T, L"Instalar o HarnessCAD %s em:\n\n%s\n\nSim = instalar aqui\nNão = escolher outra pasta\n\nProjetos salvos na pasta \"dados\" são mantidos.", HXVER, dst);
     r = msg(T, MB_YESNOCANCEL | MB_ICONQUESTION); if (r == IDCANCEL) return 0; if (r == IDNO && !pasta(dst)) return 0;
@@ -41,16 +43,17 @@ int WINAPI wWinMain(HINSTANCE hi, HINSTANCE hp, PWSTR cmd, int sw) {
     wsprintfW(out, L"%s\\%s", dst, rel); mkdirs(out);
     dados = !wcsncmp(rel, L"dados\\", 6);
     if (dados && existe(out)) continue; /* nunca sobrescreve projetos/biblioteca do usuário */
-    o = CreateFileW(out, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    for (tent = 0; tent < 10; tent++) { o = CreateFileW(out, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL); if (o != INVALID_HANDLE_VALUE) break; Sleep(400); }
     if (o == INVALID_HANDLE_VALUE) { ruins++; continue; } WriteFile(o, buf, fl, &wr, NULL); CloseHandle(o); if (wr != fl) ruins++; else novos++;
   }
   CloseHandle(f);
   { const WCHAR *E[] = { L"dados\\library\\x", L"dados\\projects\\.info\\x", L"dados\\projects\\.bak\\x" }; int j; for (j = 0; j < 3; j++) { wsprintfW(out, L"%s\\%s", dst, E[j]); mkdirs(out); } } /* pastas vazias */
   if (ruins) { wsprintfW(T, L"%d arquivo(s) não foram gravados (HarnessCAD aberto? sem permissão na pasta?).\nFeche o programa e rode o instalador de novo.", ruins); msg(T, MB_ICONWARNING); }
   wsprintfW(out, L"%s\\Instalar_HarnessCAD.exe", dst);
-  if (existe(out)) { SHELLEXECUTEINFOW se; ZeroMemory(&se, sizeof se); se.cbSize = sizeof se; se.fMask = SEE_MASK_NOCLOSEPROCESS; se.lpFile = out; se.lpParameters = L"/s"; se.lpDirectory = dst; se.nShow = SW_HIDE;
+  if (existe(out)) { SHELLEXECUTEINFOW se; ZeroMemory(&se, sizeof se); se.cbSize = sizeof se; se.fMask = SEE_MASK_NOCLOSEPROCESS; se.lpFile = out; se.lpParameters = L"/s /aqui"; se.lpDirectory = dst; se.nShow = SW_HIDE;
     if (ShellExecuteExW(&se) && se.hProcess) { WaitForSingleObject(se.hProcess, 60000); CloseHandle(se.hProcess); } }
   wsprintfW(T, L"HarnessCAD instalado em:\n%s\n\n%d arquivos gravados. Atalhos na Área de Trabalho e no Menu Iniciar.\n\nAbrir agora?", dst, novos);
   if (!quiet && msg(T, MB_YESNO | MB_ICONINFORMATION) == IDYES) { wsprintfW(out, L"%s\\HarnessCAD.exe", dst); ShellExecuteW(NULL, L"open", out, NULL, dst, SW_SHOWNORMAL); }
+  if (aut) { wsprintfW(out, L"%s\\HarnessCAD.exe", dst); ShellExecuteW(NULL, L"open", out, L"/n", dst, SW_SHOWNORMAL); }
   CoUninitialize(); (void)hi; (void)hp; (void)sw; return 0;
 }
