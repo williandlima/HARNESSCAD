@@ -21,3 +21,11 @@
   Cota livre estreita passa a ter setas por fora; texto deslocado para fora ganha a linha de cota até ele.
 * **Balão da etiqueta**: campo *Ponto de conexão na etiqueta* — extremidade oposta (padrão) ou do lado do conector,
   linhas da etiqueta, centro, borda de cima ou de baixo.
+
+## v1.8.9 — cotas da etiqueta editáveis por padrão
+* **Toda etiqueta já nasce com as cotas separadas** (folga, espaguete, margem, etiqueta): são cotas livres presas à
+  etiqueta, cada uma editável clicando nela — texto, **tolerância + / −**, afastamento, posição do texto, tamanho,
+  setas, "TIP.". Valor vazio = medido (acompanha a etiqueta). Projetos antigos são convertidos ao abrir.
+* **Sem conflito entre cotas e tolerâncias**: o texto (já com a tolerância) vai no meio quando cabe; senão antes do
+  início ou depois do fim, desviando dos outros textos e das linhas de chamada. A cota do ramo fica por fora da pilha.
+* Painel da etiqueta: **Refazer cotas (padrão)** apaga as cotas daquela etiqueta e cria de novo.
