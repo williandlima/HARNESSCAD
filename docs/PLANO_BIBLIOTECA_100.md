@@ -36,6 +36,8 @@ Pronto quando: os números desta tabela saem do próprio programa.
 ### Andamento
 * Passo 1 respondido: **lote A = D-Sub, MS34 (MIL-DTL-26482 Série 2) e D38999**; o resto fica no lote B.
 * v1.8.1: MS34 com os 34 arranjos e vistas frontais exatas (catálogo Matrix). Próximo: receptáculos MS3470/3471/3474.
+* v1.8.2: luvas de solda pela tabela TE (M83519/1, /2, /3). Recebidos: PT (26482 Série 1), ITT (5015), TE Interconnect,
+  Micro-D, SolderTacts — índice em `docs/datasheets/RECEBIDOS.md`.
 
 ### Passo 1 — Prioridade (você)
 Você manda: os **15–20 PNs / famílias mais usados** na empresa e as famílias que **nunca** usam.

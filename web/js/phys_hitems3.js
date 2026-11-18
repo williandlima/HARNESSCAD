@@ -32,9 +32,7 @@
       desc: 'H fornecido ' + br(r[1]) + ' / recuperado ' + br(r[2]) + ' · J ' + br(r[3]) + ' · comprimento ' + br(r[4]), src: 'TE Raychem, Molded Parts' }); }); });
   /* ---------- Cordoalhas (malha tubular de cobre estanhado) ---------- */
   [3, 5, 6, 8, 10, 12, 16, 20, 25, 32].forEach(function (d) { add('braid:' + d, { grp: 'braid', use: 'cover', spr: 'cov_braid', un: 'm', n: 'Cordoalha tubular cobre estanhado Ø ' + d + ' mm', pn: '', desc: 'Ø nominal (achatada ≈ ' + br(d * 1.57) + ' mm)' }); });
-  /* ---------- Luvas de solda (blindagem, com fio terra) ---------- */
-  [1, 2, 3, 4, 5, 6, 7, 8].forEach(function (n) { add('ssl:' + n, { grp: 'ssl', use: 'acc', n: 'Luva de solda p/ blindagem c/ fio terra — tamanho ' + n, pn: 'M83519/2-' + n, desc: 'faixa de Ø do cabo: ver M83519/2', src: 'MIL-DTL-83519/2' }); });
-  add('ssl:ramo', { grp: 'ssl', use: 'pacc', kind: 'ssleeve', n: 'Luva de solda no ramo (emenda da blindagem)', pn: '' });
+  /* ---------- Luvas de solda: phys_hitems4.js (tabela TE/Raychem M83519) ---------- */
   /* ---------- Transições (Y moldada, -25) ---------- */
   (HX.RC_TRANS || []).forEach(function (r) { add('trans:' + r[0], { grp: 'trans', use: 'trans', n: 'Transição Y ' + r[0], pn: r[0] + '-25-0', mfr: 'TE Connectivity / Raychem', desc: 'H ' + br(r[1]) + '/' + br(r[2]) + ' · J ' + br(r[3]) + '/' + br(r[4]) + ' · K ' + br(r[5]) + '/' + br(r[6]) + ' (forn./rec.)' }); });
   /* ---------- Capas ---------- */

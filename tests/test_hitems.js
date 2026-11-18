@@ -11,7 +11,7 @@ test('10 alças na ordem pedida, cada uma com vários tamanhos/tipos', function 
   eq(HX.HGRP.map(function (g) { return g[1]; }), ['Adaptadores', 'Botas', 'Cordoalhas', 'Luvas de solda', 'Transições', 'Capas', 'Kits de retenção', 'Espaguetes', 'Amarração', 'Etiquetas']);
   HX.HGRP.forEach(function (g) { ok(HX.hitemsOf([g[0]]).length >= 4, g[1] + ': ' + HX.hitemsOf([g[0]]).length); });
   eq(HX.HITEMS['h:adapt:pre_j:20'].pn, 'M85049/109-20TW11-6'); eq(HX.HITEMS['h:adapt:adp88:21'].pn, 'M85049/88-21W03'); eq(HX.PDS.adp88.H(21), 41.68, 'Ø A da tabela');
-  eq(HX.HITEMS['h:boot:202K142'].pn, '202K142-25-0'); eq(HX.HITEMS['h:tie:pclip:8'].pn, 'MS21919WDG8'); ok(/3,18 \/ recuperado 1,59/.test(HX.HITEMS['h:shr:RNF-100:p:1/8'].desc));
+  eq(HX.HITEMS['h:boot:202K142'].pn, '202K142-25-0'); eq(HX.HITEMS['h:ssl:s02-8'].pn, 'M83519/2-8'); ok(/S02-08-R/.test(HX.HITEMS['h:ssl:s02-8'].n) && /4,3/.test(HX.HITEMS['h:ssl:s02-8'].desc), 'tabela TE p. 52'); eq(HX.hitemsOf(['ssl']).length, 36); eq(HX.HITEMS['h:tie:pclip:8'].pn, 'MS21919WDG8'); ok(/3,18 \/ recuperado 1,59/.test(HX.HITEMS['h:shr:RNF-100:p:1/8'].desc));
 });
 test('aplicar: adaptador/bota no conector (com PN escolhido na lista), cobertura e amarração no ramo, encaixe por família/carcaça', function () {
   var F = folha(), d = F.d, n = F.n;

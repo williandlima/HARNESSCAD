@@ -72,3 +72,8 @@
   (#20, #16, #12 — arranjos mistos como 14-9, 22-41 e 22-95 corretos; contatos e tampões por tamanho na lista).
 * **Vista frontal exata**: carcaça e posição de cada contato tiradas do PDF vetorial do catálogo; contatos pela legenda
   (#20 aberto, #16 cheio, #12 meio cheio) e letras na posição do catálogo; face de soquetes espelhada.
+
+## v1.8.2 — luvas de solda pela tabela TE
+* Alça **Luvas de solda** com a tabela exata do catálogo TE/Raychem (p. 52): 5 tamanhos (Ø máx. da capa / Ø mín. da
+  blindagem) × sem fio terra (M83519/1, S01), com fio terra 20/22/24/26 AWG (M83519/2-1…20, S02) e com tira de malha
+  estanhada ou niquelada (M83519/3, S03). Substitui a lista anterior, que não vinha de datasheet.
