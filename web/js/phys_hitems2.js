@@ -44,6 +44,12 @@
     if (any) Bm.rows.forEach(function (r, j) { r.n = j + 1; });
     return Bm;
   };
+  /* bota 202K escolhida na biblioteca (nó.bootPN): o desenho usa o comprimento e o perfil daquele tamanho */
+  var as0 = HX.physAssembly;
+  HX.physAssembly = function (nd) {
+    var E = as0.apply(this, arguments), m = nd && /^(202K\d{3})/.exec(nd.bootPN || ''); if (!E || !m || !HX.B202 || !HX.B202[m[1]]) return E;
+    E.forEach(function (e) { if (e.id === 'rc_202K') { HX._rc202 = m[1]; e.L = HX.B202[m[1]][0]; } }); return E;
+  };
   /* folha física nova: itens do usuário vinculados ao conector */
   HX.hitemsLinked = function (c) { return Object.keys(HX.HITEMS).filter(function (k) { var it = HX.HITEMS[k]; return it.user && it.fam && HX.hitemFits(it, c) && /bs|boot|acc|hood/.test(it.use); }); };
   var ap0 = HX.applyPhysical;
