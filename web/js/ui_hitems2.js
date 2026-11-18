@@ -8,9 +8,9 @@
   function esc(t) { return HX.esc ? HX.esc(t) : String(t); }
   function opts(L, v) { return L.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (String(o[0]) === String(v || '') ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join(''); }
   function pds(kind, none) { return [['', none]].concat(Object.keys(HX.PDS).filter(function (k) { return HX.PDS[k].kind === kind; }).map(function (k) { return [k, HX.PDS[k].n]; })); }
-  function accOpts() {
-    return Object.keys(HX.HITEM_CATS).filter(function (c) { return /conn|shield|wire|cons/.test(c); }).map(function (c) {
-      return '<optgroup label="' + esc(HX.HITEM_CATS[c]) + '">' + HX.hitemsOf([c]).filter(function (k) { return !HX.HITEMS[k].node; }).map(function (k) { return '<option value="' + esc(k) + '">' + esc(HX.hitemLabel(HX.HITEMS[k])) + '</option>'; }).join('') + '</optgroup>'; }).join('');
+  function accOpts(c) {
+    return HX.HGRP.map(function (g) { var K = HX.hitemsOf([g[0]]).filter(function (k) { var it = HX.HITEMS[k]; return /bs|boot|acc|hood|tag/.test(it.use) && HX.hitemFits(it, c); });
+      return K.length ? '<optgroup label="' + esc(g[1]) + '">' + K.map(function (k) { return '<option value="' + esc(k) + '">' + esc(HX.HITEMS[k].n + (HX.HITEMS[k].pn ? ' · ' + HX.HITEMS[k].pn : '')) + '</option>'; }).join('') + '</optgroup>' : ''; }).join('');
   }
   /* ---------- painel do nó do conector ---------- */
   var ex0 = UI.propsExtra, bd0 = UI.propsBind;
@@ -24,15 +24,15 @@
       var x = HX.HITEMS[a.k] || { n: a.k + ' (fora da biblioteca)', un: 'pç' };
       return '<tr><td>' + esc(HX.hitemLabel(x)) + '</td><td><input data-ai="' + i + '" data-af="q" style="width:52px" title="Quantidade' + (x.per === 'pin' ? ' (× contatos ligados)' : '') + '" value="' + esc(a.q === '' ? 1 : a.q) + '"></td>' +
         '<td><input data-ai="' + i + '" data-af="pn" style="width:90px" placeholder="' + esc(x.pn || 'PN') + '" value="' + esc(a.pn || '') + '"></td><td><button data-ad="' + i + '" title="Remover">×</button></td></tr>'; }).join('') + '</table>' +
-      '<div class="row"><select id="haAdd" style="flex:1">' + accOpts() + '</select><button id="haAddB">Adicionar</button></div><div class="row"><button id="haNew" style="flex:1">Novo item na biblioteca…</button></div>';
+      '<div class="row"><select id="haAdd" style="flex:1">' + accOpts(c) + '</select><button id="haAddB">Aplicar</button></div><div class="row"><button id="haNew" style="flex:1">Biblioteca de itens (alças)…</button></div>';
     return h;
   };
   UI.propsBind = function (it, app, root, set) {
     bd0(it, app, root, set); if (it.type !== 'pnode' || it.nkind !== 'conn' || !root.querySelector('#haAdd')) return;
     var doc = app.doc, ch = function (t, f) { doc.change(t, function () { it.acc = (it.acc || []).slice(); f(); }); };
-    root.querySelector('#haAddB').onclick = function () { var k = root.querySelector('#haAdd').value; if (k) ch('Acessório do conector', function () { it.acc.push({ k: k, q: 1, pn: '' }); }); };
-    root.querySelector('#haNew').onclick = function () { var c = HX.physSchem(doc.p)[it.of], df = c && HX.CAT.conns[c.part];
-      UI.hitemForm(app, { cat: 'conn', fam: df && df.fam, shell: c && HX.shellOf ? HX.shellOf(c) : '' }, function (k) { if (HX.HITEMS[k] && !/cov|point/.test(HX.HITEMS[k].cat)) ch('Acessório do conector', function () { it.acc.push({ k: k, q: 1, pn: '' }); }); }); };
+    root.querySelector('#haAddB').onclick = function () { var k = root.querySelector('#haAdd').value, msg; if (!k) return;
+      doc.change('Aplicar item da biblioteca', function () { msg = HX.hitemApply(doc, k, it); }); if (msg) UI.toast(msg, true); };
+    root.querySelector('#haNew').onclick = function () { UI.hitemsDialog(app, 'adapt'); };
     [].forEach.call(root.querySelectorAll('[data-ai]'), function (inp) { inp.onchange = function () { var i = +inp.dataset.ai, f = inp.dataset.af, v = inp.value.trim();
       ch('Acessório do conector', function () { it.acc[i] = Object.assign({}, it.acc[i]); it.acc[i][f] = f === 'q' ? (v === '' ? 1 : +v || 0) : v; }); }; });
     [].forEach.call(root.querySelectorAll('[data-ad]'), function (b) { b.onclick = function () { var i = +b.dataset.ad; ch('Remover acessório', function () { it.acc.splice(i, 1); }); }; });

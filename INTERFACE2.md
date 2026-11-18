@@ -56,3 +56,13 @@
   cinta, fio dreno, anilha, espaguete na solda, ponteira, adesivo, fita, selante; coberturas novas (malha PET, fita, tubo,
   luva anti-abrasão); itens de ramo novos (abraçadeira com base, barbante de amarração, base adesiva).
 * Trava: no físico não se apaga conector nem emenda (vêm do esquemático). Detalhes: `docs/CUSTOMIZACAO_CABLAGEM.md`.
+
+## v1.8.0 — biblioteca em alças
+* **Biblioteca de itens** organizada em alças (abas): **Adaptadores, Botas, Cordoalhas, Luvas de solda, Transições,
+  Capas, Kits de retenção, Espaguetes, Amarração, Etiquetas** — cada uma com vários tamanhos e tipos (tabelas Amphenol
+  M85049, TE/Raychem 202K/222K/382A, RNF-100/DR-25, MS21919, M83519/2…). Lista completa: `docs/CUSTOMIZACAO_CABLAGEM.md`.
+* **Aplicar** põe o item no que está selecionado (conector, ramo, nó de derivação, etiqueta); "só o que serve no
+  conector selecionado" filtra por família/carcaça; o PN escolhido (ex.: adaptador M85049/88-21W03, bota 202K163-25-0)
+  vai para a lista de materiais.
+* **Novo item nesta alça…** cadastra o que falta (PN, fabricante, características, aplicação, desenho, vínculo).
+* Adaptadores Amphenol além do Pre-Shield entram com o tamanho real da tabela e traço "aguardando datasheet".

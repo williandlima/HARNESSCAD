@@ -41,8 +41,9 @@ Responda sempre em **português**.
   no cabeçalho) + `vetorizar_js.py`.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
-- Customização da cablagem: `phys_hitems.js` (biblioteca `HX.HITEMS`, categorias, itens do usuário 'USR:ITEM'),
-  `phys_hitems2.js` (acessórios do nó `acc`, lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janelas).
+- Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
+  `phys_hitems3.js` (catálogo por alça, tamanhos dos datasheets), `phys_hitems2.js` (aplicar, `acc`, PN do adaptador/bota,
+  lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janela com alças, painel do conector, tabela).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
 - Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` (novidades por versão; novas seções no 2), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 
