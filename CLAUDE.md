@@ -70,6 +70,7 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 `C:\Users\willi\Desktop\GERAL`.
 
 ## Pendências conhecidas (aguardando dados do usuário)
+- **Roteiro da biblioteca 100%**: `docs/PLANO_BIBLIOTECA_100.md` (passos 0–10, critério de pronto por tipo de item).
 - Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
