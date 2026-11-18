@@ -5,7 +5,7 @@ function G(log) { var g = {}, st = {}; ['rect', 'push', 'pop', 'text'].forEach(f
   g.style = function (s) { for (var k in s) st[k] = s[k]; }; g.line = function () { log.push(['line', st.lw]); }; g.poly = function (P, c) { log.push(['poly', P.length, c, st.fill]); }; g.circle = function () { log.push(['circle']); }; return g; }
 test('MS3476/MS26482 usam o desenho MS em traço (plugue/flange/porca) e a carcaça do arranjo', function () {
   var d = new HX.Doc(), c = HX.makeConn(d, 'MS3476:20-41', 0, 0), ST = HX.physVecST; HX.physVecST = function () { return { vec: true, col: '#000', line: true }; };
-  try { eq(HX.physDSFor({}, c), 'ms3476'); c.variant = '70'; eq(HX.physDSFor({}, c), 'ms_rf'); c.variant = '74'; eq(HX.physDSFor({}, c), 'ms_r'); } finally { HX.physVecST = ST; }
+  try { eq(HX.physDSFor({}, c), 'ms3476'); c.variant = '70'; eq(HX.physDSFor({}, c), 'ms3470'); c.variant = '74'; eq(HX.physDSFor({}, c), 'ms3474'); c.variant = '71'; eq(HX.physDSFor({}, c), 'ms3471'); } finally { HX.physVecST = ST; }
   eq(HX.shellOf(c), 20);
 });
 L.antigo('desenhos da prancha: porca recartilhada em diamante, adaptador com estrias, bota que afunila em curva', function () {

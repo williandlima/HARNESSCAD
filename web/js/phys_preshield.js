@@ -50,7 +50,7 @@
   /* montagem: entrada do nó; bota com o lábio na ranhura do corpo, cobrindo a cordoalha */
   /* início da rosca de acessório (fração do comprimento do conector, medida nas figuras oficiais): a porca do adaptador
      rosqueia a partir daí e cobre rosca e gromete */
-  var OVC = { ms3476: 23.0 / 36.07, d38_26: 22.85 / 31.9, d38_24: 24.5 / 32.5, d38_20: 22.8 / 31.5, tv01: 22.8 / 31.5 };
+  var OVC = HX.PRE_OVC = { ms3476: 23.0 / 36.07, d38_26: 22.85 / 31.9, d38_24: 24.5 / 32.5, d38_20: 22.8 / 31.5, tv01: 22.8 / 31.5 };
   var as0 = HX.physAssembly;
   HX.physAssembly = function (nd, c, line) {
     var E = as0.apply(this, arguments); if (!E) return E; HX._preEnt = nd && nd.preEntry;

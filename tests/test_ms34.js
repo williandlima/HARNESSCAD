@@ -16,3 +16,12 @@ test('MS3476: vista frontal pelo catálogo (letras e contatos), soquete espelhad
   ok(C.filter(function (q) { return q[1] > 2; }).length === 4, '4 contatos #12 maiores'); eq(b.geom.shell, '14');
   var xA = T.filter(function (t) { return t[0] === 'A'; })[0][1]; T = []; C = []; c.gender = 'S'; HX.physLineFace(g, c, 0, 0, 30, '#000', true, 1); eq(T.filter(function (t) { return t[0] === 'A'; })[0][1], -xA, 'soquete = espelho');
 });
+test('receptáculos MS3470/3471/3474 pelo traço Amphenol: tamanho da tabela por carcaça, flange com espessura F', function () {
+  eq(HX.PDS.ms3470.H(8), 21.03, 'A .828'); eq(HX.PDS.ms3474.H(24), 52.78, 'A 2.078'); eq(HX.PDS.ms3471.L(20), 37.21, '1,465'); eq(HX.PDS.ms3470.L(16), 35.69, '1,405');
+  ok(HX.DS_OK.pecas.ms3470 && HX.DS_OK.pecas.ms3471 && HX.DS_OK.pecas.ms3474);
+  ['ms3470', 'ms3471', 'ms3474'].forEach(function (id) { [8, 16, 24].forEach(function (s) {
+    var X = [], Y = [], g = { style: function () {}, push: function () {}, pop: function () {}, text: function (t) { ok(t !== 'AGUARDANDO'); }, line: function () {}, circle: function () {}, rect: function () {},
+      poly: function (P) { P.forEach(function (q) { X.push(q[0]); Y.push(q[1]); }); } }, W = HX.PDS[id].L(s), H = HX.PDS[id].H(s);
+    HX.PHYS_VEC[id](g, 0, 0, W, H); ok(Math.abs(Math.max.apply(0, X) - Math.min.apply(0, X) - W) < 0.6, id + ' ' + s + ' comprimento');
+    ok(Math.abs(Math.max.apply(0, Y) - Math.min.apply(0, Y) - H) < H * 0.04, id + ' ' + s + ' altura ' + (Math.max.apply(0, Y) - Math.min.apply(0, Y)) + ' / ' + H); }); });
+});
