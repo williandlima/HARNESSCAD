@@ -22,7 +22,7 @@ Responda sempre em **português**.
    fios (tipo, bitola, cor), emendas, equipamentos — tudo o que é pertinente ao esquema.
 2. **Cablagem física = fase de CUSTOMIZAÇÃO**: periféricos e itens implementados na cablagem — adaptador, bota,
    backshell, cordoalha, luva de solda, barbante, etiquetas/espaguete, coberturas, transições, cotas, vistas, lista.
-   Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
+   **Comprimentos (fios, cabos, ramos) só no físico.** Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
    ao nó físico ao gerar).
 
 ## Estrutura

@@ -27,3 +27,12 @@
    solda, barbante, etiquetas, coberturas, transições, cotas, vistas, lista de materiais).
 * O campo "Backshell" saiu das propriedades do conector no esquema (periférico é da fase física). Em projetos antigos
   ele ainda aparece como "Backshell (antigo)" se tiver valor, e é levado ao nó do conector ao gerar a folha física.
+
+## v1.7.7 — comprimento é definido no físico
+* O comprimento dos fios e dos cabos vem só do **desenho físico**: caminho pelos ramos (cotas) + folga das pontas
+  + comprimento extra dos itens no ramo; lista de materiais com a % de perda.
+* Saíram do esquema: o campo "Compr. (mm)" do fio e do cabo/blindagem, e a edição do comprimento na lista de fios e
+  na tabela de cotas (agora só leitura, "Compr. mm (físico)").
+* Cabo na lista de materiais = o maior fio dele pelo físico.
+* Projetos antigos: um comprimento digitado no esquema ainda vale e aparece como "Compr. manual (antigo)"; apague
+  para usar o físico.
