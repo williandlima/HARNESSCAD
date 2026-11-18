@@ -39,6 +39,8 @@ Responda sempre em **português**.
 - Vistas frontais oficiais vetorizadas: `vimg_f<arranjo>N.js`, carregadas por `vimg_faces.js` (lista única; o
   `index.html` tem só o carregador e `tests/lib.js` lista os arquivos). Regerar: `ferramentas/vetorizar.py` (opções
   no cabeçalho) + `vetorizar_js.py`.
+- Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
+  (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
 - Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` (novidades por versão; novas seções no 2), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 

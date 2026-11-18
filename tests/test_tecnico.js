@@ -51,3 +51,17 @@ test('fases: comprimento do fio e do cabo vem do desenho físico (sem campo no e
   var B = HX.buildBOM(d.p), w = B.filter(function (x) { return x.cat === '5-Fio'; })[0], c = B.filter(function (x) { return x.cat === '6-Cabo'; })[0];
   ok(w && w.qty >= 0.7, 'fio pelo físico: ' + (w && w.qty)); ok(c && c.qty >= 0.7, 'cabo pelo físico: ' + (c && c.qty));
 });
+test('peça do usuário (bota fora do catálogo): PN, fabricante, características e vínculo à família/carcaça', function () {
+  HX.PDS.u_bota1 = { n: 'Bota reta especial', src: 'recorte do usuário', l: 'u_bota1', L: function () { return 60; }, H: function () { return 40; }, kind: 'boot', ov: 0.25, e1: [1, 0.5], e0: [0, 0.5] };
+  var x = HX.userPartExtra({ pn: 'XYZ-123<b>', mfr: 'ACME', desc: 'Viton, -55 a 200 °C', fam: 'D38999', shell: '21' }); eq(x.pn, 'XYZ-123 b'); eq(x.shell, 21);
+  HX.userPartLink('bota1', x); eq(HX.PDS.u_bota1.pnOf(), 'XYZ-123 b'); ok(/ACME/.test(HX.PDS.u_bota1.n));
+  try {
+    var d = new HX.Doc(), P = d.add(HX.makeConn(d, 'D38999:21-39', 40, 30)), J = d.add(HX.makeConn(d, 'D38999:21-39', 200, 30)); J.mx = true;
+    var LP = HX.connLayout(P, 2.5).pins, LJ = HX.connLayout(J, 2.5).pins; d.change('w', function () { HX.ops.addWire(d, [LP[0].pt, LJ[0].pt]); });
+    eq(HX.userPartsFor(P, 'boot'), ['u_bota1']);
+    var r; d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line' }); }); var sh = d.p.sheets[r.index];
+    var N = sh.items.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn'; }); eq(N[0].bootKind, 'u_bota1', 'bota vinculada aplicada');
+    var B = HX.physBom(d.p, sh).rows; ok(B.some(function (q) { return q.pn === 'XYZ-123 b' && q.qty === 2; }), 'PN na lista');
+    ok(!(r.warn || []).some(function (w) { return /Aguardando/.test(w) && /Bota/.test(w); }), 'figura do usuário conta como datasheet');
+  } finally { delete HX.PDS.u_bota1; delete HX.USER_PARTS.bota1; }
+});

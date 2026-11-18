@@ -70,7 +70,7 @@
   HX.physPendentes = function (p, sh) {
     var S = HX.physSchem(p), out = {};
     sh.items.forEach(function (i) { var c = i.type === 'pnode' && i.nkind === 'conn' && S[i.of]; if (!c) return; var E = i._asm && i._asm.length ? i._asm : null; if (!E) try { E = HX.physAssembly(i, c, true); } catch (e) { E = null; }
-      if (E && E.length) E.forEach(function (e) { if (!OKV[e.id]) out[(HX.PDS[e.id] || {}).n || e.id] = 1; });
+      if (E && E.length) E.forEach(function (e) { if (!OKV[e.id] && !/^u_/.test(e.id)) out[(HX.PDS[e.id] || {}).n || e.id] = 1; });
       else if (!OKF.test(fam(c))) out[fam(c) + ' (' + c.part + ')'] = 1; });
     return Object.keys(out);
   };

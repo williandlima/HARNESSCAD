@@ -36,3 +36,12 @@
 * Cabo na lista de materiais = o maior fio dele pelo físico.
 * Projetos antigos: um comprimento digitado no esquema ainda vale e aparece como "Compr. manual (antigo)"; apague
   para usar o físico.
+
+## v1.7.8 — peça fora do catálogo (bota, backshell, adaptador…)
+* Desenho físico › painel da folha › **Recortar imagem de datasheet…**: cole o print do datasheet, recorte, informe
+  tipo (bota, backshell/alívio…), tamanho real e agora também **Part number, Fabricante, Características** e
+  **Vincular à família** (+ carcaça; vazio = todas). Com um conector selecionado, família e carcaça já vêm preenchidas.
+* Salva na biblioteca compartilhada do servidor. A peça aparece nas opções do nó do conector, sai na lista de materiais
+  com o PN, fabricante e características, e numa **folha física nova** os conectores da família/carcaça vinculada já a
+  recebem (troque no nó se quiser outra).
+* A figura recortada é o datasheet do usuário: conta como desenho oficial (não "aguardando").

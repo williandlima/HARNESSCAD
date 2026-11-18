@@ -55,7 +55,7 @@
       var o = out(); if (!o) return UI.toast('Cole ou abra uma imagem.', true), false;
       var nm = UI.$('#diNm', el).value.trim() || 'Item', id = nm.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').slice(0, 30) + '-' + Date.now().toString(36).slice(-4), key = 'USR:DSI:' + id;
       var e = { key: key, img: { data: o.toDataURL('image/png'), w: o.width, h: o.height, name: nm, cat: UI.$('#diCat', el).value, L: +UI.$('#diL', el).value || 30, H: +UI.$('#diH', el).value || 0, ey: (+UI.$('#diEy', el).value || 50) / 100, src: UI.$('#diSrc', el).value } };
-      var lib = {}; lib[key] = e; var U = HX.sanitizeDSImgs(lib); if (!U[id]) return UI.toast('Imagem grande demais ou inválida (máx. ~300 KB).', true), false;
+      if (UI.dsExtra) Object.assign(e.img, UI.dsExtra(el)); var lib = {}; lib[key] = e; var U = HX.sanitizeDSImgs(lib); if (!U[id]) return UI.toast('Imagem grande demais ou inválida (máx. ~300 KB).', true), false;
       HX.dsUserRegister(U); HX.io.saveLibEntry(e).catch(function (er) { UI.toast('Biblioteca compartilhada: ' + er.message, true); });
       UI.toast('"' + nm + '" salvo: paleta "Datasheet (real)"' + (U[id].cat === 'conn' ? ' e na Imagem do nó do conector.' : U[id].cat === 'item' ? '.' : ' e na montagem do conector.')); app.view.redraw(); app.doc.emit('select');
     }
