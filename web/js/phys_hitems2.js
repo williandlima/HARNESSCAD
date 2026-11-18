@@ -20,7 +20,7 @@
     if (conn && !HX.hitemFits(it, c)) return 'Este item não serve neste conector (família/carcaça).';
     if (conn && (u === 'bs' || u === 'boot')) { if (u === 'bs') { t.bsKind = it.pds; t.bsPN = it.pn; } else { t.bootKind = it.pds; t.bootPN = it.pn; } return ''; }
     if (conn && u === 'hood') { t.dsHood = 'hood'; t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); return ''; }
-    if (conn && (u === 'acc' || u === 'tag')) { t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); return ''; }
+    if (conn && (u === 'acc' || u === 'tag')) { t.acc = (t.acc || []).concat([{ k: k, q: 1, pn: '' }]); if (it.lock) t.dsLock = it.lock; return ''; } /* kit KF: fixação V (espaçador sextavado 4-40) no desenho do D-Sub */
     if (t.type === 'pseg' && u === 'cover') { t.cover = it.spr; t.coverTxt = it.pn || it.n; return ''; }
     if (t.type === 'pseg' && u === 'pacc') { var si = doc.p.sheets.findIndex(function (q) { return q.items.indexOf(t) >= 0; }); if (si >= 0) doc.sheet = si; var a = HX.physAddAcc(doc, t, it.kind); a.pn = it.pn; a.text = it.n; return ''; }
     if (t.type === 'pnode' && t.nkind === 'brk' && u === 'trans') { t.trans = 'auto'; t.transPN = it.pn; return ''; }
@@ -43,6 +43,12 @@
     });
     if (any) Bm.rows.forEach(function (r, j) { r.n = j + 1; });
     return Bm;
+  };
+  /* bota 202K escolhida na biblioteca (nó.bootPN): o desenho usa o comprimento e o perfil daquele tamanho */
+  var as0 = HX.physAssembly;
+  HX.physAssembly = function (nd) {
+    var E = as0.apply(this, arguments), m = nd && /^(202K\d{3})/.exec(nd.bootPN || ''); if (!E || !m || !HX.B202 || !HX.B202[m[1]]) return E;
+    E.forEach(function (e) { if (e.id === 'rc_202K') { HX._rc202 = m[1]; e.L = HX.B202[m[1]][0]; } }); return E;
   };
   /* folha física nova: itens do usuário vinculados ao conector */
   HX.hitemsLinked = function (c) { return Object.keys(HX.HITEMS).filter(function (k) { var it = HX.HITEMS[k]; return it.user && it.fam && HX.hitemFits(it, c) && /bs|boot|acc|hood/.test(it.use); }); };

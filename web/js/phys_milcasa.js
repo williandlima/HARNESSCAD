@@ -48,18 +48,23 @@
     box(g, x + q, c - H * 0.48, W - q, H * 0.96);
   };
   /* bota Raychem 202K: cilindro + concordância em curva até o pescoço (Ø J) */
+  /* bota Raychem 202K: perfil da tabela TE (cat. 1654025 p. 4-61) — corpo R, transição até P−Y, pescoço Y levemente
+     cônico, paredes HW/JW, 2 lábios (121–153) ou 3 (163–185) na zona U; [P, R, U, HW, JW, Y, J recuperado] */
+  var B202 = { '202K121': [38, 21, 12, 1.6, 0.41, 13, 5.6], '202K132': [55, 32, 12, 1.8, 0.81, 18, 5.9], '202K142': [67, 35, 20, 1.8, 0.81, 25, 7.1], '202K153': [80, 42, 20, 2.0, 0.81, 30, 8.4],
+    '202K163': [99, 61, 20, 2.2, 0.81, 30, 9.9], '202K174': [130, 72, 20, 3.3, 1.02, 50, 15.7], '202K185': [170, 90, 20, 3.8, 1.63, 70, 16.8] };
+  HX.B202 = B202;
   V.rc_202K = function (g, x, y, W, H) {
-    var c = y + H / 2, sh = S(), nd = HX._milBootJ || 0.3, hn = H * nd / 2, xb = x + W * 0.62, xn = x + W * 0.9, P = [[x, c - H / 2], [xb, c - H / 2]], k;
-    for (k = 1; k <= 12; k++) { var t = k / 12, e = 1 - Math.pow(1 - t, 2.2); P.push([xb + (xn - xb) * t, c - H / 2 + (H / 2 - hn) * e]); }
-    P.push([x + W, c - hn]); var Q = P.map(function (q) { return [q[0], 2 * c - q[1]]; }).reverse();
+    var b = B202[HX._rc202 || '202K142'], sh = S(), c = y + H / 2, k = W / b[0], xr = x + b[1] * k, xn = x + (b[0] - b[5]) * k, hn = Math.min(H / 2 * 0.9, (b[6] + 2 * b[4]) * k / 2), he = hn * 0.92, P = [[x, c - H / 2], [xr, c - H / 2]], i;
+    for (i = 1; i <= 10; i++) { var t = i / 10, e = t * t * (3 - 2 * t); P.push([xr + (xn - xr) * t, c - H / 2 + (H / 2 - hn) * e]); } /* transição tangente */
+    P.push([x + W, c - he]); var Q = P.map(function (q) { return [q[0], 2 * c - q[1]]; }).reverse();
     g.style({ stroke: sh.col, lw: 0.22, fill: sh.line ? '#fff' : (sh.boot || '#2f2f2f'), dash: null }); g.poly(P.concat(Q), true); g.style({ fill: null });
-    ln(g, x + W * 0.04, c - H / 2, x + W * 0.04, c + H / 2, 0.08); /* lábio sobre o adaptador */
+    var nl = /16[3-9]|17|18/.test(HX._rc202 || '') ? 3 : 2; for (i = 1; i <= nl; i++) ln(g, x + b[2] * k * i / nl, c - H / 2, x + b[2] * k * i / nl, c + H / 2, 0.08); /* lábios */
   };
   /* Ø do pescoço da bota pela tabela Raychem (J recuperado / Ø do corpo) */
   var as0 = HX.physAssembly;
   HX.physAssembly = function (nd, c, line) {
     var E = as0.apply(this, arguments); if (!E) return E;
-    E.forEach(function (e) { if (e.id === 'rc_202K') { var sh = HX.shellOf(c), r = HX.rcBootFor('202K', HX.msAdOD(sh)); HX._milBootJ = Math.max(0.22, Math.min(0.6, (r[3] * 2.2) / (HX.msAdOD(sh) + 2))); } });
+    E.forEach(function (e) { if (e.id === 'rc_202K') { var sh = HX.shellOf(c), r = HX.rcBootFor('202K', HX.msAdOD(sh)); HX._milBootJ = Math.max(0.22, Math.min(0.6, (r[3] * 2.2) / (HX.msAdOD(sh) + 2))); HX._rc202 = r[0]; } });
     return E;
   };
   /* folha nova da casa: conectores MIL recebem adaptador de cordoalha + bota (o usuário pode trocar no nó) */
