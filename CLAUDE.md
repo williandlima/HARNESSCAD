@@ -17,6 +17,14 @@ Responda sempre em **português**.
 - Desenho novo tirado de datasheet: registrar em `HX.DS_OK` (`phys_tecnico.js`: `OKV` peças, `OKF` famílias).
   Os desenhos típicos antigos ficam em `HX.PHYS_VEC_TIPICO` (só os testes `[modo antigo]` os usam).
 
+## Regras de funcionamento (fluxo de trabalho do usuário, permanente)
+1. **Esquema elétrico = fase de DEFINIÇÃO do projeto**: conectores (família, arranjo, gênero, variante), contatos,
+   fios (tipo, bitola, cor), emendas, equipamentos — tudo o que é pertinente ao esquema.
+2. **Cablagem física = fase de CUSTOMIZAÇÃO**: periféricos e itens implementados na cablagem — adaptador, bota,
+   backshell, cordoalha, luva de solda, barbante, etiquetas/espaguete, coberturas, transições, cotas, vistas, lista.
+   **Comprimentos (fios, cabos, ramos) só no físico.** Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
+   ao nó físico ao gerar).
+
 ## Estrutura
 - `web/index.html` carrega os scripts **em ordem**; `tests/lib.js` tem a lista `FILES` na mesma ordem — todo arquivo
   novo de `web/js` entra nos dois lugares.
@@ -31,6 +39,11 @@ Responda sempre em **português**.
 - Vistas frontais oficiais vetorizadas: `vimg_f<arranjo>N.js`, carregadas por `vimg_faces.js` (lista única; o
   `index.html` tem só o carregador e `tests/lib.js` lista os arquivos). Regerar: `ferramentas/vetorizar.py` (opções
   no cabeçalho) + `vetorizar_js.py`.
+- Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
+  (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
+- Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
+  `phys_hitems3.js` (catálogo por alça, tamanhos dos datasheets), `phys_hitems2.js` (aplicar, `acc`, PN do adaptador/bota,
+  lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janela com alças, painel do conector, tabela).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
 - Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` (novidades por versão; novas seções no 2), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 

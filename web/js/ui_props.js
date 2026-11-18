@@ -37,15 +37,15 @@
           if (f.variants) F.push({ k: 'variant', l: 'Variante', type: 'select', opts: f.variants.map(function (v) { return [v.v, v.d]; }) });
           (f.opts || []).forEach(function (o) { F.push({ k: o.k, l: o.l, type: 'select', opts: o.opts }); });
           return F.concat([{ k: 'gender', l: 'Gênero', type: 'select', opts: [['S', 'Soquete (fêmea)'], ['P', 'Pino (macho)']] },
-            { k: 'pnOverride', l: 'PN manual', tip: 'Substitui o PN gerado' }, { k: 'backshell', l: 'Backshell' },
+            { k: 'pnOverride', l: 'PN manual', tip: 'Substitui o PN gerado' }].concat(it.backshell ? [{ k: 'backshell', l: 'Backshell (antigo)', tip: 'Periférico: defina na cablagem física (nó do conector). Vai para a folha física ao gerar' }] : []).concat([
             { k: 'side', l: 'Lado pinos', type: 'select', opts: [['R', 'Direita'], ['L', 'Esquerda'], ['B', 'Ambos (passante)']], geo: true },
-            { k: 'wu', l: 'Largura (un)', type: 'number', geo: true }, { k: 'locked', l: 'Bloqueado', type: 'check' }, { k: 'note', l: 'Observação' }]);
+            { k: 'wu', l: 'Largura (un)', type: 'number', geo: true }, { k: 'locked', l: 'Bloqueado', type: 'check' }, { k: 'note', l: 'Observação' }]));
         }
         case 'wire': {
           var t = HX.wireType(it.wtype) || { gauges: [it.gauge] };
           return [{ k: 'num', l: 'Número' }, { k: 'name', l: 'Nome do fio', tip: 'Opcional. Ex.: CAN-H, +28V' }, { k: 'wtype', l: 'Tipo', type: 'select', opts: Object.keys(HX.CAT.wires) },
             { k: 'gauge', l: 'Bitola', type: 'select', opts: t.gauges }, { k: 'color', l: 'Cor', type: 'select', opts: colorOpts(it.color) },
-            { k: 'len', l: 'Compr. (mm)', type: 'number', tip: 'Comprimento real de corte' }, { k: 'pnOverride', l: 'PN manual' }, { k: 'note', l: 'Observação' }].concat(HX.WIRE_MFG_FIELDS || [], HX.WIRE_LBL_FIELDS);
+            { k: 'pnOverride', l: 'PN manual' }, { k: 'note', l: 'Observação' }].concat(+it.len > 0 ? [{ k: 'len', l: 'Compr. manual (antigo)', type: 'number', tip: 'O comprimento vem do desenho físico; apague para usá-lo' }] : [], HX.WIRE_MFG_FIELDS || [], HX.WIRE_LBL_FIELDS);
         }
         case 'splice': return [{ k: 'ref', l: 'Referência' }, { k: 'kind', l: 'Tipo', type: 'select', opts: Object.keys(HX.CAT.splices).map(function (k) { return [k, HX.CAT.splices[k].d]; }) },
           { k: 'part', l: 'Part number', list: 'splParts' }, { k: 'note', l: 'Observação' }];
@@ -60,8 +60,7 @@
           { k: 'text', l: 'Texto (opcional)', tip: 'Substitui o valor' }, { k: 'showCount', l: 'Mostrar nº de fios', type: 'check' }];
         case 'brk': return [{ k: 'ref', l: 'Referência' }];
         case 'face': return [{ k: 'd', l: 'Largura da imagem (mm)', type: 'number', step: 1 }, { k: 'table', l: 'Tabela de pinagem', type: 'check' }];
-        case 'cable': return [{ k: 'ref', l: 'Referência' }, { k: 'part', l: 'Part number' }, { k: 'desc', l: 'Descrição' }, { k: 'shield', l: 'Blindado', type: 'check' },
-          { k: 'len', l: 'Compr. (mm)', type: 'number' }];
+        case 'cable': return [{ k: 'ref', l: 'Referência' }, { k: 'part', l: 'Part number' }, { k: 'desc', l: 'Descrição' }, { k: 'shield', l: 'Blindado', type: 'check' }].concat(+it.len > 0 ? [{ k: 'len', l: 'Compr. (antigo)', type: 'number' }] : []);
       }
       return HX.ITEM_EXT && HX.ITEM_EXT[it.type] && HX.ITEM_EXT[it.type].fields ? HX.ITEM_EXT[it.type].fields(it, doc) : [];
     }

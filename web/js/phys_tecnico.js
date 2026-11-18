@@ -70,7 +70,7 @@
   HX.physPendentes = function (p, sh) {
     var S = HX.physSchem(p), out = {};
     sh.items.forEach(function (i) { var c = i.type === 'pnode' && i.nkind === 'conn' && S[i.of]; if (!c) return; var E = i._asm && i._asm.length ? i._asm : null; if (!E) try { E = HX.physAssembly(i, c, true); } catch (e) { E = null; }
-      if (E && E.length) E.forEach(function (e) { if (!OKV[e.id]) out[(HX.PDS[e.id] || {}).n || e.id] = 1; });
+      if (E && E.length) E.forEach(function (e) { if (!OKV[e.id] && !/^u_/.test(e.id)) out[(HX.PDS[e.id] || {}).n || e.id] = 1; });
       else if (!OKF.test(fam(c))) out[fam(c) + ' (' + c.part + ')'] = 1; });
     return Object.keys(out);
   };
@@ -82,6 +82,7 @@
   var ap0 = HX.applyPhysical;
   HX.applyPhysical = function (doc) {
     var r = ap0.apply(this, arguments), sh = r && r.index != null && doc.p.sheets[r.index]; if (!sh || HX.SO_TECNICO === false) return r;
+    var S = HX.physSchem(doc.p); sh.items.forEach(function (n) { var c = n.type === 'pnode' && n.nkind === 'conn' && S[n.of]; if (c && c.backshell && !n.backshell) n.backshell = c.backshell; }); /* periférico antigo do esquema passa para a fase física */
     var L = HX.physPendentes(doc.p, sh); if (L.length) { r.warn = r.warn || []; r.warn.push('Aguardando datasheet (desenho em contorno tracejado até chegar): ' + L.join('; ')); }
     return r;
   };

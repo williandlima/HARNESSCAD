@@ -39,11 +39,11 @@
     }
     var COLS = {
       wl: [['num', 'Fio', 1], ['name', 'Nome', 1], ['twist', 'Par', 1], ['from', 'De'], ['stripA', 'Decap. De (mm)'], ['to', 'Para'], ['stripB', 'Decap. Para (mm)'], ['signal', 'Circuito'], ['pn', 'Part number'], ['gauge', 'Bitola'], ['color', 'Cor'],
-        ['len', 'Compr. mm', 1], ['cable', 'Cabo'], ['sheetName', 'Folha'], ['note', 'Obs.', 1]],
+        ['len', 'Compr. mm (físico)'], ['cable', 'Cabo'], ['sheetName', 'Folha'], ['note', 'Obs.', 1]],
       bom: [['cat', 'Categoria'], ['pn', 'Part number'], ['desc', 'Descrição'], ['qtyTxt', 'Qtd'], ['unit', 'Un'], ['refsTxt', 'Referências']],
       cn: [['ref', 'Ref'], ['pn', 'Part number'], ['desc', 'Descrição'], ['variant', 'Variante'], ['gender', 'Gên.'], ['n', 'Vias'], ['used', 'Usadas']],
       nets: [['name', 'Circuito'], ['np', 'Pinos'], ['pins', 'Pontos'], ['nw', 'Fios'], ['wires', 'Números dos fios']],
-      dims: [['cota', 'Cota'], ['de', 'De'], ['para', 'Para'], ['len', 'Comprimento (mm)', 1], ['n', 'Nº de fios no trecho'], ['tot', 'Σ fios no trecho (m)']],
+      dims: [['cota', 'Cota'], ['de', 'De'], ['para', 'Para'], ['len', 'Comprimento (mm)'], ['n', 'Nº de fios no trecho'], ['tot', 'Σ fios no trecho (m)']],
       pn: [['pn', 'Part number do fio'], ['n', 'Nº de fios'], ['m', 'Total (m) c/ folga e perda'], ['sem', 'Fios sem cota']],
       erc: [['sev', 'Severidade'], ['msg', 'Mensagem'], ['ruleName', 'Regra'], ['sheetTxt', 'Folha'], ['act', '']]
     };

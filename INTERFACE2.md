@@ -20,3 +20,49 @@
 * Lista de materiais: PN completo, ex. M85049/109-20TW11-6 (spin, cordoalha estanhada, cádmio oliva, 6"); a bota 202K
   é escolhida pelo Ø do corpo do adaptador.
 * Folha nova da casa: MS3476 recebe /109 e D38999 recebe /115 automaticamente (MS26482/MS5015 seguem aguardando).
+
+## v1.7.6 — duas fases de trabalho
+1. **Esquema elétrico = definição do projeto**: conectores, contatos, fios, emendas, equipamentos.
+2. **Cablagem física = customização**: periféricos e itens da cablagem (adaptador, bota, backshell, cordoalha, luva de
+   solda, barbante, etiquetas, coberturas, transições, cotas, vistas, lista de materiais).
+* O campo "Backshell" saiu das propriedades do conector no esquema (periférico é da fase física). Em projetos antigos
+  ele ainda aparece como "Backshell (antigo)" se tiver valor, e é levado ao nó do conector ao gerar a folha física.
+
+## v1.7.7 — comprimento é definido no físico
+* O comprimento dos fios e dos cabos vem só do **desenho físico**: caminho pelos ramos (cotas) + folga das pontas
+  + comprimento extra dos itens no ramo; lista de materiais com a % de perda.
+* Saíram do esquema: o campo "Compr. (mm)" do fio e do cabo/blindagem, e a edição do comprimento na lista de fios e
+  na tabela de cotas (agora só leitura, "Compr. mm (físico)").
+* Cabo na lista de materiais = o maior fio dele pelo físico.
+* Projetos antigos: um comprimento digitado no esquema ainda vale e aparece como "Compr. manual (antigo)"; apague
+  para usar o físico.
+
+## v1.7.8 — peça fora do catálogo (bota, backshell, adaptador…)
+* Desenho físico › painel da folha › **Recortar imagem de datasheet…**: cole o print do datasheet, recorte, informe
+  tipo (bota, backshell/alívio…), tamanho real e agora também **Part number, Fabricante, Características** e
+  **Vincular à família** (+ carcaça; vazio = todas). Com um conector selecionado, família e carcaça já vêm preenchidas.
+* Salva na biblioteca compartilhada do servidor. A peça aparece nas opções do nó do conector, sai na lista de materiais
+  com o PN, fabricante e características, e numa **folha física nova** os conectores da família/carcaça vinculada já a
+  recebem (troque no nó se quiser outra).
+* A figura recortada é o datasheet do usuário: conta como desenho oficial (não "aguardando").
+
+## v1.7.9 — customização da cablagem (biblioteca de itens)
+* Painel da folha física: **Customização da cablagem…** (tabela: por conector adaptador/backshell, bota, capa do D-Sub,
+  barbante e acessórios; por ramo cobertura e PN) e **Biblioteca de itens…** (itens comuns por categoria + do usuário).
+* Painel do conector no físico: bloco **Definido no esquemático** (só leitura) e **Acessórios do conector**: adicionar
+  da biblioteca, quantidade, PN, remover, ou **Novo item na biblioteca…** (PN, fabricante, características, unidade,
+  quantidade por contato ligado, vínculo família/carcaça).
+* Itens comuns: tampa protetora, cordão, O-ring, porca de painel, junta, etiqueta, luva de solda, anel de crimpagem,
+  cinta, fio dreno, anilha, espaguete na solda, ponteira, adesivo, fita, selante; coberturas novas (malha PET, fita, tubo,
+  luva anti-abrasão); itens de ramo novos (abraçadeira com base, barbante de amarração, base adesiva).
+* Trava: no físico não se apaga conector nem emenda (vêm do esquemático). Detalhes: `docs/CUSTOMIZACAO_CABLAGEM.md`.
+
+## v1.8.0 — biblioteca em alças
+* **Biblioteca de itens** organizada em alças (abas): **Adaptadores, Botas, Cordoalhas, Luvas de solda, Transições,
+  Capas, Kits de retenção, Espaguetes, Amarração, Etiquetas** — cada uma com vários tamanhos e tipos (tabelas Amphenol
+  M85049, TE/Raychem 202K/222K/382A, RNF-100/DR-25, MS21919, M83519/2…). Lista completa: `docs/CUSTOMIZACAO_CABLAGEM.md`.
+* **Aplicar** põe o item no que está selecionado (conector, ramo, nó de derivação, etiqueta); "só o que serve no
+  conector selecionado" filtra por família/carcaça; o PN escolhido (ex.: adaptador M85049/88-21W03, bota 202K163-25-0)
+  vai para a lista de materiais.
+* **Novo item nesta alça…** cadastra o que falta (PN, fabricante, características, aplicação, desenho, vínculo).
+* Adaptadores Amphenol além do Pre-Shield entram com o tamanho real da tabela e traço "aguardando datasheet".
