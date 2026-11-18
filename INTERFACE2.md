@@ -66,3 +66,9 @@
   vai para a lista de materiais.
 * **Novo item nesta alça…** cadastra o que falta (PN, fabricante, características, aplicação, desenho, vínculo).
 * Adaptadores Amphenol além do Pre-Shield entram com o tamanho real da tabela e traço "aguardando datasheet".
+
+## v1.8.1 — MIL-DTL-26482 Série 2 (MS34): 34 arranjos e vistas frontais exatas
+* Catálogo com os **34 arranjos de inserto** da Amphenol Matrix (antes 11), cada contato com letra e **tamanho**
+  (#20, #16, #12 — arranjos mistos como 14-9, 22-41 e 22-95 corretos; contatos e tampões por tamanho na lista).
+* **Vista frontal exata**: carcaça e posição de cada contato tiradas do PDF vetorial do catálogo; contatos pela legenda
+  (#20 aberto, #16 cheio, #12 meio cheio) e letras na posição do catálogo; face de soquetes espelhada.
