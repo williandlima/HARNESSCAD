@@ -45,6 +45,7 @@ Responda sempre em **português**.
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
   `phys_hitems3.js` (catálogo por alça, tamanhos dos datasheets), `phys_hitems2.js` (aplicar, `acc`, PN do adaptador/bota,
   lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janela com alças, painel do conector, tabela).
+- Detalhe típico da montagem da cordoalha (DETALHE B da casa): `phys_cord.js` + `phys_cord2.js` (item `pcord`).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
 - Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` (novidades por versão; novas seções no 3), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 

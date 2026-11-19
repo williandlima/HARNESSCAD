@@ -31,3 +31,12 @@
 * Painel da etiqueta: **Refazer cotas (padrão)** apaga as cotas daquela etiqueta e cria de novo.
 * **Exportar DXF (Solid Edge / AutoCAD)** agora aparece na tela **Arquivo** (lista à esquerda) e na faixa **Relatórios ›
   Exportar** (antes só pela busca Ctrl+K).
+
+## v1.9.0 — detalhe típico da montagem da cordoalha
+* **Inserir › Detalhe típico: montagem da cordoalha** (também na faixa *Desenho físico › Chicote*): o "DETALHE B" da
+  casa em traço, em 3 etapas — (1) cabo com o espaguete sobre os fios e a cordoalha recuada, cotas 5 ±1 TIP.,
+  50 ±1 TIP. e 60 ±5; (2) cordoalha do adaptador (REF), barbante amarrando e a cordoalha da cablagem vestida (REF);
+  (3) luva de solda unindo as duas cordoalhas. Entra num espaço livre da folha; arraste para posicionar.
+* Balões com o número da lista de materiais (espaguete, adaptador, barbante, cordoalha, luva de solda) ou número
+  digitado; notas em triângulo opcionais; cotas, tolerâncias, Ø do cabo, escala e título editáveis.
+* Lista de materiais: **espaguete termo-retrátil sob a cordoalha** = comprimento (60) × pontas com adaptador.
