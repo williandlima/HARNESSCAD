@@ -20,7 +20,7 @@
       ['Utilitários', ['m:Medir', 'm:Meu nome']]]],
     ['Relatórios', [['Tabelas', ['d:*']], ['Exportar', ['*m:Arquivo/Imprimir', '*m:Exportar DXF', 'm:Exportar lista de fios', 'm:Exportar BOM']]]],
     ['Ajuda', [['Ajuda', ['*u:cmdk', '*m:Atalhos', '*m:Sobre']]]],
-    ['Desenho físico', [['Chicote', ['*e:dim', '*e:brk', '*e:pdet', '*e:ptag', 'm:Inserir/Detalhe típico']], ['Organizar', ['m:Alinhar nós na h', 'm:Alinhar nós na v', 'm:Distribuir nós na h', 'm:Distribuir nós na v']],
+    ['Desenho físico', [['Chicote', ['*e:dim', '*e:brk', '*e:pdet', '*e:ptag', '*m:Inserir/Catálogo de detalhes']], ['Organizar', ['m:Alinhar nós na h', 'm:Alinhar nós na v', 'm:Distribuir nós na h', 'm:Distribuir nós na v']],
       ['Gerar', ['*m:Gerar desenho físico']]], 'ctx']
   ];
 })(typeof window !== 'undefined' ? window : globalThis);

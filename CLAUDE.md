@@ -12,6 +12,8 @@ Responda sempre em **português**.
 
 ## Padrão de desenho (decisão do usuário, permanente)
 - **Só desenho técnico em traço (padrão Altium)** — nada de imagens/fotos realistas nem desenho "típico".
+- **Traço rico e fiel ao real** (decisão nov/2026): detalhes caprichados — trama da cordoalha, filamentos, anéis da luva,
+  nós — sempre em traço (sai no PDF e no DXF), nunca foto/sombreado em tons.
 - Conector/acessório/vista frontal tem que ser **exatamente como o datasheet oficial, nas mesmas proporções**. Sem
   datasheet: sai o contorno tracejado "AGUARDANDO DATASHEET" (`phys_tecnico.js`) e **pede-se o datasheet ao usuário**.
 - Desenho novo tirado de datasheet: registrar em `HX.DS_OK` (`phys_tecnico.js`: `OKV` peças, `OKF` famílias).
@@ -45,7 +47,9 @@ Responda sempre em **português**.
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
   `phys_hitems3.js` (catálogo por alça, tamanhos dos datasheets), `phys_hitems2.js` (aplicar, `acc`, PN do adaptador/bota,
   lista de materiais, vínculo, trava de apagar), `ui_hitems*.js` (janela com alças, painel do conector, tabela).
-- Detalhe típico da montagem da cordoalha (DETALHE B da casa): `phys_cord.js` + `phys_cord2.js` (item `pcord`).
+- Catálogo de detalhes típicos (item `pdetc`): `phys_detl*.js` (primitivas de traço detalhado `HX.DL`), `phys_detc.js`
+  (registro `HX.DETC`, balões pela lista), `phys_detc1..3.js` (detalhes por grupo), `ui_detc.js` (janela). Detalhe novo:
+  registrar em `HX.DETC[kind]` com `ref` (norma/datasheet).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
 - Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` (novidades por versão; novas seções no 3), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 

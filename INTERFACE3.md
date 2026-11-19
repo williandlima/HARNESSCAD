@@ -32,11 +32,17 @@
 * **Exportar DXF (Solid Edge / AutoCAD)** agora aparece na tela **Arquivo** (lista à esquerda) e na faixa **Relatórios ›
   Exportar** (antes só pela busca Ctrl+K).
 
-## v1.9.0 — detalhe típico da montagem da cordoalha
-* **Inserir › Detalhe típico: montagem da cordoalha** (também na faixa *Desenho físico › Chicote*): o "DETALHE B" da
-  casa em traço, em 3 etapas — (1) cabo com o espaguete sobre os fios e a cordoalha recuada, cotas 5 ±1 TIP.,
-  50 ±1 TIP. e 60 ±5; (2) cordoalha do adaptador (REF), barbante amarrando e a cordoalha da cablagem vestida (REF);
-  (3) luva de solda unindo as duas cordoalhas. Entra num espaço livre da folha; arraste para posicionar.
-* Balões com o número da lista de materiais (espaguete, adaptador, barbante, cordoalha, luva de solda) ou número
-  digitado; notas em triângulo opcionais; cotas, tolerâncias, Ø do cabo, escala e título editáveis.
-* Lista de materiais: **espaguete termo-retrátil sob a cordoalha** = comprimento (60) × pontas com adaptador.
+## v1.9.0 — catálogo de detalhes típicos (traço detalhado)
+* **Inserir › Catálogo de detalhes…** (também na faixa *Desenho físico*): janela com 4 grupos e miniatura de cada
+  detalhe; **Inserir** põe o detalhe num espaço livre da folha; clique nele para customizar cotas, tolerâncias, textos,
+  balões, notas em triângulo, escala (ESC 6:1…) e título; arraste para posicionar.
+* **Blindagem e cordoalha**: montagem da cordoalha no adaptador (DETALHE B da casa, 3 etapas), terminação da blindagem
+  com luva de solda e fio terra (M83519/2), emenda de cordoalha no ramo.
+* **Preparação de fio**: decapagem (comprimento +0,5/−0, filamentos íntegros, seção do condutor), crimpagem de contato
+  MIL (condutor na janela de inspeção, folga da isolação 0,25–0,76 mm, alicate M22520/1), emenda crimpada com
+  termo-retrátil (M81824/1) — notas pela IPC/WHMA-A-620 e NASA-STD-8739.4; valores editáveis (confira no datasheet).
+* **Conector e acessórios**: bota sobre o adaptador (lábio na ranhura, adesivo S1125), tampão de vedação nas cavidades.
+* **Feixe e identificação**: amarração com barbante (espaçamento, nós), etiqueta sob espaguete transparente.
+* **Traço mais rico**: trama tecida da cordoalha, fios com isolação e filamentos torcidos, termo-retrátil e luva de
+  solda transparentes (anel de solda e anéis de vedação), voltas e nó do barbante, barril com indentações.
+* Balões com o número da lista de materiais; o detalhe da cordoalha põe na lista o espaguete sob a cordoalha.
