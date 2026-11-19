@@ -7,8 +7,8 @@ function cena() {
   d.change('g', function () { r = HX.applyPhysical(d, { scale: 5, style: 'line', faces: true, balloons: true, tables: true }); }); d.sheet = r.index; return { d: d, s: r.index, sh: d.p.sheets[r.index] };
 }
 function textos(c) { var T = [], g = new Proxy({}, { get: function (o, k) { return k === 'text' ? function (t) { T.push(String(t)); } : function () { return false; }; } }); HX.drawSheetItems(g, c.d.p, c.s, {}); return T; }
-test('catálogo de detalhes: 10 detalhes nos 4 grupos, todos desenham com cotas, balões e referência', function () {
-  var K = Object.keys(HX.DETC); ok(K.length >= 10, 'detalhes ' + K.length); eq(HX.DETC_GRP.map(function (g) { return g[0]; }), ['blind', 'fio', 'con', 'feixe']);
+test('catálogo de detalhes: 11 detalhes nos 4 grupos, todos desenham com cotas, balões e referência', function () {
+  var K = Object.keys(HX.DETC); ok(K.length >= 11 && HX.DETC.ssplice, 'detalhes ' + K.length); eq(HX.DETC_GRP.map(function (g) { return g[0]; }), ['blind', 'fio', 'con', 'feixe']);
   HX.DETC_GRP.forEach(function (g) { ok(K.some(function (k) { return HX.DETC[k].grp === g[0]; }), 'grupo ' + g[0]); });
   var c = cena(); K.forEach(function (k) { var it; c.d.change('i', function () { it = HX.detcAdd(c.d, k); }); ok(it && it.kind === k, k); });
   var T = textos(c); c.sh.items.filter(function (i) { return i.type === 'pdetc'; }).forEach(function (it) { ok(it._bb && it._bb.x1 - it._bb.x0 > 40, 'desenhado ' + it.kind); ok(HX.DETC[it.kind].ref, 'referência ' + it.kind);

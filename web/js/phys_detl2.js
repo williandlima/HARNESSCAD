@@ -18,3 +18,21 @@
   L.note = function (g, t, x, y, tx, ty, col) { g.style({ stroke: col, lw: 0.13, fill: null }); if (tx != null) { g.line(x, y, tx, ty); L.arrow(g, tx, ty, (tx - x) / (Math.hypot(tx - x, ty - y) || 1), (ty - y) / (Math.hypot(tx - x, ty - y) || 1), col, 0.9); }
     String(t).split('\n').forEach(function (l, i) { g.text(l, x + 0.6, y - 0.9 + i * 1.6, { size: 1.25, color: col }); }); };
 })(typeof window !== 'undefined' ? window : globalThis);
+/* formatos reais (foto do kit de emendas, DETALHE B da casa, desenho TE S01/S02): tubo RETO transparente com cantos
+   levemente arredondados (sem afinar nas pontas), dois anéis de vedação perto das pontas (centro a ~24 % e 76 %,
+   largura ~7,5 %) e o anel de solda no meio (~15 %, um pouco mais alto, cilindro metálico com sombreado de linhas). */
+(function (G) {
+  'use strict';
+  var HX = G.HX, L = HX.DL; if (!L) return;
+  L.rrect = function (x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); var P = [], c = [[x + w - r, y - h / 2 + r, -90], [x + w - r, y + h / 2 - r, 0], [x + r, y + h / 2 - r, 90], [x + r, y - h / 2 + r, 180]];
+    c.forEach(function (q) { for (var i = 0; i <= 4; i++) { var a = (q[2] + i * 22.5) * Math.PI / 180; P.push([q[0] + Math.cos(a) * r, q[1] + Math.sin(a) * r]); } }); return P; };
+  /* tubo reto (espaguete / termo-retrátil antes de contrair), transparente ou opaco, com reflexo */
+  L.tube = function (g, x0, x1, y, D, col, tr) { var P = L.rrect(x0, y, x1 - x0, D, D * 0.12); g.style({ stroke: col, lw: 0.25, fill: tr ? null : '#fff' }); g.poly(P, true);
+    g.style({ fill: null, lw: 0.07 }); g.line(x0 + D * 0.3, y - D * 0.3, x1 - D * 0.3, y - D * 0.3); g.line(x0 + D * 0.5, y - D * 0.21, x1 - D * 0.5, y - D * 0.21); g.style({ lw: 0.25 }); return P; };
+  function ring(g, x, y, w, h, col, solder) { g.style({ stroke: col, lw: 0.22, fill: '#fff' }); g.poly(L.rrect(x, y, w, h, Math.min(w, h) * 0.18), true); g.style({ fill: null, lw: 0.07 });
+    if (solder) { [0.1, 0.2, 0.8, 0.9].forEach(function (f) { g.line(x + w * f, y - h * 0.44, x + w * f, y + h * 0.44); }); g.line(x + w * 0.3, y - h * 0.3, x + w * 0.7, y - h * 0.3); } /* cilindro de solda: linhas de sombra nas bordas */
+    else { g.line(x + w * 0.5, y - h * 0.46, x + w * 0.5, y + h * 0.46); } g.style({ lw: 0.22 }); }
+  /* luva de solda (SolderSleeve): x = início, w = comprimento, D = Ø do tubo */
+  L.ssleeve = function (g, x, y, w, D, dw, col) { L.tube(g, x, x + w, y, D, col, true);
+    ring(g, x + w * 0.2, y, w * 0.075, D * 0.94, col); ring(g, x + w * 0.725, y, w * 0.075, D * 0.94, col); ring(g, x + w * 0.425, y, w * 0.15, D * 1.06, col, true); };
+})(typeof window !== 'undefined' ? window : globalThis);

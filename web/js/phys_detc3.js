@@ -60,7 +60,7 @@
     draw: function (c) {
       var g = c.g, col = c.col, k = c.k, X = c.X, Y = c.Y + 20, d = c.P('dia') * k, gp = c.P('gap') * k, ls = c.P('ls') * k, lb = Math.min(c.P('lab') * k, ls), x0 = X + 6 * k + gp, xl = x0 + (ls - lb) / 2;
       g.style({ stroke: col, lw: 0.3 }); g.line(X + 6 * k, Y - d, X + 6 * k, Y + d); g.text('BOTA', X + 5 * k, Y + d + 2, { size: 1.2, align: 'r', color: col });
-      L.wires(g, X + 6 * k, x0 + ls + 20 * k, Y, d * 0.7, 5, col); L.shrink(g, x0, x0 + ls, Y, d * 1.25, d * 1.05, col, true);
+      L.wires(g, X + 6 * k, x0 + ls + 20 * k, Y, d * 0.7, 5, col); L.tube(g, x0, x0 + ls, Y, d * 1.2, col, true);
       g.style({ stroke: col, lw: 0.22 }); g.rect(xl, Y - d * 0.5, lb, d); g.text(c.S('txt'), xl + lb / 2, Y, { size: Math.min(2.2, d * 0.55), bold: true, align: 'c', color: col });
       c.dim(X + 6 * k, x0, c.Y + 5, Y - d, Y - d * 0.62, 'gap', ''); c.dim(x0, x0 + ls, c.Y + 5, Y - d * 0.62, Y - d * 0.62, 'ls', 'tls'); c.dim(x0, xl, c.Y + 12, Y - d * 0.62, Y - d * 0.5, (c.P('ls') - Math.min(c.P('lab'), c.P('ls'))) / 2, '');
       c.dim(xl, xl + lb, c.Y + 12, Y - d * 0.5, Y - d * 0.5, 'lab', '');
