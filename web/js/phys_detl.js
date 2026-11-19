@@ -39,12 +39,6 @@
     g.style({ stroke: col, lw: 0.07 }); g.line(x0 + 0.3, y - d * 0.28, x1 - 0.3, y - d * 0.28); g.style({ lw: 0.22 }); };
   /* fios expostos (feixe de n fios finos, sem capa) */
   L.wires = function (g, x0, x1, y, w, n, col) { g.style({ stroke: col, lw: 0.12, fill: null }); for (var i = 0; i < n; i++) { var yy = y - w / 2 + w * i / Math.max(1, n - 1); g.line(x0, yy, x1, yy); } };
-  /* termo-retrátil contraído: corpo D, pontas afinando até dw; brilho (2 linhas finas) */
-  L.shrink = function (g, x0, x1, y, D, dw, col, tr) { var t = Math.min((x1 - x0) / 4, D * 0.5), P = [[x0, y - dw / 2], [x0 + t, y - D / 2], [x1 - t, y - D / 2], [x1, y - dw / 2], [x1, y + dw / 2], [x1 - t, y + D / 2], [x0 + t, y + D / 2], [x0, y + dw / 2]];
-    g.style({ stroke: col, lw: 0.25, fill: tr ? null : '#fff' }); g.poly(P, true); g.style({ fill: null, lw: 0.07 }); g.line(x0 + t, y - D * 0.32, x1 - t, y - D * 0.32); g.line(x0 + t * 1.5, y - D * 0.22, x1 - t * 1.5, y - D * 0.22); g.style({ lw: 0.25 }); return P; };
-  /* luva de solda: tubo transparente, anel de solda no meio (hachura densa) e anéis de vedação nas pontas */
-  L.ssleeve = function (g, x, y, w, D, dw, col) { L.shrink(g, x, x + w, y, D, dw, col, true); /* tubo transparente: vê-se a cordoalha */ L.band(g, x + w * 0.44, y, w * 0.12, D * 0.82, col, 0.22);
-    [0.2, 0.8].forEach(function (f) { g.style({ stroke: col, lw: 0.2, fill: '#fff' }); g.rect(x + w * f - w * 0.035, y - D * 0.43, w * 0.07, D * 0.86); g.style({ fill: null, lw: 0.07 }); g.line(x + w * f, y - D * 0.43, x + w * f, y + D * 0.43); }); };
   /* amarração: n voltas cruzadas sobre o feixe e o nó com as pontas cortadas */
   L.tie = function (g, x, y, D, col, n) { n = n || 3; var w = D * 0.28 * n; g.style({ stroke: col, lw: 0.18, fill: null });
     for (var i = 0; i < n; i++) { var a = x - w / 2 + w * i / Math.max(1, n - 1) * 0.9; g.line(a - D * 0.12, y - D / 2 - 0.1, a + D * 0.12, y + D / 2 + 0.1); g.line(a + D * 0.05, y - D / 2 - 0.1, a + D * 0.29, y + D / 2 + 0.1); }

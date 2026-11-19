@@ -7,30 +7,13 @@
   'use strict';
   var HX = G.HX, L = HX.DL, R = HX.DETC; if (!L || !R) return;
   var T = function (l, k, t) { return { k: k, l: l, type: t || 'number', step: t ? undefined : 1 }; };
-  R.cord = { grp: 'blind', n: 'Montagem da cordoalha no adaptador', label: 'DETALHE B', esc: 1, size: [150, 105], ref: 'Padrão da casa · Amphenol Pre-Shield M85049/109-115 · TE M83519/2',
-    desc: '3 etapas: espaguete sobre os fios; barbante e cordoalha vestida; luva de solda unindo as cordoalhas.',
-    def: { d1: 5, t1: '±1', d2: 50, t2: '±1', d3: 60, t3: '±5', dia: 6, lb: 85, tip: 'TIP.', espPN: '' },
+  R.cord = { grp: 'blind', n: 'Montagem da cordoalha no adaptador', label: 'DETALHE B', esc: 1, size: [130, 150], ref: 'Padrão da casa · Amphenol Pre-Shield M85049/109-115 · TE M83519/2',
+    desc: '3 etapas: espaguete sobre os fios; barbante e cordoalha vestida; luva de solda unindo as cordoalhas. Detalhe típico fora de escala (cotas editáveis).',
+    def: { d1: 5, t1: '±1', d2: 50, t2: '±1', d3: 60, t3: '±5', tip: 'TIP.', espPN: '' },
     fields: [T('Ponta da cordoalha dobrada (mm)', 'd1'), T('Tolerância', 't1', 'text'), T('Fios expostos (mm)', 'd2'), T('Tolerância', 't2', 'text'), T('Espaguete (mm)', 'd3'), T('Tolerância', 't3', 'text'),
-      T('Ø do cabo (mm)', 'dia'), T('Comprimento da cordoalha vestida (mm)', 'lb'), T('PN do espaguete sob a cordoalha', 'espPN', 'text')],
+      T('PN do espaguete sob a cordoalha', 'espPN', 'text')],
     keys: { esp: 'Espaguete', adp: 'Adaptador (REF)', barb: 'Barbante', cord: 'Cordoalha (REF)', ss: 'Luva de solda' },
-    draw: function (c) {
-      var g = c.g, col = c.col, k = c.k, X = c.X, Y = c.Y, d = c.P('dia') * k, a1 = c.P('d1') * k, a2 = c.P('d2') * k, a3 = c.P('d3') * k, y1 = Y + 15, y2 = y1 + d + 24, y3 = y2 + d * 1.3 + 22, wl = d * 0.62, i;
-      /* 1: ponta dobrada, fios com isolação, espaguete contraído e a cordoalha recuada (sanfonada) */
-      L.band(g, X, y1, a1, d * 0.72, col, 0.25); var xe = X + a1 + a2 + a3 + 6 * k;
-      for (i = 0; i < 4; i++) L.wire(g, X + a1, xe + 1, y1 - wl / 2 + wl * i / 3, Math.max(0.5, d * 0.15), col);
-      L.tube(g, X + a1 + a2, X + a1 + a2 + a3, y1, d, col); L.weave(g, L.zig(xe, y1, 16 * k, d * 1.9, 0.9), col, 0.9);
-      c.dim(X, X + a1, Y + 6, y1 - d * 0.36, y1 - d * 0.36, 'd1', 't1'); c.dim(X + a1, X + a1 + a2, Y + 6, y1 - wl / 2, y1 - d * 0.39, 'd2', 't2'); c.dim(X + a1 + a2, X + a1 + a2 + a3, Y + 6, y1 - d * 0.39, y1 - d * 0.39, 'd3', 't3', '');
-      c.ball('esp', X + a1 + a2 + a3 * 0.45, y1 + d / 2 + 9, X + a1 + a2 + a3 * 0.55, y1 + d / 2); c.ext(xe + 18 * k, y1);
-      /* 2: cordoalha do adaptador, fios, barbante amarrando e a cordoalha da cablagem vestida */
-      var hb = d * 1.25, wz = 18 * k, xa = X + 1, xb = xa + wz + 7 * k, Lb = c.P('lb') * k; L.weave(g, L.zig(xa, y2, wz, d * 1.9, 0.9), col, 0.9);
-      for (i = 0; i < 4; i++) L.wire(g, xa + wz, xb + 1, y2 - wl / 2 + wl * i / 3, Math.max(0.5, d * 0.15), col);
-      L.weave(g, [[xb, y2 - hb / 2], [xb + Lb * 0.3, y2 - hb / 2], [xb + Lb * 0.36, y2 - hb * 0.62], [xb + Lb, y2 - hb * 0.62], [xb + Lb, y2 + hb * 0.62], [xb + Lb * 0.36, y2 + hb * 0.62], [xb + Lb * 0.3, y2 + hb / 2], [xb, y2 + hb / 2]], col, 1.1);
-      L.band(g, xb, y2, 4 * k, hb + 0.5, col); L.tie(g, xb + 2 * k, y2, hb + 0.5, col, 2);
-      c.ball('adp', xa + wz * 0.5, y2 + d + 9, xa + wz * 0.35, y2 + d * 0.95, -1); c.ball('barb', xb + 6, y2 + d + 9, xb + 2 * k, y2 + hb / 2 + 0.3); c.ball('cord', xb + Lb - 2, y2 + d + 9, xb + Lb - 4, y2 + hb * 0.62, 1); c.ext(xb + Lb + 8, y2);
-      /* 3: luva de solda unindo as cordoalhas (anel de solda + vedação), barbante na ponta */
-      var xc = X + 9 * k, L3 = 80 * k, hs = d * 1.3, sx = xc + L3 * 0.34, sw = 24 * k; L.weave(g, L.rect(xc, y3, L3, hs), col, 1.1); L.band(g, xc + L3 - 6 * k, y3, 6 * k, hs + 0.4, col);
-      L.ssleeve(g, sx, y3, sw, hs * 1.45, hs, col); c.ball('ss', sx + sw * 0.62, y3 + d + 8, sx + sw * 0.62, y3 + hs * 0.7); c.ext(xc + L3 + 2, y3 + d + 11);
-    },
+    draw: function () {}, /* traço da prancha da casa: phys_detc5.js */
     bom: function (it, sh, Bm, P) { var ends = sh.items.filter(function (n) { return n.type === 'pnode' && n.nkind === 'conn' && /^(pre_|adp)/.test(n.bsKind || ''); }).length || 1, key = 'cesp:' + (P('espPN') || '');
       if (!Bm.key[key]) { var r = { k: key, pn: P('espPN') || '', desc: 'Espaguete termo-retrátil (sob a cordoalha)', qty: 0, un: 'mm' }; Bm.rows.push(r); Bm.key[key] = r; } Bm.key[key].qty += (+P('d3') || 60) * ends; }
   };

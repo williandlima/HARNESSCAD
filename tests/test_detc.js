@@ -23,3 +23,7 @@ test('detalhe da cordoalha: balões pela lista de materiais, espaguete sob a cor
   it.d3 = 70; it.t3 = '±3'; it.b_ss = '99'; it.label = 'DETALHE C'; T = textos(c); ['70', '±3', '99', 'DETALHE C'].forEach(function (t) { ok(T.indexOf(t) >= 0, 'editado ' + t); });
   eq(HX.physBom(c.d.p, c.sh).rows.filter(function (q) { return /^cesp:/.test(q.k); })[0].qty, 140);
 });
+test('catálogo de detalhes: escala negativa, minúscula ou acima do limite (10) não trava nem explode o desenho', function () {
+  var n = 0, f = function () {}, g = { style: f, poly: f, rect: f, circle: f, text: f, push: f, pop: f, line: function () { if (++n > 3e5) throw new Error('linhas demais'); } };
+  Object.keys(HX.DETC).forEach(function (k) { [-1, 0.01, 50].forEach(function (e) { n = 0; HX.detcRender(g, { kind: k, x: 0, y: 0, label: '-', esc: e }, HX.DETC[k], '#00f', null, 2.6); ok(n > 0, k + ' esc ' + e); }); });
+});

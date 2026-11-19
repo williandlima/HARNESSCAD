@@ -18,7 +18,7 @@
     var r = R.filter(function (q) { return K[0].test(q.k); })[0] || R.filter(function (q) { return K[1].test(q.desc || ''); })[0]; return r ? String(r.n) : '?';
   };
   HX.detcRender = function (g, it, D, col, B, ballR) {
-    var k = +val(it, D, 'esc') || D.esc || 1, X = +it.x || 0, Y = +it.y || 0, bb = { x0: X - 2, y0: Y - 2, x1: X + 10, y1: Y + 10 };
+    var k = Math.min(10, Math.max(0.05, Math.abs(+val(it, D, 'esc') || D.esc || 1))), /* escala limitada a 0,05–10: negativa/zero não trava a hachura */ X = +it.x || 0, Y = +it.y || 0, bb = { x0: X - 2, y0: Y - 2, x1: X + 10, y1: Y + 10 };
     var c = { g: g, col: col, X: X, Y: Y, k: k, r: ballR || 2.6,
       P: function (n) { var v = val(it, D, n); return v === '' || v == null || isNaN(+v) ? 0 : +v; }, S: function (n) { var v = val(it, D, n); return v === '-' || v == null ? '' : String(v); },
       ext: function (x, y) { bb.x0 = Math.min(bb.x0, x); bb.y0 = Math.min(bb.y0, y); bb.x1 = Math.max(bb.x1, x); bb.y1 = Math.max(bb.y1, y); },

@@ -52,3 +52,8 @@
   furo oculto, faixas de código de cor e janela no topo; inserto fundível; linha de centro tracejada.
 * Novo: **Emenda com luva de solda** (antes e depois de aquecer), tamanhos Ø 1,7 × 26 (branco), 2,7 × 40 (vermelho),
   4,5 × 40 (azul), 6 × 40 (amarelo).
+* **DETALHE B igual à prancha da casa**: proporções medidas na prancha (sanfonas escuras, espaguete com linha dupla,
+  cordoalha trançada com degrau e ponta inclinada, trama em cesto, luva de solda com os 3 anéis brancos estreito/largo/
+  estreito, faixa do barbante); trama recortada no contorno, sem faixas vazias. Detalhe típico fora de escala: as cotas
+  5/50/60 e as tolerâncias são editáveis. Nas cotas dos detalhes o **TIP.** fica abaixo da linha de cota, como na prancha.
+* Escala do detalhe limitada a 0,05–10 (valor negativo ou zero não trava mais o desenho).
