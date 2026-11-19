@@ -52,10 +52,8 @@
     draw: function (c) {
       var g = c.g, col = c.col, k = c.k, X = c.X, Y = c.Y + 16, dw = c.P('dw') * k, dc = c.P('dc') * k, ls = c.P('ls') * k, lt = c.P('lt') * k, xm = X + 35 * k, be = ls * 2 + 1 * k, x0 = xm - be / 2;
       L.wire(g, X, x0 - 0.5 * k, Y, dw, col, 'none', 'cut'); L.wire(g, xm + be / 2 + 0.5 * k, X + 70 * k, Y, dw, col, 'cut', 'none');
-      g.style({ stroke: col, lw: 0.25, fill: '#fff' }); g.rect(x0, Y - dw * 0.62, be, dw * 1.24); g.style({ fill: null });
-      L.cond(g, x0 + 0.3 * k, xm - 0.3 * k, Y, dc, col); L.cond(g, xm + 0.3 * k, x0 + be - 0.3 * k, Y, dc, col);
-      g.style({ lw: 0.1 }); [0.22, 0.78].forEach(function (f) { var cx = x0 + be * f; g.poly([[cx, Y - dw * 0.4], [cx + dw * 0.3, Y], [cx, Y + dw * 0.4], [cx - dw * 0.3, Y]], true); }); g.line(xm, Y - dw * 0.62, xm, Y + dw * 0.62);
-      L.shrink(g, xm - lt / 2, xm + lt / 2, Y, dw * 1.7, dw * 1.12, col, true);
+      L.crimpSplice(g, x0, Y, be, dw * 1.24, col, true); /* barril com batente e faixas de código de cor (desenho TE) */
+      L.sealSleeve(g, xm - lt / 2, Y, lt, dw * 2.1, col); /* luva de vedação com insertos (item 5 do desenho TE) */
       c.dim(xm - lt / 2, xm + lt / 2, c.Y + 5, Y - dw * 0.56, Y - dw * 0.56, 'lt', 'tt'); c.dim(xm - lt / 2, x0, Y + dw + 5, Y + dw * 0.56, Y + dw * 0.62, 'ov', '', 'MÍN.');
       c.ball('fio', X + 4, Y + dw + 8, X + 5, Y + dw / 2); c.ball('emenda', xm + be * 0.5 + 8 * k, Y + dw + 8, xm + be * 0.35, Y + dw * 0.62); c.ball('term', xm + lt / 2 + 6, Y + dw + 8, xm + lt / 2 - 2, Y + dw * 0.75); c.ext(X + 72 * k, Y + dw + 11);
     }

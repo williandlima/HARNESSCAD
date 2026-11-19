@@ -46,8 +46,9 @@
 * **Traço mais rico**: trama tecida da cordoalha, fios com isolação e filamentos torcidos, termo-retrátil e luva de
   solda transparentes (anel de solda e anéis de vedação), voltas e nó do barbante, barril com indentações.
 * Balões com o número da lista de materiais; o detalhe da cordoalha põe na lista o espaguete sob a cordoalha.
-* **Formatos reais** (foto do kit de emendas + DETALHE B + desenho TE S01/S02 — 16,5 mm, Ø 1,90 expandido / 0,9
-  contraído): luva de solda = tubo RETO transparente com dois anéis de vedação perto das pontas e o anel de solda no meio
-  (cilindro com sombra de linhas); espaguete reto; ponta da cordoalha dobrada escura como na prancha.
+* **Luvas no formato do desenho do fabricante** (TE Customer Drawing D-200-02XX): tubo de parede fina hachurada que
+  incha sobre cada anel interno (ombros em S) e afina entre eles; SolderSleeve com bojo maior na solda e bojos nos
+  insertos; luva de vedação com dois insertos; luva externa com pontas largas e transição cônica; emenda crimpada com
+  furo oculto, faixas de código de cor e janela no topo; inserto fundível; linha de centro tracejada.
 * Novo: **Emenda com luva de solda** (antes e depois de aquecer), tamanhos Ø 1,7 × 26 (branco), 2,7 × 40 (vermelho),
   4,5 × 40 (azul), 6 × 40 (amarelo).

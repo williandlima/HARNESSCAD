@@ -29,7 +29,7 @@
       c.ball('adp', xa + wz * 0.5, y2 + d + 9, xa + wz * 0.35, y2 + d * 0.95, -1); c.ball('barb', xb + 6, y2 + d + 9, xb + 2 * k, y2 + hb / 2 + 0.3); c.ball('cord', xb + Lb - 2, y2 + d + 9, xb + Lb - 4, y2 + hb * 0.62, 1); c.ext(xb + Lb + 8, y2);
       /* 3: luva de solda unindo as cordoalhas (anel de solda + vedação), barbante na ponta */
       var xc = X + 9 * k, L3 = 80 * k, hs = d * 1.3, sx = xc + L3 * 0.34, sw = 24 * k; L.weave(g, L.rect(xc, y3, L3, hs), col, 1.1); L.band(g, xc + L3 - 6 * k, y3, 6 * k, hs + 0.4, col);
-      L.ssleeve(g, sx, y3, sw, hs * 1.16, hs, col); c.ball('ss', sx + sw * 0.62, y3 + d + 8, sx + sw * 0.62, y3 + hs * 0.7); c.ext(xc + L3 + 2, y3 + d + 11);
+      L.ssleeve(g, sx, y3, sw, hs * 1.45, hs, col); c.ball('ss', sx + sw * 0.62, y3 + d + 8, sx + sw * 0.62, y3 + hs * 0.7); c.ext(xc + L3 + 2, y3 + d + 11);
     },
     bom: function (it, sh, Bm, P) { var ends = sh.items.filter(function (n) { return n.type === 'pnode' && n.nkind === 'conn' && /^(pre_|adp)/.test(n.bsKind || ''); }).length || 1, key = 'cesp:' + (P('espPN') || '');
       if (!Bm.key[key]) { var r = { k: key, pn: P('espPN') || '', desc: 'Espaguete termo-retrátil (sob a cordoalha)', qty: 0, un: 'mm' }; Bm.rows.push(r); Bm.key[key] = r; } Bm.key[key].qty += (+P('d3') || 60) * ends; }
@@ -44,7 +44,7 @@
       L.wire(g, X, x0, Y, d, col, 'none', 'cut'); g.text('JAQUETA', X + 2, Y, { size: 1.2, color: col });
       L.weave(g, L.rect(x0, Y, ab + 4 * k, d * 0.86), col, 0.7);
       for (i = 0; i < 3; i++) L.wire(g, x0 + ab, x0 + aj + 25 * k, Y - d * 0.25 + d * 0.25 * i, d * 0.22, col);
-      L.ssleeve(g, x0 - 2 * k, Y, ab + 12 * k, d * 1.2, d, col);
+      L.ssleeve(g, x0 - 2 * k, Y, ab + 12 * k, d * 1.35, d, col);
       var gx = x0 + ab + 10 * k; L.wire(g, gx, gx + c.P('lt') * k, Y + d * 1.6, d * 0.25, col, 'none', 'cut'); g.style({ stroke: col, lw: 0.2 }); g.line(gx - 3 * k, Y + d * 0.5, gx, Y + d * 1.6);
       c.dim(x0, x0 + aj, c.Y + 6, Y - d / 2, Y - d * 0.3, 'dj', 'tj'); c.dim(x0, x0 + ab, Y + d + 6, Y + d * 0.43, Y + d * 0.43, 'db', 'tb');
       c.ball('ss', xs + 3 * k, Y - d - 6, xs + 2 * k, Y - d * 0.68); c.ball('fio', X + 10 * k, Y + d + 8, X + 12 * k, Y + d / 2);
@@ -60,7 +60,7 @@
       var g = c.g, col = c.col, k = c.k, X = c.X, Y = c.Y + 16, d = c.P('dia') * k, ov = c.P('ov') * k, ls = c.P('ls') * k, xm = X + 45 * k;
       L.weave(g, L.rect(X, Y, 45 * k + ov / 2, d), col, 1.1); L.weave(g, L.rect(xm - ov / 2, Y, 45 * k + ov / 2, d * 1.12), col, 1.1);
       L.band(g, xm - ov / 2 - 3 * k, Y, 3 * k, d + 0.5, col); L.band(g, xm + ov / 2, Y, 3 * k, d * 1.12 + 0.5, col);
-      L.ssleeve(g, xm - ls / 2, Y, ls, d * 1.3, d, col);
+      L.ssleeve(g, xm - ls / 2, Y, ls, d * 1.7, d, col);
       c.dim(xm - ov / 2, xm + ov / 2, c.Y + 6, Y - d * 0.6, Y - d * 0.6, 'ov', 'to');
       c.ball('cord', X + 15 * k, Y + d + 8, X + 17 * k, Y + d / 2, -1); c.ball('ss', xm + 4 * k, Y + d + 8, xm + 2 * k, Y + d * 0.75); c.ball('barb', xm + ov / 2 + 14 * k, Y + d + 8, xm + ov / 2 + 1.5 * k, Y + d * 0.6); c.ext(X + 90 * k + ov, Y + d);
     }

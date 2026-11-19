@@ -15,7 +15,7 @@
       { k: 'ls', l: 'Comprimento decapado (mm)', type: 'number', step: 0.5 }, { k: 'tl', l: 'Tolerância' }, { k: 'dw', l: 'Ø externo do fio (mm)', type: 'number', step: 0.1 }, { k: 'dc', l: 'Ø do condutor (mm)', type: 'number', step: 0.1 }],
     keys: { fio: 'Fio', emenda: 'Luva de solda (emenda)' },
     draw: function (c) {
-      var g = c.g, col = c.col, k = c.k, X = c.X, Z = SZ[c.S('sz')] || SZ.v, D = Z[0] * k, Lt = Z[1] * k, dw = Math.min(c.P('dw') * k, D * 0.8), dc = c.P('dc') * k, ls = c.P('ls') * k, xs = X + 14 * k, xm = xs + Lt / 2, i;
+      var g = c.g, col = c.col, k = c.k, X = c.X, Z = SZ[c.S('sz')] || SZ.v, D = Z[0] * k, Lt = Z[1] * k, dw = Math.min(c.P('dw') * k, D * 0.6), dc = c.P('dc') * k, ls = c.P('ls') * k, xs = X + 14 * k, xm = xs + Lt / 2, i;
       /* ANTES: tubo com os anéis, fios entrando e condutores sobrepostos sob a solda */
       var y1 = c.Y + 16; L.wire(g, X, xm - ls / 2, y1 - dw * 0.12, dw, col, 'none', 'cut'); L.wire(g, xm + ls / 2, xs + Lt + 14 * k, y1 + dw * 0.12, dw, col, 'cut', 'none');
       L.cond(g, xm - ls / 2, xm + ls / 2, y1 - dw * 0.12, dc, col); L.cond(g, xm - ls / 2, xm + ls / 2, y1 + dw * 0.12, dc, col);

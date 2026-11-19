@@ -12,7 +12,7 @@
     for (i = 0; i <= n; i++) P.push([x + w * i / n, y - h / 2 - (i % 2 ? amp : 0)]); for (i = 1; i <= m; i++) P.push([x + w + (i % 2 ? amp : 0), y - h / 2 + h * i / m]);
     for (i = n - 1; i >= 0; i--) P.push([x + w * i / n, y + h / 2 + ((n - i) % 2 ? amp : 0)]); for (i = m - 1; i >= 1; i--) P.push([x - (i % 2 ? amp : 0), y - h / 2 + h * i / m]); return P; };
   /* hachura recortada no polígono (ângulos em graus, passo st) */
-  L.hatch = function (g, P, st, angs) {
+  L.hatch = function (g, P, st, angs) { if (!(st > 0.02)) return;
     (angs || [45, -45]).forEach(function (an) { var a = an * Math.PI / 180, v = [Math.cos(a), Math.sin(a)], n = [-v[1], v[0]], ns = P.map(function (p) { return p[0] * n[0] + p[1] * n[1]; }), lo = Math.min.apply(null, ns), hi = Math.max.apply(null, ns);
       for (var c = lo + st / 2; c < hi; c += st) { var U = [];
         for (var i = 0; i < P.length; i++) { var p = P[i], q = P[(i + 1) % P.length], s1 = ns[i] - c, s2 = ns[(i + 1) % P.length] - c; if (s1 * s2 < 0) { var t = s1 / (s1 - s2), x = p[0] + (q[0] - p[0]) * t, y = p[1] + (q[1] - p[1]) * t; U.push([x * v[0] + y * v[1], x, y]); } }
