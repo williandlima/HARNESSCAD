@@ -21,3 +21,39 @@
   Cota livre estreita passa a ter setas por fora; texto deslocado para fora ganha a linha de cota até ele.
 * **Balão da etiqueta**: campo *Ponto de conexão na etiqueta* — extremidade oposta (padrão) ou do lado do conector,
   linhas da etiqueta, centro, borda de cima ou de baixo.
+
+## v1.8.9 — cotas da etiqueta editáveis por padrão
+* **Toda etiqueta já nasce com as cotas separadas** (folga, espaguete, margem, etiqueta): são cotas livres presas à
+  etiqueta, cada uma editável clicando nela — texto, **tolerância + / −**, afastamento, posição do texto, tamanho,
+  setas, "TIP.". Valor vazio = medido (acompanha a etiqueta). Projetos antigos são convertidos ao abrir.
+* **Sem conflito entre cotas e tolerâncias**: o texto (já com a tolerância) vai no meio quando cabe; senão antes do
+  início ou depois do fim, desviando dos outros textos e das linhas de chamada. A cota do ramo fica por fora da pilha.
+* Painel da etiqueta: **Refazer cotas (padrão)** apaga as cotas daquela etiqueta e cria de novo.
+* **Exportar DXF (Solid Edge / AutoCAD)** agora aparece na tela **Arquivo** (lista à esquerda) e na faixa **Relatórios ›
+  Exportar** (antes só pela busca Ctrl+K).
+
+## v1.9.0 — catálogo de detalhes típicos (traço detalhado)
+* **Inserir › Catálogo de detalhes…** (também na faixa *Desenho físico*): janela com 4 grupos e miniatura de cada
+  detalhe; **Inserir** põe o detalhe num espaço livre da folha; clique nele para customizar cotas, tolerâncias, textos,
+  balões, notas em triângulo, escala (ESC 6:1…) e título; arraste para posicionar.
+* **Blindagem e cordoalha**: montagem da cordoalha no adaptador (DETALHE B da casa, 3 etapas), terminação da blindagem
+  com luva de solda e fio terra (M83519/2), emenda de cordoalha no ramo.
+* **Preparação de fio**: decapagem (comprimento +0,5/−0, filamentos íntegros, seção do condutor), crimpagem de contato
+  MIL (condutor na janela de inspeção, folga da isolação 0,25–0,76 mm, alicate M22520/1), emenda crimpada com
+  termo-retrátil (M81824/1) — notas pela IPC/WHMA-A-620 e NASA-STD-8739.4; valores editáveis (confira no datasheet).
+* **Conector e acessórios**: bota sobre o adaptador (lábio na ranhura, adesivo S1125), tampão de vedação nas cavidades.
+* **Feixe e identificação**: amarração com barbante (espaçamento, nós), etiqueta sob espaguete transparente.
+* **Traço mais rico**: trama tecida da cordoalha, fios com isolação e filamentos torcidos, termo-retrátil e luva de
+  solda transparentes (anel de solda e anéis de vedação), voltas e nó do barbante, barril com indentações.
+* Balões com o número da lista de materiais; o detalhe da cordoalha põe na lista o espaguete sob a cordoalha.
+* **Luvas no formato do desenho do fabricante** (TE Customer Drawing D-200-02XX): tubo de parede fina hachurada que
+  incha sobre cada anel interno (ombros em S) e afina entre eles; SolderSleeve com bojo maior na solda e bojos nos
+  insertos; luva de vedação com dois insertos; luva externa com pontas largas e transição cônica; emenda crimpada com
+  furo oculto, faixas de código de cor e janela no topo; inserto fundível; linha de centro tracejada.
+* Novo: **Emenda com luva de solda** (antes e depois de aquecer), tamanhos Ø 1,7 × 26 (branco), 2,7 × 40 (vermelho),
+  4,5 × 40 (azul), 6 × 40 (amarelo).
+* **DETALHE B igual à prancha da casa**: proporções medidas na prancha (sanfonas escuras, espaguete com linha dupla,
+  cordoalha trançada com degrau e ponta inclinada, trama em cesto, luva de solda com os 3 anéis brancos estreito/largo/
+  estreito, faixa do barbante); trama recortada no contorno, sem faixas vazias. Detalhe típico fora de escala: as cotas
+  5/50/60 e as tolerâncias são editáveis. Nas cotas dos detalhes o **TIP.** fica abaixo da linha de cota, como na prancha.
+* Escala do detalhe limitada a 0,05–10 (valor negativo ou zero não trava mais o desenho).

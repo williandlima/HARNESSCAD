@@ -134,7 +134,7 @@
     var info = null;
     function dimInfo() { if (!info) { var nl = o.nl || HX.buildNetlist(p); info = nl._dims || (nl._dims = HX.computeLengths(p, nl)); } return info; }
     if (HX.syncDims) HX.syncDims(p);
-    var items = p.sheets[s].items, order = ['pseg', 'pcov', 'pacc', 'shape', 'cable', 'wire', 'conn', 'face', 'pnode', 'pimg', 'ptag', 'pdim', 'pdimx', 'pang', 'pnote', 'pball', 'pface', 'pprep', 'ptable', 'pdetail', 'pflag', 'dim', 'brk', 'splice', 'label', 'text'], X = HX.ITEM_EXT || {};
+    var items = p.sheets[s].items, order = ['pseg', 'pcov', 'pacc', 'shape', 'cable', 'wire', 'conn', 'face', 'pnode', 'pimg', 'ptag', 'pdim', 'pdimx', 'pang', 'pnote', 'pball', 'pface', 'pprep', 'ptable', 'pdetail', 'pdetc', 'pflag', 'dim', 'brk', 'splice', 'label', 'text'], X = HX.ITEM_EXT || {};
     order.forEach(function (t) {
       items.forEach(function (it) {
         if (it.type !== t) return;
