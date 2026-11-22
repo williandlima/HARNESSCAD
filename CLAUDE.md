@@ -36,7 +36,8 @@ Responda sempre em **português**.
   `pdim`, `pdimx`, `ptable`, `pface`, `pdetail`.
 - Desenho dos conectores (vetorial): `phys_vec.js` (peças `HX.PHYS_VEC`), `phys_vecart*.js` (traço de catálogo),
   `phys_com*.js` (comerciais), `phys_vecimg.js` + `vimg_*.js` (figuras de datasheet vetorizadas).
-- Padrão das pranchas da casa (modelos de traço): `phys_table2.js` (diagrama de ligação), `phys_table3.js` (lista de
+- Padrão das pranchas da casa (modelos de traço): `phys_table2.js` + `phys_table4.js` (dados: pinos, emendas, jumpers,
+  lado dos conectores) + `phys_table5.js` (desenho) do diagrama de ligação, `phys_table3.js` (lista de
   materiais sobre o carimbo), `phys_lines.js` (feixe em linhas), `phys_ball2.js` (balões em cadeia), `phys_face3.js`
   (faixa de vistas, VISTA A/B, etiquetas automáticas). Folha: `wstyle`/`bstyle`/`bundleLook`/`ballStyle` voltam ao antigo.
 - Vistas frontais oficiais vetorizadas: `vimg_f<arranjo>N.js`, carregadas por `vimg_faces.js` (lista única; o
