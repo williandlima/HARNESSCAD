@@ -35,6 +35,7 @@ require('./test_custom');
 require('./test_vecart');
 require('./test_m80');
 require('./test_diagram');
+require('./test_diagram2');
 require('./test_dxf');
 require('./test_milcasa');
 require('./test_tecnico');

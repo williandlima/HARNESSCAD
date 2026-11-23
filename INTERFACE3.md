@@ -66,3 +66,6 @@
 * **Jumper** no mesmo conector: "U" junto ao bloco, entre os dois pinos.
 * Lado de cada conector (esquerda/direita) decidido pelas ligações — não importa o sentido em que o fio foi desenhado.
 * Folga entre blocos de conectores diferentes do mesmo lado (referência e PN não se encostam mais).
+* Emendas que se cruzam no diagrama ficam sempre em colunas diferentes (nunca parecem ligadas), juntas perto do centro.
+* Ponta sem conector (equipamento, terra) ligada numa emenda entra na mesma rede (o pino não se repete); par trançado
+  com emenda mantém a trança; o dreno fica colado ao seu cabo.

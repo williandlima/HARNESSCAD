@@ -7,7 +7,7 @@
   HX.wiringDraw = function (g, it, p, C, col) {
     var WD = HX.WD, D = HX.physDiagram(p), R = [], rh = +it.rh || 3.0, fs = +it.fs || 1.6, x = it.x, y = it.y, W = +it.w || 170, bw = 6.5, nw = 0;
     var cl = null, cr = null; D.rows.forEach(function (r) { /* 3 linhas de folga entre blocos de conectores diferentes do mesmo lado (ref e PN não se encostam) */
-      if (r.L && cl && r.L.ref !== cl || r.R && cr && r.R.ref !== cr) R.push({ gap: 1 }, { gap: 1 }, { gap: 1 }); if (r.L) cl = r.L.ref; if (r.R) cr = r.R.ref; R.push(r); });
+      if (!r.drain && (r.L && cl && r.L.ref !== cl || r.R && cr && r.R.ref !== cr)) R.push({ gap: 1 }, { gap: 1 }, { gap: 1 }); if (!r.drain) { if (r.L) cl = r.L.ref; if (r.R) cr = r.R.ref; } R.push(r); }); /* dreno fica colado ao seu cabo */
     R.forEach(function (r) { [r.L, r.R].forEach(function (e) { if (e) nw = Math.max(nw, HX.textW(e.name, fs)); }); }); nw = Math.min(42, nw + 1.8);
     var xl = x + nw, xr = x + W - nw - bw, top = y + 4, Y = function (i) { return top + 1.5 + rh * (i + 0.5); };
     function span(side) { var S = [], cur = null; R.forEach(function (r, i) { var e = r[side], ref = e ? e.ref : null; if (ref && (!cur || cur.ref !== ref)) { cur = { ref: ref, c: e.c, i0: i, i1: i }; S.push(cur); } else if (ref && cur) cur.i1 = i; }); return S; }
@@ -20,7 +20,11 @@
       });
     });
     var xa = xl + bw, xb = xr, tl = xa + 9, tr = xb - 9, lab = function (r) { var t = []; if (r.gauge && r.gauge !== D.gauge) t.push(r.gauge); if (r.color && (r.color !== D.color || r.cable)) t.push(HX.colorAbbr(r.color)); return t.join(' - '); };
-    var NX = {}, nn = 0; R.forEach(function (r) { if (r.net && NX[r.net] == null) NX[r.net] = xa + 14 + (xb - xa - 28) * (0.45 + 0.12 * ((nn++ % 5) - 2)); }); /* x da barra de cada emenda */
+    /* x da barra de cada emenda: redes cujas faixas de linhas se cruzam nunca dividem a mesma coluna (não parecem ligadas) */
+    var NX = {}, RG = {}, cols = [], nets; R.forEach(function (r, i) { if (r.net) { var q = RG[r.net] = RG[r.net] || [i, i]; q[1] = i; } });
+    nets = Object.keys(RG).sort(function (a, b) { return RG[a][0] - RG[b][0]; });
+    nets.forEach(function (n) { for (var k = 0; k < cols.length && cols[k] >= RG[n][0] - 1; k++); cols[k] = RG[n][1]; NX[n] = k; });
+    var m = Math.max(1, cols.length), st = Math.min(16, (xb - xa - 30) / m); nets.forEach(function (n) { NX[n] = xa + (xb - xa) * 0.42 + (NX[n] - (m - 1) / 2) * st; }); /* colunas juntas perto do centro */
     R.forEach(function (r, i) {
       var yy = Y(i); g.style({ stroke: col, lw: 0.15, dash: null });
       if (r.L) { g.text(r.L.pin, xl + bw - 0.8, yy, { size: fs, align: 'r', color: col }); g.text(r.L.name, xl - 1.0, yy, { size: fs, align: 'r', color: col }); }
@@ -28,7 +32,8 @@
       if (r.drain) { if (r.L) g.poly([[xa, yy], [tl, yy], [tl, Y(i - 1) + 1.1]], false); if (r.R) g.poly([[xb, yy], [tr, yy], [tr, Y(i - 1) + 1.1]], false); return; }
       if (r.jmp || r.gap) return; /* pino só com jumper: o "U" é desenhado abaixo */
       var x0, x1;
-      if (r.net) { var sx = NX[r.net]; x0 = r.L ? xa : sx; x1 = r.R ? xb : sx; g.line(x0, yy, x1, yy); }
+      if (r.net) { var sx = NX[r.net]; x0 = r.L ? xa : sx; x1 = r.R ? xb : r.ro ? sx + 12 : sx; g.line(x0, yy, x1, yy);
+        if (r.ro) { g.style({ fill: col }); g.circle(x1, yy, 0.35); g.style({ fill: null }); g.text(r.ro.ref, x1 + 0.8, yy - 0.9, { size: fs * 0.85, color: col }); } }
       else { x0 = r.L ? xa : (x + W) / 2 - 6; x1 = r.R ? xb : (x + W) / 2 + 6; g.line(x0, yy, x1, yy);
         [[r.lo, x0, 'r'], [r.ro, x1, 'l']].forEach(function (o) { if (!o[0]) return; g.style({ fill: col }); g.circle(o[1], yy, 0.35); g.style({ fill: null }); g.text(o[0].ref, o[1] + (o[2] === 'r' ? -0.8 : 0.8), yy - 0.9, { size: fs * 0.85, align: o[2], color: col }); }); }
       var t = lab(r); if (t) g.text(t, r.L ? (xa + Math.min(x1, xa + 30)) / 2 : (Math.max(x0, xb - 30) + xb) / 2, yy - 0.75, { size: fs * 0.9, align: 'c', color: col });
