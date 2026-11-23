@@ -57,3 +57,15 @@
   estreito, faixa do barbante); trama recortada no contorno, sem faixas vazias. Detalhe típico fora de escala: as cotas
   5/50/60 e as tolerâncias são editáveis. Nas cotas dos detalhes o **TIP.** fica abaixo da linha de cota, como na prancha.
 * Escala do detalhe limitada a 0,05–10 (valor negativo ou zero não trava mais o desenho).
+
+## v1.9.1 — diagrama de ligação igual ao esquema com emendas e jumpers
+* Cada pino aparece **uma vez** no bloco do seu conector (antes, com emendas, o J1/J2 se repetiam e os fios das
+  emendas ficavam soltos).
+* **Emenda** (SP1, SP2…): linha principal de um conector ao outro com o ponto e o nome da emenda, e uma barra vertical
+  descendo até os pinos derivados (ex.: J1-5 → J2-5 com SP1 levando a J3-2).
+* **Jumper** no mesmo conector: "U" junto ao bloco, entre os dois pinos.
+* Lado de cada conector (esquerda/direita) decidido pelas ligações — não importa o sentido em que o fio foi desenhado.
+* Folga entre blocos de conectores diferentes do mesmo lado (referência e PN não se encostam mais).
+* Emendas que se cruzam no diagrama ficam sempre em colunas diferentes (nunca parecem ligadas), juntas perto do centro.
+* Ponta sem conector (equipamento, terra) ligada numa emenda entra na mesma rede (o pino não se repete); par trançado
+  com emenda mantém a trança; o dreno fica colado ao seu cabo.

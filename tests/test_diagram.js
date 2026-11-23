@@ -56,3 +56,17 @@ test('diagrama: divisa de gênero dentro do bloco, na face (não para fora do co
   eq(chev.length, 2, 'uma divisa por bloco');
   chev.forEach(function (Q) { ok(blocks.some(function (B) { var xs = B.map(function (q) { return q[0]; }), ys = B.map(function (q) { return q[1]; }); return Q.every(function (q) { return q[0] >= Math.min.apply(0, xs) - 1e-6 && q[0] <= Math.max.apply(0, xs) + 1e-6 && q[1] >= Math.min.apply(0, ys) && q[1] <= Math.max.apply(0, ys); }); }), 'divisa dentro do bloco: ' + JSON.stringify(Q)); });
 });
+test('diagrama com emendas e jumper igual ao esquema: cada pino uma vez, barra da emenda até o 3º conector, jumper em U', function () {
+  var d = new HX.Doc(), J1 = d.add(HX.makeConn(d, 'D38999:11-35', 40, 40)), J2 = d.add(HX.makeConn(d, 'D38999:11-35', 260, 40)), J3 = d.add(HX.makeConn(d, 'D38999:13-35', 260, 140));
+  function P(c, i) { return HX.connLayout(c, 2.5).pins[i].pt; } function W(pts) { d.change('w', function () { HX.ops.addWire(d, pts); }); }
+  for (var i = 0; i < 6; i++) W([P(J1, i), P(J2, i)]);
+  var a = P(J1, 4), b = P(J1, 5), xa = (a[0] + P(J3, 1)[0]) / 2, xb = a[0] + (P(J3, 1)[0] - a[0]) * 0.4;
+  W([P(J3, 1), [xa, P(J3, 1)[1]], [xa, a[1]]]); W([[xb, b[1]], [xb, P(J3, 3)[1]], P(J3, 3)]); W([P(J3, 0), [P(J3, 0)[0] - 4, P(J3, 0)[1]], [P(J3, 1)[0] - 4, P(J3, 1)[1]], P(J3, 1)]);
+  var D = HX.physDiagram(d.p), s = function (e) { return e ? e.ref + '.' + e.pin : '-'; };
+  eq(D.rows.map(function (r) { return s(r.L) + '>' + s(r.R) + (r.sp ? '@' + r.sp : ''); }).join(' '),
+    'J1.1>J2.1 J1.2>J2.2 J1.3>J2.3 J1.4>J2.4 J1.5>J2.5@SP1 J1.6>J2.6@SP2 ->J3.1 ->J3.2@SP1 ->J3.4@SP2');
+  eq([D.side.J1, D.side.J2, D.side.J3], ['L', 'R', 'R'], 'lado pelas ligações, não pelo sentido do fio (fio da J3 desenhado saindo dela)');
+  eq(D.jumps.map(function (j) { return j.ref + ':' + j.a + '-' + j.b; }), ['J3:1-2']);
+  var T = [], g = { style: function () {}, line: function () {}, rect: function () {}, circle: function () {}, push: function () {}, pop: function () {}, poly: function () {}, text: function (t) { T.push(String(t)); } };
+  HX.wiringDraw(g, { x: 0, y: 0, w: 170 }, d.p, {}, '#000'); ['J1', 'J2', 'J3', 'SP1', 'SP2'].forEach(function (t) { eq(T.filter(function (x) { return x === t; }).length, 1, t + ' uma vez'); });
+});
