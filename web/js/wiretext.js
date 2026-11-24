@@ -29,11 +29,12 @@
           if (K.length) { r = K[0]; p = tok.slice(r.length); } else if (last && !/[:.\-]/.test(tok) && (pinOf(C[last].pins, tok) || !/^[A-Za-z]+\d+$/.test(tok))) { r = last; p = tok; } } /* pino solto herda o conector anterior */
         if (!r) { err('Conector não encontrado em "' + tok + '" (declare com "' + tok.replace(/[:.\-].*$/, '') + ' = PEÇA").'); return null; }
         var pp = pinOf(C[r].pins, p); if (!pp) { err(r + ' não tem o pino "' + p + '".'); return null; } last = r; return { ref: r, pin: String(pp.n) }; }
-      var src = end(parts[0]); last = null; var dst = parts[1].split(/\s*[,;]\s*|\s+e\s+|\s+/).map(end).filter(Boolean);
+      var SP = /\s*[,;]\s*|\s+e\s+|\s+/, srcs = parts[0].split(SP).map(end).filter(Boolean), src = srcs[0]; last = null; var dst = parts[1].split(SP).map(end).filter(Boolean);
       if (!src || !dst.length) return; var props = {};
       (pr[1] || '').replace(/"([^"]*)"|(\S+)/g, function (_, nm, t) { if (nm != null) return props.name = nm; var u = t.toUpperCase().replace(/AWG$/, '');
         if (/^\d+(\.\d+)?$/.test(u)) props.gauge = u; else if (ENC[u] || PTC[u]) props.color = ENC[u] ? u : PTC[u]; else if (/^NOME=/.test(u)) props.name = t.slice(5); else err('Atributo "' + t + '" não reconhecido (bitola, cor ou "nome").'); });
-      out.links.push({ line: ln, src: src, dst: dst, props: props });
+      out.links.push({ line: ln, src: src, dst: dst, props: props }); /* várias origens (J1:A,B > J2:B): as demais se unem à 1ª via */
+      srcs.slice(1).forEach(function (o) { out.links.push({ line: ln, src: o, dst: [dst[0]], props: props }); });
     });
     return out;
   };

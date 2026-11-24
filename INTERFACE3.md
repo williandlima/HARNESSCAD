@@ -84,3 +84,6 @@
 * Destino que não está de frente (conectores para o mesmo lado, já com fio): contorno por baixo/por cima em pista própria.
 * `#` dentro de aspas faz parte do nome; `J111` com J1 e J11 na folha avisa que é ambíguo (use `J1:11`); "Carregar do
   esquema" usa só a folha atual; o aviso final diz quais conectores foram espelhados para ficar de frente.
+* **União de vias**: `J1:A,B > J2:B` (ou duas linhas com o mesmo destino) — as vias do A e do B se unem numa emenda
+  (bolinha cheia) e dali sai **uma via só** até o J2:B. A via nova encosta na vertical no fio que já existe (nunca corre
+  por cima dele); vale também para um pino que já tem fio indo a um 2º destino. Nenhum trecho de fio fica sobreposto.
