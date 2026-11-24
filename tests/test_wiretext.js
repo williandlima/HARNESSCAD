@@ -25,3 +25,29 @@ test('lista: ligação já existente é pulada; texto gerado do esquema volta à
   eq(r.skipped, ['J1:A→J2:C']); var t = HX.wtFromDoc(d); eq(t, 'J1:A > J2:B, C\nJ1:B > J2:A');
   var e = cena(); e.change('x', function () { HX.wtApply(e, HX.wtParse(e, 'J2 = D38999:13-98\n' + t)); }); eq(nets(e), nets(d), 'reaplicar o texto gerado reproduz o esquema');
 });
+function presos() { /* J1 e J2 com pinos para o mesmo lado e já com fio: não dá para espelhar, o traçado precisa contornar */
+  var d = cena(), b = d.add(HX.makeConn(d, 'D38999:13-98', 200, 40)); b.ref = 'J2'; var a = d.items()[0], P = function (c, i) { return HX.connLayout(c, 2.5).pins[i].pt; };
+  d.change('w', function () { [a, b].forEach(function (c) { HX.ops.addWire(d, [P(c, 9), [P(c, 9)[0] + 5, P(c, 9)[1]]]); }); }); return d; }
+test('lista: contorno com conectores que não podem ser espelhados — cada ligação na sua pista, sem curto', function () {
+  var d = presos(), r; d.change('l', function () { r = HX.wtApply(d, HX.wtParse(d, 'J1:A > J2:B\nJ1:C > J2:D\nJ1:E > J2:F\nJ1:B > J2:A, J2:C')); });
+  eq(r.failed, []); eq(nets(d), ['J1:A J2:B', 'J1:B J2:A J2:C', 'J1:C J2:D', 'J1:E J2:F', 'J1:K', 'J2:K']); eq(HX.buildNetlist(d.p).midTouches.length, 0);
+});
+test('lista: sem caminho livre a ligação é desfeita e volta como "não traçada" (nunca fica curto)', function () {
+  var d = presos(), r0 = HX.wtRouter, r, n0 = nets(d), w0 = d.items().filter(function (i) { return i.type === 'wire'; }).length;
+  HX.wtRouter = function () { var R = r0.apply(this, arguments); R.around = function () { return null; }; return R; };
+  try { d.change('l', function () { r = HX.wtApply(d, HX.wtParse(d, 'J1:A > J2:B\nJ1:C > J2:D')); }); } finally { HX.wtRouter = r0; }
+  eq(r.failed, [1, 2]); eq(nets(d), n0, 'esquema intacto'); eq(d.items().filter(function (i) { return i.type === 'wire'; }).length, w0);
+});
+test('lista: # dentro de aspas, J1/J11 ambíguo, folha atual só, aviso de espelhamento', function () {
+  var d = cena(), c = d.add(HX.makeConn(d, 'D38999:13-98', 40, 140)); c.ref = 'J11';
+  var P = HX.wtParse(d, 'J2 = D38999:13-98\nJ1:A > J2:B | "SINAL#1"  # comentário\nJ11A > J2:C\nJ1:B > J2:D');
+  eq(P.links[0].props.name, 'SINAL#1'); ok(P.errors.length === 0, JSON.stringify(P.errors));
+  var Q = HX.wtParse(d, 'J1A > J11:B'); eq(Q.links.length, 1, 'J1A: só J1 tem pino A (J11 também tem A, mas "J1A" não começa com J11)');
+  var e = cena(); e.p.sheets.push({ name: 'F2', items: [] }); var o = e.add(HX.makeConn(e, 'D38999:13-98', 200, 40)); o.ref = 'J2';
+  e.change('x', function () { HX.wtApply(e, HX.wtParse(e, 'J1:A > J2:A')); }); e.sheet = 1; eq(HX.wtFromDoc(e), '', 'outra folha não entra'); e.sheet = 0; eq(HX.wtFromDoc(e), 'J1:A > J2:A');
+  var f = cena(), r; f.change('l', function () { r = HX.wtApply(f, HX.wtParse(f, 'J2 = D38999:13-98\nJ1:A > J2:A')); }); ok(Array.isArray(r.flipped), 'lista de espelhados devolvida');
+});
+test('lista: "J111" com J1 e J11 de pinos numéricos é ambíguo (J1:11 ou J11:1) e pede ":"', function () {
+  var d = new HX.Doc(); ['J1', 'J11', 'J2'].forEach(function (r, i) { var c = d.add(HX.makeConn(d, 'D38999:15-35', 40 + 120 * i, 40)); c.ref = r; });
+  var P = HX.wtParse(d, 'J111 > J2:3\nJ1:11 > J2:4'); eq(P.links.length, 1); ok(/ambíguo/.test(P.errors[0].msg) && /J1:11/.test(P.errors[0].msg) && /J11:1/.test(P.errors[0].msg), P.errors[0].msg);
+});

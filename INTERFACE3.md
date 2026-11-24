@@ -79,3 +79,8 @@
 * Traçado automático: coluna própria por pino de origem com as derivações em T (emenda automática), sem encostar em
   outros fios; com pinos alinhados aos de outra rede, a saída faz um pequeno desvio.
 * **Carregar do esquema** escreve a lista das ligações atuais; o texto fica salvo no projeto.
+* **Segurança contra curto**: depois de cada ligação as redes são conferidas; se o traçado juntaria redes que a lista
+  não pede (ou não ligaria o pedido), a ligação é desfeita e aparece como "NÃO traçada" com o nº da linha.
+* Destino que não está de frente (conectores para o mesmo lado, já com fio): contorno por baixo/por cima em pista própria.
+* `#` dentro de aspas faz parte do nome; `J111` com J1 e J11 na folha avisa que é ambíguo (use `J1:11`); "Carregar do
+  esquema" usa só a folha atual; o aviso final diz quais conectores foram espelhados para ficar de frente.

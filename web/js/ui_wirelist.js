@@ -26,7 +26,11 @@
       if (!P.links.length && !P.conns.length) return UI.toast('Nenhuma ligação na lista.', true), false;
       var r; doc.change('Lista de fiação', function () { doc.p.wtext = tx.value; r = HX.wtApply(doc, P, { names: UI.$('#wlNm', el).checked }); });
       doc.select(r.wires.map(function (w) { return w.id; }).concat(r.conns.map(function (c) { return c.id; }))); app.view.nl = null; if (app.view.redraw) app.view.redraw();
-      UI.toast(r.wires.length + ' ligação(ões) desenhada(s), ' + r.conns.length + ' conector(es) novo(s)' + (r.skipped.length ? '; já ligados (pulados): ' + r.skipped.slice(0, 6).join(', ') + (r.skipped.length > 6 ? '…' : '') : '') + '.');
+      var msg = r.wires.length + ' fio(s) desenhado(s), ' + r.conns.length + ' conector(es) novo(s)' + (r.skipped.length ? '; já ligados (pulados): ' + r.skipped.slice(0, 6).join(', ') + (r.skipped.length > 6 ? '…' : '') : '') +
+        (r.flipped.length ? '; espelhado(s) para ficar de frente: ' + r.flipped.join(', ') : '') + '.';
+      if (r.failed.length) { UI.toast('Linha(s) ' + r.failed.join(', ') + ' NÃO traçada(s): sem caminho livre sem encostar em outro fio. Afaste os conectores e desenhe de novo (o resto foi desenhado). ' + msg, true);
+        var box = UI.$('#wlPv', el); if (box) box.innerHTML += '<div style="color:#d33"><b>Não traçadas (sem curto): linha(s) ' + r.failed.join(', ') + '</b></div>'; return false; }
+      UI.toast(msg);
     }
   };
   HX.MENU_EXTRA = HX.MENU_EXTRA || [];
