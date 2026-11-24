@@ -116,8 +116,8 @@
             if (ct && ct.pn && ct.pn !== 'integral') add('3-Contato', ct.pn, 'Contato #' + ct.size + ' ' + (it.gender === 'P' ? 'pino' : 'soquete') + (ct.awg ? ' ' + ct.awg[0] + (ct.awg[1] !== ct.awg[0] ? '–' + ct.awg[1] : '') + ' AWG' : ''), 1, 'pç', it.ref);
           });
         } else if (it.type === 'splice' && it.kind !== 'junction') {
-          var sp = HX.CAT.splices[it.kind] || {};
-          add('4-Emenda', it.part || sp.pn || it.kind, sp.d || 'Emenda', 1, 'pç', it.ref);
+          var sp = HX.CAT.splices[it.kind] || {}, ap = HX.splicePN ? HX.splicePN(p, s, it, nl) : null; /* PN pelo datasheet (splice_sel.js) */
+          add('4-Emenda', (ap && ap.pn) || it.part || sp.pn || it.kind, (ap && ap.desc) || sp.d || 'Emenda', 1, 'pç', it.ref);
         } else if (it.type === 'wire') {
           var t = HX.wireType(it.wtype);
           var LL = HX.computeLengths ? (nl._dims || (nl._dims = HX.computeLengths(p, nl))) : null, lw = LL && LL.wires[it.id];
