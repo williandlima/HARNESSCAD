@@ -46,6 +46,8 @@ Responda sempre em **português**.
 - Lista de fiação em texto (`J1:A > J2:B, J2:C` → esquema): `wiretext.js` (leitura, `HX.wtParse`, `HX.wtFromDoc`),
   `wiretext2.js` (roteador `HX.wtRouter`: caminho livre, contorno), `wiretext3.js` (`HX.wtApply`: barramento,
   conferência das redes a cada ligação — desfaz o que daria curto), `ui_wirelist.js` (janela, Shift+L).
+- Emendas pelo datasheet TE (só fonte oficial): `cat_splice.js` (séries `HX.SPLICE_LIB`, CMA, série padrão por tipo),
+  `splice_tab.js` (tabelas A/B/C transcritas do PDF), `splice_sel.js` (PN pelas bitolas, lista de materiais, ERC), `ui_splice.js` (painel).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),

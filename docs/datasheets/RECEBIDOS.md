@@ -10,7 +10,7 @@
 | TE M85049/88-15W02 | ficha band lock | 1–2 | conferência |
 | Amphenol PT Series (53 p.) | **MIL-DTL-26482 Série 1** (MS3110/3111/3112/3114/3116 solda; MS3120/3121/3122/3124/3126 crimp SE) | 6–12 arranjos, 15–20 e 30–37 desenhos, 39–43 acessórios (tampas, tampões, juntas, braçadeiras), 44–45 ferramentas e contatos | MS26482 (lote B) |
 | ITT Cannon (36 p.) | **MIL-DTL-5015** (MS3100/3101/3102/3106/3108) e CA/MS A&B | 15–18 arranjos, 21–28 desenhos (28 = plugue c/ adaptador p/ bota), 32–34 tampas | MS5015 (lote B) |
-| TE Raychem Electrical Interconnect (88 p.) | SolderSleeve: emendas (7–12), SolderGrip (13–18), DuraSeal (19–20), MiniSeal (23–28), terminais (29–40), terminadores de fio (42–45), **blindagem M83519 (47–55)** ✅, coaxiais (57–60), BNC/TNC (61–66), emendas de cabo (68–75), SolderTacts (77–83) | alça Luvas de solda ✅ (p. 52); biblioteca de Emendas e Terminais (passo 7) |
+| TE Raychem Electrical Interconnect (88 p.) | SolderSleeve: emendas (7–12), SolderGrip (13–18), DuraSeal (19–20), MiniSeal (23–28), terminais (29–40), terminadores de fio (42–45), **blindagem M83519 (47–55)** ✅, coaxiais (57–60), BNC/TNC (61–66), emendas de cabo (68–75), SolderTacts (77–83) | alça Luvas de solda ✅ (p. 52); **Emendas ✅ v1.9.3** (pp. 7–28: `cat_splice.js`, `splice_tab.js`); Terminais pendente (pp. 29–40) |
 | Micro-D (2 p.) | M83513/03 e /04 | 1–2 | Micro-D M83513 (lote B) |
 | SolderTacts (8 p.) | contatos blindados de solda | 4–7 tabelas | contatos coaxiais/blindados (passo 5) |
 | Metaltex KF KM (1 p.) | kits de retenção D-Sub (fêmea KF, macho KM) e conector Centronics CS | 13 | alça Kits de retenção ✅ |

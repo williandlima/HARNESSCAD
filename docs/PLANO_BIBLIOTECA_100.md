@@ -20,7 +20,7 @@ oficial** (fonte, página); sem datasheet = "aguardando" e pede-se o documento.
 | Vistas frontais | 531 | D38999 53 + D-Sub 38 + M80 18 = 109 | 21% |
 | Contatos / tampões | 51 famílias | 13 com fonte oficial | 25% |
 | Fios e cabos | 25 tipos | 0 com fonte registrada | 0% |
-| Emendas | 6 tipos | 0 (genéricas) | 0% |
+| Emendas | 9 séries TE / 49 PNs | 49 com fonte (TE Electrical Interconnect pp. 7–28): SolderSleeve D-110/D-1744/B-155/CWT, MiniSeal D-436 (M81824/1) e D-200 (M81824/11), DuraSeal D-406, SolderGrip SGRP/SGRS · terminais: pendente | emendas 100% · terminais 0% |
 | Itens: Adaptadores / Botas / Transições | 90 | PN 100%; traço só Pre-Shield; 202K aproximada | ~60% |
 | Itens: Luvas, Espaguetes, Amarração | 58 | PN de memória (sem PDF conferido) | ~0% validado |
 | Itens: Cordoalhas, Capas, Kits, Etiquetas | 61 | sem PN (genéricos) | 0% |
@@ -41,6 +41,8 @@ Pronto quando: os números desta tabela saem do próprio programa.
 * v1.8.3: receptáculos MS3470/3471/3474 pelo catálogo → **MS34 completo** (plugue, 3 receptáculos, 34 arranjos, contatos).
 * v1.8.4: kits de retenção Metaltex KF/KM. v1.8.5: os 6 adaptadores Amphenol desenhados e bota 202K exata →
   **alça Adaptadores completa**. Próximo (sem depender do usuário): emendas e terminais (TE), MS26482-1, MS5015, Micro-D.
+* v1.9.3: **emendas completas** pelo TE Electrical Interconnect (pp. 7–28): 9 séries, 49 PNs com fonte; tabelas de seleção
+  A/B/C transcritas e conferidas por script contra o PDF; PN escolhido pelas bitolas (lista de materiais e ERC). Próximo: terminais (pp. 29–40).
 
 ### Passo 1 — Prioridade (você)
 Você manda: os **15–20 PNs / famílias mais usados** na empresa e as famílias que **nunca** usam.

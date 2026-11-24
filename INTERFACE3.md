@@ -87,3 +87,15 @@
 * **União de vias**: `J1:A,B > J2:B` (ou duas linhas com o mesmo destino) — as vias do A e do B se unem numa emenda
   (bolinha cheia) e dali sai **uma via só** até o J2:B. A via nova encosta na vertical no fio que já existe (nunca corre
   por cima dele); vale também para um pino que já tem fio indo a um 2º destino. Nenhum trecho de fio fica sobreposto.
+
+## v1.9.3 — biblioteca de emendas pelo datasheet TE (PN escolhido pelas bitolas)
+* Fonte: TE Raychem *Electrical Interconnect Products* (pp. 7–28) — 9 séries, 49 PNs, cada um com página:
+  luvas de solda **D-1744 (NAS 1744)**, D-110, B-155, CWT; crimpadas **D-436 (M81824/1)** e **D-200 (M81824/11)**;
+  DuraSeal **D-406**; emenda de ponta SolderGrip **SGRP/SGRS** (novo tipo "Emenda de ponta").
+* O **PN sai sozinho** pelas bitolas dos fios na emenda, pela regra do datasheet: tabelas de seleção A/B/C (até 2 fios
+  da mesma bitola por lado), CMA total (Tabela E) ou barril por lado (crimpadas). Na lista de materiais vai o MIL
+  equivalente quando existe (ex.: **M81824/1-2** = TE D-436-37).
+* Painel da emenda: série (padrão da casa por tipo: solda D-1744, crimp D-436, topo D-406, ponta SGRS), PN e motivo,
+  ambiente, temperatura, norma, material, ferramenta, procedimento, cor, medidas e fonte. PN digitado tem prioridade.
+* ERC avisa quando nenhuma peça da série serve (ex.: 26 AWG com 12 AWG na mesma emenda crimpada).
+* A prancha física lista as emendas com o PN do datasheet.
