@@ -69,3 +69,13 @@
 * Emendas que se cruzam no diagrama ficam sempre em colunas diferentes (nunca parecem ligadas), juntas perto do centro.
 * Ponta sem conector (equipamento, terra) ligada numa emenda entra na mesma rede (o pino não se repete); par trançado
   com emenda mantém a trança; o dreno fica colado ao seu cabo.
+
+## v1.9.2 — lista de fiação em texto (escrever a ligação e o esquema é desenhado)
+* **Ferramentas › Lista de fiação (texto)…** (Shift+L; também um botão na janela *Conectar pino a pino*). Uma ligação
+  por linha: `J1:A > J2:B, J2:C` (o A do J1 vai no B e no C do J2); `J1B > J3:D,E` (pino sem conector herda o anterior).
+* Conector novo direto na lista: `J4 = D38999:13-98` (P/S no fim = macho/fêmea). Depois de `|`: bitola, cor (PR, VM,
+  AZ… ou BK, RD…) e nome do sinal entre aspas — ex.: `J1:C > J2:A | 22 PR "SINAL_X"`. Comentário com `#`.
+* Prévia com erro por linha (conector ou pino inexistente) antes de desenhar; ligação que já existe é pulada.
+* Traçado automático: coluna própria por pino de origem com as derivações em T (emenda automática), sem encostar em
+  outros fios; com pinos alinhados aos de outra rede, a saída faz um pequeno desvio.
+* **Carregar do esquema** escreve a lista das ligações atuais; o texto fica salvo no projeto.
