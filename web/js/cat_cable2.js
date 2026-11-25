@@ -43,4 +43,15 @@
         else r.drainWire = w; } }
     return r;
   };
+  /* ESPECIFICAÇÃO EM LOTE (bitola, tipo, cor, trança) para as vias de um cabo ou fios selecionados — usado pelas
+     Propriedades (ui_cabspec.js). Bitola fora da lista do tipo novo → a mais próxima da lista. Trança: pares na ordem. */
+  HX.cableSpecSet = function (doc, W, s) { var n = 0, tg = 0;
+    W.forEach(function (w, i) { if (s.wtype) w.wtype = s.wtype; var t = HX.wireType(w.wtype), G = t && t.gauges || [];
+      if (s.gauge) w.gauge = String(s.gauge); if (G.length && G.indexOf(String(w.gauge)) < 0) w.gauge = G.reduce(function (b, g) { return Math.abs(+g - +w.gauge) < Math.abs(+b - +w.gauge) ? g : b; }, G[0]);
+      if (s.color) w.color = s.color;
+      if (s.tw === true) { if (i % 2 === 0) tg = ++doc.p._twN || (doc.p._twN = 1); w.twist = (W.length - i === 1 && i % 2 === 0) ? '' : 'TP' + tg; } else if (s.tw === false) w.twist = '';
+      n++; });
+    return n; };
+  /* valor comum das vias (ou null se misto) */
+  HX.specCommon = function (W, k) { var v = W.length ? W[0][k] || '' : ''; return W.every(function (w) { return (w[k] || '') === v; }) ? v : null; };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -30,6 +30,7 @@
     itens: 'M2 7h6v10H2zM8 9l7 1.5v3L8 15M15 12h7M17 9.5v5M20 9.5v5',
     atualizar: 'M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5',
     posicao: 'M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3',
+    bitola: 'M12 12m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0-6 0M2 12h3M19 12h3',
     comprimento: 'M3 9h18v6H3zM7 9v3M11 9v3M15 9v3M19 9v3',
     editar: 'M4 20h4L19 9l-4-4L4 16zM13 7l4 4',
     girar: 'M20 12a8 8 0 1 1-3-6.3M20 3v5h-5', espelhar: 'M12 3v18M8 7l-5 5 5 5zM16 7l5 5-5 5z',
@@ -41,7 +42,7 @@
     [/pino a pino/i, 'pinoapino'], [/lista de fia/i, 'tabela'], [/itens da cablagem/i, 'itens'], [/cat[aá]logo de detalhes/i, 'catdet'], [/^conector(?! personalizado)|conector do cat/i, 'conector'],
     [/^fio\b/i, 'fio'], [/emenda/i, 'emenda'], [/label/i, 'label'], [/^texto/i, 'texto'], [/verifica|erc/i, 'erc'], [/gerar desenho f|atualizar a partir/i, 'fisico'],
     [/deriva/i, 'derivacao'], [/cota livre/i, 'cotalivre'], [/cota/i, 'cota'], [/bal[aã]o/i, 'balao'], [/etiqueta/i, 'etiqueta'], [/^detalhe/i, 'detalhe'],
-    [/posi[cç][aã]o/i, 'posicao'], [/comprimento/i, 'comprimento'], [/girar/i, 'girar'], [/espelhar/i, 'espelhar'], [/^excluir$/i, 'excluir'], [/renomear|editar|identifica/i, 'editar']];
+    [/posi[cç][aã]o/i, 'posicao'], [/comprimento/i, 'comprimento'], [/^bitola/i, 'bitola'], [/girar/i, 'girar'], [/espelhar/i, 'espelhar'], [/^excluir$/i, 'excluir'], [/renomear|editar|identifica/i, 'editar']];
   HX.iconFor = function (t) { for (var i = 0; i < RX.length; i++) if (RX[i][0].test(String(t || ''))) return N[RX[i][1]]; return null; };
   var u0 = HX.uiIcon, REV = {};
   Object.keys(N).forEach(function (k) { var o = u0(k); if (o && o !== u0('dot')) REV[o] = N[k]; });
