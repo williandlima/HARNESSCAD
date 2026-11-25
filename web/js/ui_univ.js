@@ -15,7 +15,7 @@
     { k: 'uChev', l: 'Macho/fêmea', type: 'select', opts: D.concat([['mid', 'No meio'], ['top', 'Em cima'], ['bottom', 'Embaixo'], ['off', 'Ocultar']]) },
     { k: 'uChevSz', l: 'Tamanho do > <', type: 'number', step: 0.5 }, { k: 'uPinSz', l: 'Texto dos contatos', type: 'number', step: 0.1 },
     { k: 'uNames', l: 'Nome dos sinais', type: 'select', opts: D.concat([['on', 'Mostrar'], ['off', 'Ocultar']]) },
-    { k: 'uNumPos', l: 'Números e nomes', type: 'select', opts: D.concat([['in', 'Nº dentro, nome fora na perna (padrão)'], ['out', 'Nº fora na perna, nome dentro (antigo)']]) },
+    { k: 'uNumPos', l: 'Números e nomes', type: 'select', opts: D.concat([['in', 'Nº dentro, nome fora do lado oposto (padrão)'], ['out', 'Nº fora na perna, nome dentro (antigo)']]) },
     { k: 'uPN', l: 'Part number', type: 'select', opts: D.concat([['on', 'Mostrar'], ['off', 'Ocultar']]) },
     { k: 'uRefPos', l: 'Referência', type: 'select', opts: D.concat([['above', 'Acima'], ['below', 'Abaixo']]) },
     { k: 'uGnd', l: 'Aterramento', type: 'select', opts: D.concat([['none', 'Nenhum'], ['earth', 'Terra'], ['chassis', 'Chassi / carcaça'], ['shield', 'Blindagem']]) },

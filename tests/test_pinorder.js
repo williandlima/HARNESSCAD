@@ -20,12 +20,12 @@ test('conector girado: ←/→ trocam o pino; pinAt acha o pino pela perna', fun
   var n0 = nets(d), r; d.change('m', function () { r = [HX.pinMove(d, a, 'A', 1, 0), HX.pinMove(d, a, 'A', 0, 1)]; }); eq(r, [true, false]); eq(nets(d), n0);
   var q2 = HX.connLayout(b, 2.5).pins[2], h = HX.pinAt(d, q2.pt, 1); eq(h && h.c.ref + ':' + h.n, 'J2:' + q2.n);
 });
-test('símbolo padrão: número/letra dentro do corpo, nome da via fora sobre a perna (opção "antigo" inverte)', function () {
+test('símbolo padrão: número/letra dentro do corpo, nome da via fora do lado oposto, na linha do pino (opção "antigo" inverte)', function () {
   var d = new HX.Doc(), c = d.add(HX.makeConn(d, 'D38999:13-98', 40, 40)); c.pins[0].name = 'SINAL_X'; var T = [];
   var g = { push: function () {}, pop: function () {}, style: function () {}, line: function () {}, poly: function () {}, rect: function () {}, circle: function () {}, text: function (t, x) { T.push([String(t), x]); } };
   var o = { theme: HX.THEMES ? HX.THEMES.light || {} : {}, connected: new Set() }, L = HX.connLayout(c, d.p.unit);
   HX.SYMBOLS.univ(g, c, d.p, 0, o, L); var num = T.filter(function (t) { return t[0] === 'A'; })[0], nm = T.filter(function (t) { return t[0] === 'SINAL_X'; })[0];
-  ok(num[1] < L.w && num[1] > 0, 'número dentro (x=' + num[1] + ')'); ok(nm[1] > L.w, 'nome fora (x=' + nm[1] + ')');
+  ok(num[1] < L.w && num[1] > 0, 'número dentro (x=' + num[1] + ')'); ok(nm[1] < 0, 'nome fora, do lado oposto às pernas (x=' + nm[1] + ')');
   c.uNumPos = 'out'; c.wu = 24; L = HX.connLayout(c, d.p.unit); T = []; /* corpo largo: no antigo o nome só aparece se couber dentro */ HX.SYMBOLS.univ(g, c, d.p, 0, o, L); num = T.filter(function (t) { return t[0] === 'A'; })[0]; nm = T.filter(function (t) { return t[0] === 'SINAL_X'; })[0];
   ok(num[1] > L.w && nm[1] < L.w, 'antigo: número fora, nome dentro');
 });
