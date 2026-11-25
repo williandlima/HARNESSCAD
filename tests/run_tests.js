@@ -41,6 +41,7 @@ require('./test_wiretext2');
 require('./test_splice');
 require('./test_pinorder');
 require('./test_fonts');
+require('./test_cable');
 require('./test_dxf');
 require('./test_milcasa');
 require('./test_tecnico');

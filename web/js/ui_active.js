@@ -10,7 +10,7 @@
   function tool(t) { return function (app) { app.tools.setTool(t); }; }
   /* [rótulo, ícone, atalho, ação(app) | nome da ferramenta] ; '|' = separador */
   var SCH = [['Selecionar', 'select', 'Esc', 'select'], ['Conector do catálogo', 'conector', 'A', function (app) { app.focusCatalog(); }], ['Fio', 'wire', 'W', 'wire'], ['Emenda', 'splice', 'J', 'splice'],
-    ['Label de circuito', 'label', 'L', 'label'], ['Cabo / blindagem', 'cable', 'C', 'cable'], ['Texto', 'texto', 'T', 'text'], '|',
+    ['Label de circuito', 'label', 'L', 'label'], ['Cabo do catálogo (vias prontas, blindagem e dreno)', 'cabo', '', function (app) { UI.cableDialog && UI.cableDialog(app); }], ['Blindagem sobre fios (oval)', 'cable', 'C', 'cable'], ['Texto', 'texto', 'T', 'text'], '|',
     ['Conectar pino a pino', 'pinoapino', 'Shift+P', function (app) { UI.pinToPinDialog && UI.pinToPinDialog(app); }], ['Lista de fiação (texto)', 'tabela', 'Shift+L', function (app) { UI.wireListDialog && UI.wireListDialog(app); }], '|',
     ['Verificação elétrica (ERC)', 'erc', 'F2', function (app) { app.erc(); }], ['Gerar desenho físico', 'fisico', '', function (app) { var f = cmd(app, 'Gerar desenho físico'); if (f) f(); }]];
   var PHY = [['Selecionar', 'select', 'Esc', 'select'], ['Derivação', 'brk', 'B', 'brk'], ['Cota do chicote', 'dim', 'D', 'dim'], ['Cota livre', 'cota', 'Shift+D', 'pdimx'], ['Balão', 'circuito', 'Shift+B', 'pballx'],
@@ -34,9 +34,15 @@
       bar.innerHTML = '<b>' + (ph ? 'Físico' : 'Esquema') + '</b>' + L.map(function (x, i) { return x === '|' ? '<i></i>' : '<button data-i="' + i + '" title="' + HX.esc(x[0] + (x[2] ? ' (' + x[2] + ')' : '')) + '">' + svg(x[1]) + '</button>'; }).join('');
       [].forEach.call(bar.querySelectorAll('button'), function (b) { var x = L[+b.dataset.i]; b.onclick = function (e) { e.stopPropagation(); if (typeof x[3] === 'string') tool(x[3])(app); else x[3](app); mark(); app.view.cv.focus && app.view.cv.focus(); }; });
       mark(); }
-    function mark() { var L = kind ? PHY : SCH; [].forEach.call(bar.querySelectorAll('button'), function (b) { var x = L[+b.dataset.i]; b.classList.toggle('on', typeof x[3] === 'string' && app.tools.tool === x[3]); }); }
+    function mark() { var L = kind ? PHY : SCH; [].forEach.call(bar.querySelectorAll('button[data-i]'), function (b) { var x = L[+b.dataset.i]; b.classList.toggle('on', typeof x[3] === 'string' && app.tools.tool === x[3]); }); }
     var T = app.tools, st0 = T.setTool; T.setTool = function () { var r = st0.apply(this, arguments); mark(); return r; };
     app.doc.on('change', function () { setTimeout(build, 0); }); build(); app._abBuild = build;
+    /* ações do item selecionado (as mesmas do clique direito e do painel), à direita da barra */
+    var sb = document.createElement('span'); sb.style.cssText = 'display:flex;gap:2px;align-items:center'; bar.appendChild(sb);
+    function selActs() { var A = HX.selActions ? HX.selActions(app).slice(0, 6) : []; sb.innerHTML = A.length ? '<i></i>' + A.map(function (a, k) { var ic = HX.uiIcon(a[0]) !== HX.uiIcon('dot'), t = a[0].replace(/…$/, '').replace(/\s*\(.*\)$/, ''); return '<button data-a="' + k + '" title="' + HX.esc(a[0]) + '"' + (ic ? '>' + svg(a[0]) : ' style="width:auto;padding:0 6px;font-size:11px">' + HX.esc(t.length > 14 ? t.slice(0, 13) + '…' : t)) + '</button>'; }).join('') : '';
+      [].forEach.call(sb.querySelectorAll('button'), function (b) { b.onclick = function (e) { e.stopPropagation(); A[+b.dataset.a][1](); }; }); }
+    app.doc.on('select', function () { setTimeout(selActs, 0); });
+    var b0 = build; build = function () { b0(); if (sb.parentNode !== bar) bar.appendChild(sb); selActs(); }; app._abBuild = build;
     /* ---- menu de contexto do esquema ---- */
     var cv = app.view.cv, rd = null;
     /* o menu só abre num clique direito SEM arrastar (arrastar com o direito continua movendo a tela); no Windows o evento vem ao
@@ -50,20 +56,8 @@
     function open(e) {
       var doc = app.doc;
       var r = cv.getBoundingClientRect(), pt = app.view.toWorld(e.clientX - r.left, e.clientY - r.top), hit = app.view.hitTest(pt), E = [];
-      function ch(l, f) { return [l, function () { doc.change(l, f); app.view.redraw(); }]; }
-      if (hit && hit.type === 'conn') { doc.select([hit.id]); E.push('Conector ' + (hit.ref || ''), ['Conectar pino a pino…', function () { UI.pinToPinDialog(app); }], ['Lista de fiação (texto)…', function () { UI.wireListDialog(app); }], '-',
-        ['Girar 90°', btn('rot')], ['Espelhar', btn('mx')]);
-        if (HX.pinOrderChanged && HX.pinOrderChanged(doc, hit)) E.push(ch('Voltar à ordem dos pinos do catálogo', function () { HX.pinOrderReset(doc, hit); }));
-        E.push(['Dica: clique num pino e use ↑/↓ para mudar a posição dele', function () {}], '-', ['Pincel de formatação (copiar aparência)', function () { app.tools.setTool('paint'); }], ['Excluir', function () { HX.ops.deleteSel(doc); }]); }
-      else if (hit && hit.type === 'wire') { doc.select([hit.id]); var hid = HX.wireLblOpts(hit).lblPos === 'n';
-        E.push('Fio ' + (hit.num || ''), ch(hid ? 'Mostrar identificação do fio' : 'Ocultar identificação do fio', function () { hit.lblPos = hid ? 'a' : 'n'; }),
-          ['Selecionar o circuito inteiro', function () { var nl = HX.buildNetlist(doc.p), nd = nl.nodes[doc.sheet + '|' + HX.key(hit.pts[0][0], hit.pts[0][1])], W = nd && nd.net ? nd.net.wires : [hit]; doc.select(W.map(function (w) { return w.id; })); }],
-          '-', ['Excluir', function () { HX.ops.deleteSel(doc); }]); }
-      else if (hit && hit.type === 'splice') { doc.select([hit.id]); E.push('Emenda ' + (hit.ref || ''));
-        Object.keys(HX.CAT.splices).forEach(function (k) { E.push(ch((hit.kind === k ? '✓ ' : '') + HX.CAT.splices[k].d, function () { hit.kind = k; })); }); E.push('-', ['Excluir', function () { HX.ops.deleteSel(doc); }]); }
-      else { var P = ['Conector do catálogo', 'Fio', 'Emenda', 'Label de circuito', 'Texto'], K = [function () { app.focusCatalog(); }, tool('wire'), tool('splice'), tool('label'), tool('text')];
-        E.push('Esquema'); P.forEach(function (l, i) { E.push([l, function () { K[i](app); }]); });
-        E.push('-', ['Lista de fiação (texto)…', function () { UI.wireListDialog(app); }], ['Colar', function () { app.tools.paste(); }], ['Ajustar à folha', function () { app.view.fit(); }]); }
+      if (hit && !(doc.sel.size > 1 && doc.sel.has(hit.id))) doc.select([hit.id]); /* clique direito num item de uma seleção múltipla mantém a seleção */
+      E = HX.itemActions ? HX.itemActions(app, hit) : []; /* lista única: ui_actions.js */
       UI.ctxMenu(e.clientX, e.clientY, E);
     }
   };

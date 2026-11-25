@@ -53,6 +53,10 @@ Responda sempre em **português**.
 - Interface tipo Altium: `ui_active.js` (barra ativa no topo do desenho por tipo de folha + menu de contexto do esquema;
   o do físico é `ui_phys6.js`). Padrão visual: `symbols4.js` (preto, sem preenchimento, 2,5 mm), `HX.THEME.wire` preto,
   fio novo com `lblPos: 'n'` (`edit2.js`).
+- Interface (v1.9.5): `ui_layout2.js` (painéis automáticos/trilhos, alfinete), `ui_flow.js` (dicas na folha vazia e fluxo
+  guiado `HX.flowState`), `ui_actions.js` (`HX.itemActions`/`HX.selActions`: clique direito, topo das Propriedades e barra
+  ativa; aba Esquema da faixa). Cabos: `cat_cable.js` (`HX.CABLE_LIB`, `HX.cableInsert`, `HX.cableApply`, ERC de vias),
+  `ui_cable.js` (aba Cabos, janela). M27500/LiYCY/STP aguardando datasheet.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
@@ -91,5 +95,6 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 - **Roteiro da biblioteca 100%**: `docs/PLANO_BIBLIOTECA_100.md` (passos 0–10, critério de pronto por tipo de item).
 - Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
+- Datasheets de cabo: folha MIL-DTL-27500 e datasheets LiYCY/STP usados (para o construtor de PN e os modelos).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
 - Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow no dev).

@@ -25,3 +25,19 @@
   mouse — conector (pino a pino, lista de fiação, girar, espelhar, voltar à ordem dos pinos, pincel, excluir), fio
   (mostrar/ocultar identificação, selecionar o circuito, excluir), emenda (tipo), área vazia (inserir, colar, ajustar).
 * Menus de contexto legíveis no tema claro (o texto saía cinza-claro sobre branco).
+
+## v1.9.5 — mais área de desenho, fluxo guiado, ações do item e modelos de cabo
+* **Painéis automáticos** (área de desenho ~80 % maior): trilho fino de ícones na esquerda (Conectores, Fios, Emendas,
+  Cabos) e na direita (Propriedades). O painel abre **flutuando** sobre o desenho e fecha ao clicar fora (Esc também);
+  **Propriedades abrem sozinhas** quando há algo selecionado; tabelas de baixo recolhidas (abrem ao clicar na aba e
+  recolhem ao voltar ao desenho). **📍 Alfinete** fixa o painel como antes. F9 continua (modo foco).
+* **Dicas no desenho:** folha vazia mostra "Por onde começar"; dicas na barra de status das ferramentas do físico.
+* **Fluxo guiado** (canto inferior esquerdo): 1 Conectores → 2 Ligações → 3 Verificar → 4 Desenho físico → 5 Lista/PDF,
+  com ✓, o que falta (pontas soltas, erros do ERC…) e clique que leva à ação. ✕ oculta; volta em Exibir › Fluxo guiado.
+* **Ações do item** (as mesmas do clique direito): botões no topo das Propriedades e na barra ativa, à direita.
+* **Faixa:** nova aba **Esquema** (Conectores, Ligações, Cabos, Verificar); aba Desenho físico ganha o grupo Conector
+  (Itens da cablagem — também em Inserir).
+* **Modelos de cabo** (aba **Cabos** do catálogo, barra ativa, Inserir › Cabo do catálogo): escolher o modelo, nº de
+  vias, bitola, pares trançados, blindagem, dreno e PN; **Inserir** e clicar no esquema cria as vias prontas (passo dos
+  pinos), com o oval da blindagem e o dreno. **Transformar em cabo**: selecione fios › clique direito. ERC avisa nº de
+  fios ≠ nº de vias. M27500, LiYCY e STP estão **aguardando datasheet** (PN digitado até chegarem os documentos).

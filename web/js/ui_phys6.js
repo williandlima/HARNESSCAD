@@ -17,7 +17,7 @@
     document.body.appendChild(menu);
     var r = menu.getBoundingClientRect(); if (r.right > innerWidth) menu.style.left = (innerWidth - r.width - 4) + 'px'; if (r.bottom > innerHeight) menu.style.top = (innerHeight - r.height - 4) + 'px';
   }
-  HX.UI.ctxMenu = show;
+  HX.UI.ctxMenu = show; HX.physActions = function (app, pt) { return entriesFor(app, pt); }; /* também no painel (ui_actions.js) */
   function entriesFor(app, pt) {
     var doc = app.doc, sh = doc.cur(), t = app.tools, pk = HX.physPick(sh, pt, 10 / app.view.s), hit = app.view.hitTest ? app.view.hitTest(pt) : null, E = [];
     function ch(label, fn) { return [label, function () { var out; doc.change(label, function () { out = fn(); }); if (out && out.id) doc.select([out.id]); }]; }

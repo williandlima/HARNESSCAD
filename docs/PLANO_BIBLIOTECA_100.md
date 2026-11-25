@@ -19,7 +19,7 @@ oficial** (fonte, página); sem datasheet = "aguardando" e pede-se o documento.
 | Conectores (51 famílias) | 531 peças | 120 (D38999, D-Sub ×4, M80, MS3476 plugue) | 23% |
 | Vistas frontais | 531 | D38999 53 + D-Sub 38 + M80 18 = 109 | 21% |
 | Contatos / tampões | 51 famílias | 13 com fonte oficial | 25% |
-| Fios e cabos | 25 tipos | 0 com fonte registrada | 0% |
+| Fios e cabos | 25 tipos + 5 modelos de cabo | 0 com fonte registrada (M27500, LiYCY, STP aguardando datasheet; ferramenta de cabo pronta v1.9.5) | 0% |
 | Emendas | 9 séries TE / 49 PNs | 49 com fonte (TE Electrical Interconnect pp. 7–28): SolderSleeve D-110/D-1744/B-155/CWT, MiniSeal D-436 (M81824/1) e D-200 (M81824/11), DuraSeal D-406, SolderGrip SGRP/SGRS · terminais: pendente | emendas 100% · terminais 0% |
 | Itens: Adaptadores / Botas / Transições | 90 | PN 100%; traço só Pre-Shield; 202K aproximada | ~60% |
 | Itens: Luvas, Espaguetes, Amarração | 58 | PN de memória (sem PDF conferido) | ~0% validado |
