@@ -48,6 +48,8 @@ Responda sempre em **português**.
   conferência das redes a cada ligação — desfaz o que daria curto), `ui_wirelist.js` (janela, Shift+L).
 - Emendas pelo datasheet TE (só fonte oficial): `cat_splice.js` (séries `HX.SPLICE_LIB`, CMA, série padrão por tipo),
   `splice_tab.js` (tabelas A/B/C transcritas do PDF), `splice_sel.js` (PN pelas bitolas, lista de materiais, ERC), `ui_splice.js` (painel).
+- Ordem dos pinos no esquema: `pinorder.js` (`HX.pinMove` troca com o vizinho e leva os fios, `HX.pinOrderReset`,
+  `HX.pinAt`), `ui_pinorder.js` (clique no pino + setas). Símbolo padrão `univ` (`symbols4.js`): nº dentro, nome fora (`uNumPos`).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
@@ -57,7 +59,7 @@ Responda sempre em **português**.
   (registro `HX.DETC`, balões pela lista), `phys_detc1..3.js` (detalhes por grupo), `ui_detc.js` (janela). Detalhe novo:
   registrar em `HX.DETC[kind]` com `ref` (norma/datasheet).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
-- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` (novidades por versão; novas seções no 3), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
+- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` + `INTERFACE4.md` (novidades por versão; novas seções no 4), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 
 ## Testes
 - `node tests/run_tests.js` — tem que terminar com `N passaram, 0 falharam`. Testes novos: `tests/test_*.js` e um
@@ -67,7 +69,7 @@ Responda sempre em **português**.
 - Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` (Playwright) gera PNG em `/tmp`.
 
 ## Versão
-- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE3.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
+- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE4.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
 
 ## Empacotamento / entrega (a partir da raiz do repositório)
 1. `python3 ferramentas/pacote/empacotar.py` → `../HarnessCAD.zip` (sem os PNG de `web/img`, que já vão em `web/js/imgpack`).
