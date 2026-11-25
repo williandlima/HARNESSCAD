@@ -6,12 +6,12 @@
   function close() { if (menu) { menu.remove(); menu = null; } }
   function show(x, y, entries) {
     close(); menu = document.createElement('div'); menu.className = 'ctxmenu';
-    menu.style.cssText = 'position:fixed;z-index:9999;left:' + x + 'px;top:' + y + 'px;min-width:220px;background:var(--panel,#262a33);color:var(--fg,#e8e8e8);border:1px solid var(--line,#444);border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.45);padding:4px 0;font-size:13px';
+    menu.style.cssText = 'position:fixed;z-index:9999;left:' + x + 'px;top:' + y + 'px;min-width:220px;background:var(--panel,#262a33);color:var(--txt,var(--fg,#e8e8e8));border:1px solid var(--line,#444);border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,.45);padding:4px 0;font-size:13px';
     entries.forEach(function (e) {
       if (e === '-') { var hr = document.createElement('div'); hr.style.cssText = 'border-top:1px solid var(--line,#444);margin:4px 0'; menu.appendChild(hr); return; }
       if (typeof e === 'string') { var h = document.createElement('div'); h.textContent = e; h.style.cssText = 'padding:4px 12px;opacity:.6;font-size:11px;text-transform:uppercase'; menu.appendChild(h); return; }
       var b = document.createElement('div'); b.textContent = e[0]; b.style.cssText = 'padding:5px 14px;cursor:pointer;white-space:nowrap';
-      b.onmouseenter = function () { b.style.background = 'rgba(80,140,255,.25)'; }; b.onmouseleave = function () { b.style.background = ''; };
+      b.onmouseenter = function () { b.style.background = 'var(--acc,#1e6bff)'; b.style.color = '#fff'; }; b.onmouseleave = function () { b.style.background = ''; b.style.color = ''; };
       b.onclick = function () { close(); e[1](); }; menu.appendChild(b);
     });
     document.body.appendChild(menu);

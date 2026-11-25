@@ -15,7 +15,7 @@
     { k: 'uChev', l: 'Macho/fêmea', type: 'select', opts: D.concat([['mid', 'No meio'], ['top', 'Em cima'], ['bottom', 'Embaixo'], ['off', 'Ocultar']]) },
     { k: 'uChevSz', l: 'Tamanho do > <', type: 'number', step: 0.5 }, { k: 'uPinSz', l: 'Texto dos contatos', type: 'number', step: 0.1 },
     { k: 'uNames', l: 'Nome dos sinais', type: 'select', opts: D.concat([['on', 'Mostrar'], ['off', 'Ocultar']]) },
-    { k: 'uNameSz', l: 'Nome dos sinais: tamanho (mm)', type: 'number', step: 0.1, tip: 'Vazio = automático (1,6 mm × escala dos pinos)' },
+    { k: 'uNameSz', l: 'Nome dos sinais: tamanho (mm)', type: 'number', step: 0.1, tip: 'Vazio = 2,5 mm (padrão)' },
     { k: 'uNameSt', l: 'Nome dos sinais: estilo', type: 'select', opts: D.concat([['n', 'Normal'], ['b', 'Negrito'], ['i', 'Itálico'], ['bi', 'Negrito itálico']]) },
     { k: 'uNameC', l: 'Nome dos sinais: cor', type: 'select', opts: D.concat([['#000000', 'Preto'], ['line', 'Igual ao contorno'], ['#1f4e9e', 'Azul'], ['#7a1010', 'Vinho'], ['#2e7d32', 'Verde'], ['#555555', 'Cinza']]) },
     { k: 'uNumPos', l: 'Números e nomes', type: 'select', opts: D.concat([['in', 'Nº dentro, nome fora do lado oposto (padrão)'], ['out', 'Nº fora na perna, nome dentro (antigo)']]) },

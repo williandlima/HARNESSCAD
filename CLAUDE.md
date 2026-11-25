@@ -50,6 +50,9 @@ Responda sempre em **português**.
   `splice_tab.js` (tabelas A/B/C transcritas do PDF), `splice_sel.js` (PN pelas bitolas, lista de materiais, ERC), `ui_splice.js` (painel).
 - Ordem dos pinos no esquema: `pinorder.js` (`HX.pinMove` troca com o vizinho e leva os fios, `HX.pinOrderReset`,
   `HX.pinAt`), `ui_pinorder.js` (clique no pino + setas). Símbolo padrão `univ` (`symbols4.js`): nº dentro, nome fora (`uNumPos`).
+- Interface tipo Altium: `ui_active.js` (barra ativa no topo do desenho por tipo de folha + menu de contexto do esquema;
+  o do físico é `ui_phys6.js`). Padrão visual: `symbols4.js` (preto, sem preenchimento, 2,5 mm), `HX.THEME.wire` preto,
+  fio novo com `lblPos: 'n'` (`edit2.js`).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),

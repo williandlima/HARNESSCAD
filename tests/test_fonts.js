@@ -18,3 +18,13 @@ test('itálico no PDF (Helvetica-Oblique / BoldOblique) e no DXF (ângulo oblíq
   var D = new HX.DxfPage(100, 100, {}); D.text('X', 0, 0, { italic: true }); ok(D.out.join('|').indexOf('51|15') >= 0, 'DXF: ângulo oblíquo 15°');
   D = new HX.DxfPage(100, 100, {}); D.text('X', 0, 0, {}); ok(D.out.join('|').indexOf('51|15') < 0, 'DXF: normal sem oblíquo');
 });
+test('padrão novo: conector sem preenchimento, traço/pinos pretos, textos 2,5 mm; fio novo preto e sem identificação; fio antigo mantém', function () {
+  var d = new HX.Doc(), c = d.add(HX.makeConn(d, 'D38999:13-98', 40, 40)), T = [], S = []; c.pins[0].name = 'VCC';
+  var g = { push: function () {}, pop: function () {}, style: function (s) { S.push(Object.assign({}, s)); }, line: function () {}, poly: function () {}, rect: function () {}, circle: function () {}, text: function (t, x, y, o) { T.push([String(t), o]); } };
+  HX.SYMBOLS.univ(g, c, d.p, 0, { theme: HX.THEME, connected: new Set() }, HX.connLayout(c, d.p.unit));
+  ok(S[0].stroke === '#000' && !S[0].fill, 'contorno preto sem preenchimento');
+  ['A', 'VCC', c.ref].forEach(function (t) { var o = T.filter(function (x) { return x[0] === t; })[0][1]; ok(Math.abs(o.size - 2.5) < 1e-9 && o.color === '#000', t + ' 2,5 mm preto'); });
+  eq(HX.THEME.wire, '#000'); var w; d.change('w', function () { w = HX.ops.addWire(d, [[0, 0], [20, 0]]); }); eq(HX.wireLabel(w).txt, '', 'fio novo sem identificação');
+  eq(HX.wireLabel({ num: 'W1', gauge: '22', color: 'WH', wtype: 'M22759/16' }).txt, 'W1 22 AWG WH', 'fio antigo (sem campos) mantém a identificação');
+  c.uFill = '#fffbd0'; c.uLine = '#8b1a1a'; S = []; HX.SYMBOLS.univ(g, c, d.p, 0, { theme: HX.THEME, connected: new Set() }, HX.connLayout(c, d.p.unit)); ok(S[0].stroke === '#8b1a1a' && S[0].fill === '#fffbd0', 'personalização continua');
+});

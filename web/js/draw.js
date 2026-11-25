@@ -3,8 +3,8 @@
   'use strict';
   var HX = G.HX;
   HX.THEME = {
-    body: '#8b1a1a', bodyFill: '#fffbd0', header: '#f5eaa8', pinTxt: '#7a1010', txt: '#111', wire: '#008400',
-    sel: '#1e6bff', open: '#c00000', splice: '#004a9f', label: '#0b3d91', shape: '#444', cable: '#6a3d9a', grid: '#c9d1dc'
+    body: '#8b1a1a', bodyFill: '#fffbd0', header: '#f5eaa8', pinTxt: '#7a1010', txt: '#111', wire: '#000',
+    sel: '#1e6bff', open: '#c00000', splice: '#000', label: '#0b3d91', shape: '#444', cable: '#6a3d9a', grid: '#c9d1dc'
   };
   HX.MONO = { body: '#000', bodyFill: null, header: null, pinTxt: '#000', txt: '#000', wire: '#000', sel: '#000', open: '#000', splice: '#000', label: '#000', shape: '#000', cable: '#000' };
 
