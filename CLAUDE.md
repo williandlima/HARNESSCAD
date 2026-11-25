@@ -24,7 +24,7 @@ Responda sempre em **português**.
    fios (tipo, bitola, cor), emendas, equipamentos — tudo o que é pertinente ao esquema.
 2. **Cablagem física = fase de CUSTOMIZAÇÃO**: periféricos e itens implementados na cablagem — adaptador, bota,
    backshell, cordoalha, luva de solda, barbante, etiquetas/espaguete, coberturas, transições, cotas, vistas, lista.
-   **Comprimentos (fios, cabos, ramos) só no físico.** Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
+   **Comprimento do fio/cabo: esquema ⇄ físico sincronizados** (`wirelen.js`: editar no esquema muda o ramo; % a mais por fio/cabo). Periférico não se define no esquema (o campo antigo "Backshell" do conector só aparece se já tiver valor e é levado
    ao nó físico ao gerar).
 
 ## Estrutura
@@ -61,7 +61,9 @@ Responda sempre em **português**.
   ligação (`HX.connPoints` em `geom.js`).
 - Nome das vias (sinal no pino, leva à outra ponta pela netlist): `pinname.js` (`HX.pinNameSet`, `HX.pinNamesBulk`,
   `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
-  em UMA aba só (`HX.ribbonKey`; `ui_ribbon.js` pula repetidos; teste em `tests/test_v196.js`). Barra ativa recolhível (`hx-ab-min`).
+  em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js` (ligar em pino já ligado: derivação/label), `ui_active2.js`
+  (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`.
+  Auditoria de botões: `ferramentas/dev/auditar_botoes.js`.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
@@ -102,4 +104,4 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - Datasheets de cabo: folha MIL-DTL-27500 e datasheets LiYCY/STP usados (para o construtor de PN e os modelos).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
-- Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow no dev).
+- Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow).

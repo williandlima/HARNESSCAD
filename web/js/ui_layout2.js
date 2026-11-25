@@ -53,6 +53,9 @@
     app.focusCatalog = function () { if (st.auto && !st.pinL) { var t = UI.$('#leftTabs button[data-p="pConn"]'); if (t) t.click(); peek(left, true, 'l'); var q = UI.$('#cq'); if (q) q.focus(); return; } fc.apply(app, arguments); };
     /* botões antigos de painel (faixa) e F9 continuam: mudar um painel pelo jeito antigo desliga o automático daquele lado */
     UI.$$('#toolbar .lay, button[data-k="hl"], button[data-k="hr"], button[data-k="hd"]').forEach(function (b) { b.addEventListener('click', function () { var k = b.dataset.k; if (k === 'hl') st.pinL = !st.hl; if (k === 'hr') st.pinR = !st.hr; if (k === 'hd') st.pinD = !st.hd; setTimeout(refresh, 0); }); });
+    /* no automático, Catálogo/Propriedades da faixa abrem o painel flutuando (antes não faziam nada visível) */
+    UI.$$('button[data-k="hl"], button[data-k="hr"]').forEach(function (b) { b.addEventListener('click', function (e) { var l = b.dataset.k === 'hl'; if (!st.auto || (l ? st.pinL : st.pinR)) return;
+      e.stopImmediatePropagation(); var el = l ? left : right; if (l && !isPeek(el)) { var t = UI.$('#leftTabs button[data-p="pConn"]'); if (t) t.click(); } peek(el, !isPeek(el), l ? 'l' : 'r'); }, true); });
     /* F9 no automático: esconde trilhos, painéis e tabelas; F9 de novo volta ao automático */
     var tf = app.toggleFocus; app.toggleFocus = function () { if (!st.auto || st.pinL || st.pinR || st.pinD) { fm = false; return tf.apply(app, arguments); }
       fm = !fm; peek(left, false); peek(right, false); st.hd = true; refresh(); UI.$('#app').classList.toggle('focus', fm); UI.toast(fm ? 'Modo foco — F9 para voltar' : 'Painéis automáticos', false, 1400); };

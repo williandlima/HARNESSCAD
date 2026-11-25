@@ -56,5 +56,6 @@ require('./test_route');
 require('./test_tag4');
 require('./test_detc');
 require('./test_v196');
+require('./test_v197');
 console.log('\n' + L.R.pass + ' passaram, ' + L.R.fail + ' falharam');
 process.exit(L.R.fail ? 1 : 0);

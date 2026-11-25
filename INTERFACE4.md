@@ -58,3 +58,22 @@
   bitola e PN. **Dreno no pino** (ex.: `J1:9`) liga o dreno da blindagem a esse pino.
 * **Dreno da blindagem aceita fio:** a ferramenta Fio encaixa e termina no ponto do dreno; a ligação aparece nas listas
   (CB1:SH).
+
+## v1.9.7 — ligação em pino já ligado, tudo editável, comprimento ⇄ físico com %, ícones novos
+* **Lista de ligação:** agora liga em pino que **já tem fio** (ex.: `J3:A > J1:A` com J1:A já ligado a J2:A) e
+  conector novo (`J4 = PEÇA`) em pinos ocupados. A via nova deriva do fio existente (T com a bolinha); se não houver
+  caminho livre, liga por **label de circuito** com nome único nas duas pontas. Nunca fica curto.
+* **Barra de ferramentas móvel:** arraste pela alça **⋮⋮**; a posição fica gravada (duplo clique na alça volta ao topo).
+* **Ícones novos com o nome embaixo** (conector, fio, emenda, label, nomes, cabo, blindagem, pino a pino, lista, ERC…),
+  iguais na faixa e na barra.
+* **Ferramentas do item à mão:** com um item selecionado, a barra mostra **"Editar conector J1"** (fio, cabo…) com
+  as ações dele — Renomear, Posição, Comprimento e % a mais, Nomes das vias, Girar, Espelhar, Excluir…
+* **Tudo editável:** duplo clique no desenho edita no lugar — no **pino** = nome da via; no **conector/emenda/cabo** =
+  referência; no **fio** = número (Tab: nome do circuito); no **label/texto** = texto. Propriedades com **Posição X/Y**
+  (os fios acompanham).
+* **Comprimento no esquema, sincronizado com o físico:** fio e cabo têm **Comprimento (mm)** nas Propriedades e na
+  Lista de fios. Digitar no esquema ajusta o ramo do desenho físico (os fios do mesmo ramo acompanham); mudar o ramo no
+  físico muda o esquema. **% a mais** (perda em trançados) por fio ou por cabo, com a % padrão no topo da Lista de fios;
+  coluna **Corte (mm)** = comprimento × (1 + %). A lista de materiais usa a % de cada um.
+* **Botões revisados** (auditoria automática `ferramentas/dev/auditar_botoes.js`): Catálogo e Propriedades da faixa
+  voltaram a abrir o painel no modo automático; "Estilo dos símbolos" abre o painel no campo certo; Copiar avisa.

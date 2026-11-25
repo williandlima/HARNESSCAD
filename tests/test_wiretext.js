@@ -35,7 +35,7 @@ test('lista: contorno com conectores que não podem ser espelhados — cada liga
 test('lista: sem caminho livre a ligação é desfeita e volta como "não traçada" (nunca fica curto)', function () {
   var d = presos(), r0 = HX.wtRouter, r, n0 = nets(d), w0 = d.items().filter(function (i) { return i.type === 'wire'; }).length;
   HX.wtRouter = function () { var R = r0.apply(this, arguments); R.around = function () { return null; }; return R; };
-  try { d.change('l', function () { r = HX.wtApply(d, HX.wtParse(d, 'J1:A > J2:B\nJ1:C > J2:D')); }); } finally { HX.wtRouter = r0; }
+  try { d.change('l', function () { r = HX.wtApply(d, HX.wtParse(d, 'J1:A > J2:B\nJ1:C > J2:D'), { noFallback: true }); }); } finally { HX.wtRouter = r0; }
   eq(r.failed, [1, 2]); eq(nets(d), n0, 'esquema intacto'); eq(d.items().filter(function (i) { return i.type === 'wire'; }).length, w0);
 });
 test('lista: # dentro de aspas, J1/J11 ambíguo, folha atual só, aviso de espelhamento', function () {

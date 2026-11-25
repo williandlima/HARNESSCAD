@@ -20,6 +20,7 @@
         if ((q.pin.name || '') !== val.trim()) t.doc.change('Nome da via ' + c.ref + ':' + q.n, function () { HX.pinNameSet(t.doc, c, q.n, val, prop); });
         var L2 = HX.connLayout(c, t.doc.p.unit), nx = L2.pins[i + (up ? -1 : 1)]; if (nx && nx.side === q.side) openAt(t, c, nx); else close(t); } };
   }
+  UI.pinNameAt = function (app, c, q) { app.tools._pinName = true; openAt(app.tools, c, q); }; /* duplo clique no pino (ui_edit3.js) */
   UI.pinNameTool = function (app, on) { var t = app.tools; if (HX.isPhys(app.doc.cur())) return UI.toast('Use no esquema.', true); t.setTool('select'); t._pinName = on !== false;
     UI.toast('Nome das vias: clique no pino e digite. Enter = próximo pino, ↑ = anterior, Esc = sair. O nome vai também para a outra ponta da via.'); };
   var down0 = T.down, key0 = T.key;
