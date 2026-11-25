@@ -32,11 +32,13 @@
     var s = document.createElement('style'); s.textContent = CSS; document.head.appendChild(s);
     var fl = document.createElement('div'), hi = document.createElement('div'); fl.id = 'hxFlow'; hi.id = 'hxHint'; wrap.appendChild(fl); wrap.appendChild(hi);
     var hide = HX.io && HX.io.localGet ? HX.io.localGet('hx-flow-off') : false;
+    var hiOff = false; /* "Por onde começar" some no primeiro clique no desenho e não volta mais nesta sessão */
+    app.view.cv.addEventListener('mousedown', function () { if (!hiOff) { hiOff = true; hi.style.display = 'none'; } }, true);
     var ACT = { conn: function () { app.focusCatalog(); }, wire: function () { UI.wireListDialog ? UI.wireListDialog(app) : app.tools.setTool('wire'); }, erc: function () { app.erc(); },
       phys: function () { var i = app.doc.p.sheets.findIndex(HX.isPhys); if (i >= 0) { app.doc.sheet = i; app.doc.touch(); app.view.fit && app.view.fit(); } else cmd(app, 'Gerar desenho físico'); }, pdf: function () { cmd(app, 'Imprimir') || app.showTab('bom'); } };
     function draw() {
       var it = app.doc.items(), ph = HX.isPhys(app.doc.cur());
-      hi.style.display = it.length ? 'none' : ''; hi.innerHTML = ph ? '<b>Desenho físico vazio</b><br>Gere a partir do esquema: barra ativa › <b>Atualizar a partir do esquema</b> (ou Ferramentas › Gerar desenho físico)' :
+      hi.style.display = it.length || hiOff ? 'none' : ''; hi.innerHTML = ph ? '<b>Desenho físico vazio</b><br>Gere a partir do esquema: barra ativa › <b>Atualizar a partir do esquema</b> (ou Ferramentas › Gerar desenho físico)' :
         '<b>Por onde começar</b><br><kbd>A</kbd> conector do catálogo &nbsp;·&nbsp; <kbd>W</kbd> fio &nbsp;·&nbsp; <kbd>Shift</kbd>+<kbd>L</kbd> lista de fiação em texto<br><kbd>Shift</kbd>+<kbd>P</kbd> pino a pino &nbsp;·&nbsp; Cabos: aba <b>Cabos</b> do catálogo &nbsp;·&nbsp; clique direito = ações';
       if (hide) { fl.style.display = 'none'; return; } fl.style.display = 'flex'; var S = HX.flowState(app), nx = S.filter(function (x) { return !x.ok; })[0];
       var mn = !!(HX.io && HX.io.localGet && HX.io.localGet('hx-flow-min'));

@@ -77,3 +77,7 @@
   coluna **Corte (mm)** = comprimento × (1 + %). A lista de materiais usa a % de cada um.
 * **Botões revisados** (auditoria automática `ferramentas/dev/auditar_botoes.js`): Catálogo e Propriedades da faixa
   voltaram a abrir o painel no modo automático; "Estilo dos símbolos" abre o painel no campo certo; Copiar avisa.
+
+## v1.9.8 — "Por onde começar" some com um clique
+* O quadro de dicas **"Por onde começar"** da folha vazia desaparece no primeiro clique no desenho e não volta mais
+  durante o uso (o fluxo guiado embaixo continua, e também pode ser recolhido ou fechado).
