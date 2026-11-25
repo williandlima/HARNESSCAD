@@ -57,7 +57,7 @@
     o = o || {}; var t = HX.dxfText(str); if (!t.trim()) return; var M = this.M, sc = Math.hypot(M[0], M[1]), h = (o.size || 2.5) * 0.72 * sc, c = this.T(x, y);
     var rot = -Math.atan2(M[1], M[0]) * 180 / Math.PI, hj = o.align === 'c' ? 1 : o.align === 'r' ? 2 : 0;
     this.g('0', 'TEXT', '8', 'TEXTO', '62', String(this.col(o.color || '#000')), '10', c[0], '20', c[1], '30', '0', '40', h, '1', t);
-    if (Math.abs(rot) > 1e-6) this.g('50', rot); this.g('7', 'HXFONTE', '72', String(hj), '11', c[0], '21', c[1], '31', '0', '73', o.va === 'b' ? '0' : '2');
+    if (Math.abs(rot) > 1e-6) this.g('50', rot); if (o.italic) this.g('51', '15'); this.g('7', 'HXFONTE', '72', String(hj), '11', c[0], '21', c[1], '31', '0', '73', o.va === 'b' ? '0' : '2');
   };
   P.image = function () { return false; };
   P.build = function () {

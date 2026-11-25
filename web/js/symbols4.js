@@ -8,7 +8,7 @@
   'use strict';
   var HX = G.HX;
   HX.CONN_STYLES.unshift(['univ', 'Padrão (lado arredondado, > macho / < fêmea)']);
-  HX.UNIV_KEYS = ['uFill', 'uFillC', 'uLine', 'uLineC', 'uLw', 'uR', 'uChev', 'uChevSz', 'uPinSz', 'uPinC', 'uNames', 'uNumPos', 'uPN', 'uRefPos', 'uGnd', 'uGndPos', 'uGndTxt'];
+  HX.UNIV_KEYS = ['uFill', 'uFillC', 'uLine', 'uLineC', 'uLw', 'uR', 'uChev', 'uChevSz', 'uPinSz', 'uPinC', 'uNames', 'uNumPos', 'uNameSz', 'uNameSt', 'uNameC', 'uPN', 'uRefPos', 'uGnd', 'uGndPos', 'uGndTxt'];
   HX.univGet = function (c, p, k) { var v = c[k]; if (v === undefined || v === null || v === '') v = ((p && p.view && p.view.univ) || {})[k]; return v === undefined || v === null ? '' : v; };
   function hex(v) { return /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(String(v || '').trim()) ? String(v).trim() : ''; }
   function fit(s, size, maxW) {
@@ -65,14 +65,17 @@
     var pq = U('uPinC'), pc = o.mono ? '#000' : pq === 'line' ? col : (hex(pq) || T.pinTxt), ns = +U('uPinSz') > 0 ? +U('uPinSz') : Math.min(1.8 * F, 3.1);
     /* padrão: número/letra DENTRO do corpo (junto ao lado das vias) e nome da via FORA, do outro lado (face reta), na linha do pino;
        uNumPos 'out' = arranjo antigo (número fora, nome dentro) */
-    var inside = U('uNumPos') !== 'out', shown = p.view.pinNames !== false && U('uNames') !== 'off', sz = 1.6 * F;
+    var inside = U('uNumPos') !== 'out', shown = p.view.pinNames !== false && U('uNames') !== 'off', sz = +U('uNameSz') > 0 ? +U('uNameSz') : 1.6 * F;
+    /* formatação do nome dos sinais: tamanho, estilo (negrito/itálico) e cor */
+    var nst = String(U('uNameSt')), nf = { size: sz, color: o.mono ? '#000' : (U('uNameC') === 'line' ? col : hex(U('uNameC')) || T.txt), bold: /b/.test(nst), italic: /i/.test(nst) };
+    function nopt(al) { return { size: nf.size, color: nf.color, bold: nf.bold, italic: nf.italic, align: al }; }
     L.pins.forEach(function (pn) {
       var pr = pn.side === 'R', e = pr ? w : 0, room = w - (cm === 'off' ? 0 : z) - 2;
       if (inside) { g.text(pn.n, pr ? w - 0.7 : 0.7, pn.ly, { size: ns, align: pr ? 'r' : 'l', color: pc, bold: true });
-        if (shown && pn.name) { if (L.side === 'R' || L.side === 'L') g.text(fit(pn.name, sz, 30), pr ? -0.8 : w + 0.8, pn.ly, { size: sz, align: pr ? 'r' : 'l', color: T.txt }); /* do outro lado, por fora da face reta, na linha do pino */
-          else g.text(fit(pn.name, sz, 22), e + (pr ? 0.5 : -0.5), pn.ly - 0.45 - sz * 0.5, { size: sz, align: pr ? 'l' : 'r', color: T.txt }); } return; }
+        if (shown && pn.name) { if (L.side === 'R' || L.side === 'L') g.text(fit(pn.name, sz, 30), pr ? -0.8 : w + 0.8, pn.ly, nopt(pr ? 'r' : 'l')); /* do outro lado, por fora da face reta, na linha do pino */
+          else g.text(fit(pn.name, sz, 22), e + (pr ? 0.5 : -0.5), pn.ly - 0.45 - sz * 0.5, nopt(pr ? 'l' : 'r')); } return; }
       g.text(pn.n, e + (pr ? 0.5 : -0.5), pn.ly - 0.45 - ns * 0.5, { size: ns, align: pr ? 'l' : 'r', color: pc, bold: true });
-      if (shown && pn.name && room >= 2.5) g.text(fit(pn.name, sz, room), pr ? w - 0.8 : 0.8, pn.ly, { size: sz, align: pr ? 'r' : 'l', color: T.txt });
+      if (shown && pn.name && room >= 2.5) g.text(fit(pn.name, sz, room), pr ? w - 0.8 : 0.8, pn.ly, nopt(pr ? 'r' : 'l'));
     });
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -9,3 +9,7 @@
 * **Símbolo padrão (lado arredondado):** o número/letra do contato fica **dentro** do corpo, junto ao lado das vias, e o
   **nome da via fica fora, do outro lado** (por fora da face reta), na linha do pino correspondente. Para o arranjo antigo: painel do conector (ou padrão do
   projeto) › *Números e nomes* › "Nº fora na perna, nome dentro (antigo)".
+* **Formatar o nome dos sinais:** painel do conector › *Nome dos sinais: tamanho (mm)*, *estilo* (normal, negrito, itálico,
+  negrito itálico) e *cor*. Vale por conector ou para o projeto inteiro ("Usar como padrão do projeto"), vai junto em
+  "Aplicar em todos" e no Pincel de formatação, e sai igual no PDF e no DXF (itálico = Helvetica-Oblique no PDF e texto
+  oblíquo 15° no DXF).
