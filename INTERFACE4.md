@@ -88,3 +88,10 @@
 * Selecionou **um fio do cabo**: aparece **"Bitola (todas as vias)"** e o botão **Selecionar o cabo**.
 * **Vários fios selecionados**: Tipo, Bitola e Cor em lote no painel.
 * Ação **Bitola** na barra "Editar cabo/fio" e no clique direito; coluna **Bitola** editável na Lista de fios.
+
+## v1.9.10 — lista de fiação organizada; emendas sem identificação
+* **Ligações organizadas:** ligar em pinos que já têm fio (ex.: `J3:B > J1:C,D,E,F`) agora faz um **pente** curto junto
+  ao conector, com a bolinha em cada fio — **sem labels empilhados**. As vias **não atravessam mais o corpo de outro
+  conector** e o contorno vai pelo **lado mais curto** (por cima ou por baixo — não passa mais pelo carimbo).
+* **Emendas sem identificação** por padrão. Para mostrar: selecione a emenda › **Mostrar identificação** (Propriedades,
+  barra "Editar emenda" ou clique direito).

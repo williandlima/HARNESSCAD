@@ -61,7 +61,7 @@ Responda sempre em **português**.
   ligação (`HX.connPoints` em `geom.js`).
 - Nome das vias (sinal no pino, leva à outra ponta pela netlist): `pinname.js` (`HX.pinNameSet`, `HX.pinNamesBulk`,
   `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
-  em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js` (ligar em pino já ligado: derivação/label), `ui_active2.js`
+  em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js`+`wiretext5.js` (pino já ligado: derivação, pente, contorno), `ui_active2.js`
   (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`, `ui_cabspec.js` (bitola do cabo).
   Auditoria de botões: `ferramentas/dev/auditar_botoes.js`.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
@@ -104,4 +104,4 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - Datasheets de cabo: folha MIL-DTL-27500 e datasheets LiYCY/STP usados (para o construtor de PN e os modelos).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
-- Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow).
+- Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`).

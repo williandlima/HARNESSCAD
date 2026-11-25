@@ -45,6 +45,14 @@
     var i = typeof E[0] === 'string' ? 1 : 0; E.splice.apply(E, [i, 0].concat(add)); return E; };
   /* copiar não mostrava nada: avisa quantos itens foram para a área de transferência */
   var cs0 = HX.ops && HX.ops.copySel; if (cs0) HX.ops.copySel = function (doc) { var n = doc.sel ? doc.sel.size : 0, r = cs0.apply(this, arguments); if (n && G.document) UI.toast(n + ' item(ns) copiado(s) — Ctrl+V cola.', false, 1500); return r; };
+  /* emenda: identificação escondida por padrão — "Mostrar identificação" nas Propriedades e nas ações do item */
+  var pe1 = UI.propsExtra, pb1 = UI.propsBind;
+  UI.propsExtra = function (it, app) { var h = pe1.apply(this, arguments); if (it.type !== 'splice' || HX.isPhys(app.doc.cur())) return h;
+    return '<div class="row hxSpRef" style="padding:2px 8px"><label>Mostrar identificação (' + esc(it.ref || '') + ')</label><input id="spRef" type="checkbox"' + (it.showRef === true ? ' checked' : '') + '></div>' + h; };
+  UI.propsBind = function (it, app, root) { var r = pb1.apply(this, arguments), c = root && root.querySelector('#spRef'); if (c) c.onchange = function () { var v = c.checked; app.doc.change('Identificação da emenda', function () { it.showRef = v; }); app.view.redraw(); }; return r; };
+  var ia1 = HX.itemActions;
+  if (ia1) HX.itemActions = function (app, it) { var E = ia1.apply(this, arguments); if (!it || it.type !== 'splice' || HX.isPhys(app.doc.cur())) return E; var on = it.showRef === true;
+    E.splice(typeof E[0] === 'string' ? 1 : 0, 0, [(on ? 'Ocultar' : 'Mostrar') + ' identificação', function () { app.doc.change('Identificação da emenda', function () { it.showRef = !on; }); app.view.redraw(); }]); return E; };
   var A = HX.App.prototype, init0 = A.init;
   A.init = function () { init0.apply(this, arguments); var app = this, cv = app.view.cv;
     /* "Estilo dos símbolos de conector…": com painéis automáticos o painel fechava sem seleção — abre e mostra o campo */
