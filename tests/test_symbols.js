@@ -31,7 +31,7 @@ test('catálogo ampliado: famílias novas presentes, pinos únicos', function ()
   Object.keys(HX.CAT.conns).forEach(function (k) { var e = HX.CAT.conns[k], s = {};
     e.pins.forEach(function (q) { ok(!s[q.n], k + ' pino repetido ' + q.n); s[q.n] = 1; }); });
   eq(HX.CAT.conns['DIN41612:96p (a+b+c)'].n, 96); eq(HX.CAT.conns['OBD:16p'].pins[5].name, 'CAN-H');
-  ok(HX.searchConns('obd').length >= 1 && HX.searchConns('harting').length >= 6);
+  eq(HX.searchConns('obd').length + HX.searchConns('harting').length, 0, 'famílias sem datasheet fora da pesquisa (definição continua para projetos antigos)');
 });
 test('conector do catálogo novo vira componente e gera PN', function () {
   var d = new HX.Doc(), c = d.add(HX.makeConn(d, 'MS3476:14-19', 0, 0));

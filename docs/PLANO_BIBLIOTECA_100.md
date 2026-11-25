@@ -44,6 +44,10 @@ Pronto quando: os números desta tabela saem do próprio programa.
 * v1.9.3: **emendas completas** pelo TE Electrical Interconnect (pp. 7–28): 9 séries, 49 PNs com fonte; tabelas de seleção
   A/B/C transcritas e conferidas por script contra o PDF; PN escolhido pelas bitolas (lista de materiais e ERC). Próximo: terminais (pp. 29–40).
 
+* **v1.9.11 — decisão do usuário: biblioteca = D38999, MS3470/3476, D-Sub, M80 (85% do uso)**, todas com vista e desenho
+  do datasheet (conferido por teste gerando o físico de cada peça). As demais famílias saíram do catálogo (`lib_scope.js`);
+  voltam uma a uma quando o datasheet chegar e a família ficar completa. D38999 herméticos /21 /23 /25 /27 aguardam datasheet.
+
 ### Passo 1 — Prioridade (você)
 Você manda: os **15–20 PNs / famílias mais usados** na empresa e as famílias que **nunca** usam.
 Eu entrego: lotes A (usados), B (raros) e C (retirar do catálogo). Retirar o que ninguém usa também é chegar a 100%.

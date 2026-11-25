@@ -95,3 +95,6 @@
   conector** e o contorno vai pelo **lado mais curto** (por cima ou por baixo — não passa mais pelo carimbo).
 * **Emendas sem identificação** por padrão. Para mostrar: selecione a emenda › **Mostrar identificação** (Propriedades,
   barra "Editar emenda" ou clique direito).
+
+
+(Continua em `INTERFACE5.md`.)

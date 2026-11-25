@@ -59,5 +59,6 @@ require('./test_v196');
 require('./test_v197');
 require('./test_v199');
 require('./test_v1910');
+require('./test_v1911');
 console.log('\n' + L.R.pass + ' passaram, ' + L.R.fail + ' falharam');
 process.exit(L.R.fail ? 1 : 0);

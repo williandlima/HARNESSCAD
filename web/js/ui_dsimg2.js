@@ -22,7 +22,7 @@
     var r = d0.apply(this, arguments), all = document.querySelectorAll('#diSrc'), src = all[all.length - 1]; if (!src) return r;
     var sel = app && app.doc.selected ? app.doc.selected() : [], n = sel.filter(function (i) { return i.type === 'pnode' && i.nkind === 'conn'; })[0];
     var c = n && HX.physSchem(app.doc.p)[n.of], df = c && HX.CAT.conns[c.part], fams = {};
-    Object.keys(HX.CAT.conns).forEach(function (k) { fams[HX.CAT.conns[k].fam] = 1; });
+    Object.keys(HX.CAT.conns).forEach(function (k) { var f = HX.CAT.conns[k].fam; if (!HX.libFamOk || HX.libFamOk(f)) fams[f] = 1; }); /* só famílias da biblioteca */
     var esc = HX.esc || function (t) { return String(t); }, row = function (l, h) { return '<div class="row"><label>' + l + '</label>' + h + '</div>'; };
     var h = row('Part number', '<input id="diPn" placeholder="ex.: 202K153-25-0">') + row('Fabricante', '<input id="diMf" placeholder="ex.: TE Connectivity / Raychem">') +
       row('Características', '<input id="diDs" placeholder="material, temperatura, Ø fornecido/recuperado…">') +

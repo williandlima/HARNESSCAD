@@ -13,6 +13,7 @@
       '<div class="row"><button class="pri" id="cplace" style="flex:1">Posicionar com o mouse</button></div><div class="muted">Duplo clique na lista insere direto no centro da tela.</div>';
     function render() {
       var q = UI.$('#cq').value, std = UI.$('#cstd').value, list = HX.searchConns(q, std, doc.p), by = {};
+      if (UI.libRender) { UI.$('#clist').innerHTML = UI.libRender(list, q, std, sel, closed, doc.p); return; } /* ui_lib3.js: por família, com selos */
       list.forEach(function (e) { (by[e.fam] = by[e.fam] || []).push(e); });
       var h = '';
       Object.keys(by).forEach(function (f) {

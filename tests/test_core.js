@@ -12,7 +12,7 @@ test('PN D38999 e contatos', function () {
   c.variant = '20'; eq(HX.connPN(c), 'D38999/20WC35PN');
 });
 test('PN de fio MIL com listra', function () { eq(HX.wirePN({ wtype: 'M22759/16', gauge: '22', color: 'WH-RD' }), 'M22759/16-22-92'); });
-test('busca prioriza família', function () { eq(HX.searchConns('DT 4')[0].key, 'DT:4 vias'); });
+test('busca prioriza família (só a biblioteca com datasheet)', function () { eq(HX.searchConns('38999 13-35')[0].key, 'D38999:13-35'); ok(HX.searchConns('DT 4').every(function (e) { return e.fam !== 'DT'; }), 'DT saiu do catálogo'); eq(HX.searchConns('db25')[0].key.indexOf('DB-25') > 0, true, 'db25 → DB-25 primeiro'); });
 test('letras MIL sem I/O/Q', function () { var l = HX.milLetters(30); ok(l.indexOf('I') < 0 && l.indexOf('O') < 0 && l.indexOf('Q') < 0); eq(l[8], 'J'); });
 
 console.log('Geometria');
