@@ -83,7 +83,7 @@
       var inp = e.target; if (inp.tagName !== 'INPUT') return;
       if (!inp.closest('tr[data-i]')) return; var r = body._rows[+inp.closest('tr').dataset.i], f = doc.findAll(r.id); if (!f) return;
       var k = inp.dataset.k, v = inp.value;
-      doc.change('Editar ' + k, function () { if (k === 'len' && HX.wireLenSet && f.item.type === 'wire') HX.wireLenSet(doc, f.item, parseFloat(v)); else if (k === 'gauge') f.item.gauge = v.replace(/\s*AWG\s*$/i, '').trim(); else if (k === 'pct') f.item.extraPct = v.trim() === '' ? '' : parseFloat(v) || 0; else f.item[k] = k === 'len' ? (v === '' ? '' : +v) : v; });
+      doc.change('Editar ' + k, function () { if (k === 'len' && HX.wireLenSet && f.item.type === 'wire') HX.wireLenSet(doc, f.item, parseFloat(v)); else if (k === 'gauge') { var gv = v.replace(/\s*(AWG|mm²|mm2)\s*$/i, '').replace(',', '.').trim(), gt = HX.wireType(f.item.wtype); if (gt && gt.gauges && gt.gauges.indexOf(gv) < 0) { setTimeout(function () { UI.toast('Bitola "' + v + '" não existe para ' + f.item.wtype + ' (use: ' + gt.gauges.join(', ') + ').', true); }, 0); return; } f.item.gauge = gv; } else if (k === 'pct') f.item.extraPct = v.trim() === '' ? '' : parseFloat(v) || 0; else f.item[k] = k === 'len' ? (v === '' ? '' : +v) : v; });
     });
     function exportCSV() {
       if (dirty || !data) compute();

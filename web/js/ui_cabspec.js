@@ -6,9 +6,10 @@
   'use strict';
   var HX = G.HX, UI = HX.UI; if (!UI || !HX.cableSpecSet) return;
   function esc(v) { return HX.esc(String(v == null ? '' : v)); }
-  function sel(id, opts, cur, mixed) { return '<select id="' + id + '">' + (cur == null ? '<option value="">' + (mixed || '(misto)') + '</option>' : '') +
+  function sel(id, opts, cur, mixed) { if (cur === '') { cur = null; mixed = '(escolher)'; } /* vazio: nada escolhido ainda */
+    return '<select id="' + id + '">' + (cur == null ? '<option value="">' + (mixed || '(misto)') + '</option>' : '') +
     opts.map(function (o) { var v = Array.isArray(o) ? o[0] : o, t = Array.isArray(o) ? o[1] : o; return '<option value="' + esc(v) + '"' + (String(v) === String(cur) ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('') + '</select>'; }
-  function gauges(W) { var t = HX.wireType(HX.specCommon(W, 'wtype') || (W[0] && W[0].wtype)); return t ? t.gauges.map(function (g) { return [g, g + ' AWG']; }) : []; }
+  function gauges(W) { var t = HX.wireType(HX.specCommon(W, 'wtype') || (W[0] && W[0].wtype)); return t ? t.gauges.map(function (g) { return [g, g + (t.unit === 'mm2' ? ' mm²' : t.unit === 'coax' ? '' : ' AWG')]; }) : []; }
   function colors() { return Object.keys(HX.COLORS).map(function (k) { return [k, k + ' ' + HX.COLORS[k][0]]; }); }
   function block(W, title, tw) { return '<div class="hxSpec" style="border:1px solid var(--acc,#1e6bff);border-radius:6px;margin:6px 6px 8px;padding:4px 8px"><h4 style="margin:4px 0;color:var(--acc,#1e6bff)">' + title + '</h4>' +
     '<div class="row"><label>Bitola</label>' + sel('csG', gauges(W), HX.specCommon(W, 'gauge')) + '</div>' +
@@ -37,7 +38,7 @@
   A.init = function () { init0.apply(this, arguments); var app = this, root = document.getElementById('props'); if (!root) return;
     function multi() { var s = app.doc.selected(); if (s.length < 2 || !s.every(function (i) { return i.type === 'wire'; }) || HX.isPhys(app.doc.cur()) || root.querySelector('.hxSpec')) return;
       var p = [].filter.call(root.querySelectorAll('p.muted'), function (x) { return /aba Fios/.test(x.textContent); })[0], d = document.createElement('div'); d.innerHTML = block(s, s.length + ' fios selecionados — especificação', false);
-      if (p) p.parentNode.replaceChild(d, p); else root.appendChild(d); bind(app, root, s, 'Especificação de ' + s.length + ' fios'); }
+      if (!p) return; p.parentNode.replaceChild(d, p); /* só na tela de seleção múltipla (não no painel de ferramenta) */ bind(app, root, s, 'Especificação de ' + s.length + ' fios'); }
     app.doc.on('select', function () { setTimeout(multi, 0); }); app.doc.on('change', function () { setTimeout(multi, 0); }); };
   /* ação "Bitola…" no cabo e no fio (barra Editar, clique direito, Propriedades) */
   var ia0 = HX.itemActions;

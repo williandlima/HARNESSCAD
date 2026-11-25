@@ -18,3 +18,11 @@ test('emenda: sem identificação por padrão; showRef liga', function () {
   HX.drawSplice(g, { kind: 'crimp', x: 0, y: 0, ref: 'S1' }, o); HX.drawSplice(g, { kind: 'junction', x: 0, y: 0, ref: 'S2' }, o); eq(out, [], 'nenhum texto');
   HX.drawSplice(g, { kind: 'crimp', x: 0, y: 0, ref: 'S3', showRef: true }, o); eq(out, ['S3']);
 });
+test('revisão: trança/cor não mexem em bitola vazia; pares pela posição das vias; tipo novo ajusta só bitola válida', function () {
+  var d = new HX.Doc(), W = [10, 20, 15].map(function (y) { var w; d.change('w', function () { w = HX.ops.addWire(d, [[0, y], [50, y]], {}); }); return w; });
+  W.forEach(function (w) { w.gauge = ''; }); d.change('t', function () { HX.cableSpecSet(d, W, { tw: true }); });
+  eq(W.map(function (w) { return w.gauge; }), ['', '', ''], 'bitola vazia continua vazia');
+  ok(W[0].twist && W[0].twist === W[2].twist && W[1].twist === '', 'pares: y=10 com y=15 (vizinhos), y=20 sozinho');
+  d.change('c', function () { HX.cableSpecSet(d, W, { color: 'RD' }); }); eq(W.map(function (w) { return w.gauge; }), ['', '', '']);
+  W[0].gauge = '26'; d.change('y', function () { HX.cableSpecSet(d, [W[0]], { wtype: 'SAE GXL' }); }); eq(W[0].gauge, '22', 'tipo novo: bitola vai para a mais próxima da lista');
+});
