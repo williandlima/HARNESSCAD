@@ -64,7 +64,7 @@ Responda sempre em **português**.
   em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js`+`wiretext5.js` (pino já ligado: derivação, pente, contorno), `ui_active2.js`
   (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`, `ui_cabspec.js` (bitola do cabo).
   Auditoria de botões: `ferramentas/dev/auditar_botoes.js`. **Biblioteca (v1.9.11)**: só famílias com vista+desenho de
-  datasheet (`lib_scope.js`: `HX.LIB_FAMS`, `HX.libStatus`; catálogo `ui_lib3.js`). Família nova entra quando completa.
+  datasheet (`lib_scope.js`, `ui_lib3.js`). v1.9.12: `phys_autoscale.js`, `schview.js`, `ui_sch2.js`, `ui_fit.js`, `reports3.js`.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),

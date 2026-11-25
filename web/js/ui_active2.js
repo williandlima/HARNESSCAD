@@ -7,7 +7,7 @@
   var SHORT = [[/^selecionar/i, 'Selecionar'], [/conector do cat/i, 'Conector'], [/^fio\b/i, 'Fio'], [/^emenda/i, 'Emenda'], [/^label/i, 'Label'], [/^tabela de nomes/i, 'Tabela nomes'], [/nome.? das vias/i, 'Nomes'],
     [/^cabo nos pinos/i, 'Cabo'], [/^blindagem/i, 'Blindagem'], [/^texto/i, 'Texto'], [/pino a pino/i, 'Pino a pino'], [/lista de fia/i, 'Lista'], [/verifica/i, 'ERC'],
     [/gerar desenho/i, 'Físico'], [/^deriva/i, 'Derivação'], [/cota do chicote/i, 'Cota'], [/cota livre/i, 'Cota livre'], [/^bal/i, 'Balão'], [/^etiqueta/i, 'Etiqueta'],
-    [/^detalhe/i, 'Detalhe'], [/itens da cablagem/i, 'Itens'], [/cat[aá]logo de detalhes/i, 'Detalhes'], [/atualizar a partir/i, 'Atualizar'], [/^renomear/i, 'Renomear'], [/^bitola/i, 'Bitola'], [/identifica[cç][aã]o$/i, 'Identificação'], [/^comprimento/i, 'Comprimento'], [/^posi/i, 'Posição']];
+    [/^detalhe/i, 'Detalhe'], [/itens da cablagem/i, 'Itens'], [/cat[aá]logo de detalhes/i, 'Detalhes'], [/atualizar a partir/i, 'Atualizar'], [/^renomear/i, 'Renomear'], [/^bitola/i, 'Bitola'], [/^ocultar pinos/i, 'Ocultar livres'], [/^mostrar todos os pinos/i, 'Mostrar pinos'], [/identifica[cç][aã]o$/i, 'Identificação'], [/^comprimento/i, 'Comprimento'], [/^posi/i, 'Posição']];
   HX.shortLabel = function (t) { t = String(t || ''); for (var i = 0; i < SHORT.length; i++) if (SHORT[i][0].test(t)) return SHORT[i][1];
     t = t.replace(/\s*\(.*$/, '').replace(/…$/, ''); return t.length > 13 ? t.slice(0, 12) + '…' : t; };
   var CSS = '#hxAB{flex-wrap:wrap;max-width:calc(100% - 16px);row-gap:2px}#hxAB button[data-i],#hxAB button[data-a]{width:auto!important;min-width:44px;height:40px!important;flex-direction:column;gap:1px;padding:2px 4px!important}' +
