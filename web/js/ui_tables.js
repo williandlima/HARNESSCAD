@@ -39,7 +39,7 @@
     }
     var COLS = {
       wl: [['num', 'Fio', 1], ['name', 'Nome', 1], ['twist', 'Par', 1], ['from', 'De'], ['stripA', 'Decap. De (mm)'], ['to', 'Para'], ['stripB', 'Decap. Para (mm)'], ['signal', 'Circuito'], ['pn', 'Part number'], ['gauge', 'Bitola'], ['color', 'Cor'],
-        ['len', 'Compr. mm (físico)'], ['cable', 'Cabo'], ['sheetName', 'Folha'], ['note', 'Obs.', 1]],
+        ['len', 'Compr. (mm)', 1], ['pct', '% a mais', 1], ['cut', 'Corte (mm)'], ['cable', 'Cabo'], ['sheetName', 'Folha'], ['note', 'Obs.', 1]],
       bom: [['cat', 'Categoria'], ['pn', 'Part number'], ['desc', 'Descrição'], ['qtyTxt', 'Qtd'], ['unit', 'Un'], ['refsTxt', 'Referências']],
       cn: [['ref', 'Ref'], ['pn', 'Part number'], ['desc', 'Descrição'], ['variant', 'Variante'], ['gender', 'Gên.'], ['n', 'Vias'], ['used', 'Usadas']],
       nets: [['name', 'Circuito'], ['np', 'Pinos'], ['pins', 'Pontos'], ['nw', 'Fios'], ['wires', 'Números dos fios']],
@@ -70,7 +70,7 @@
           return '<td>' + HX.esc(v) + '</td>';
         }).join('') + '</tr>';
       }).join('');
-      body.innerHTML = (tab === 'erc' && UI.ercBar ? UI.ercBar(app) : '') + h + '</tbody></table>' + (rs.length ? '' : '<p class="muted" style="padding:8px">Sem itens.</p>');
+      body.innerHTML = (tab === 'erc' && UI.ercBar ? UI.ercBar(app) : '') + (tab === 'wl' && UI.wlBar ? UI.wlBar(app) : '') + h + '</tbody></table>' + (rs.length ? '' : '<p class="muted" style="padding:8px">Sem itens.</p>');
       body._rows = rs;
     }
     body.addEventListener('click', function (e) {
@@ -81,9 +81,9 @@
     });
     body.addEventListener('change', function (e) {
       var inp = e.target; if (inp.tagName !== 'INPUT') return;
-      var r = body._rows[+inp.closest('tr').dataset.i], f = doc.findAll(r.id); if (!f) return;
+      if (!inp.closest('tr[data-i]')) return; var r = body._rows[+inp.closest('tr').dataset.i], f = doc.findAll(r.id); if (!f) return;
       var k = inp.dataset.k, v = inp.value;
-      doc.change('Editar ' + k, function () { f.item[k] = k === 'len' ? (v === '' ? '' : +v) : v; });
+      doc.change('Editar ' + k, function () { if (k === 'len' && HX.wireLenSet && f.item.type === 'wire') HX.wireLenSet(doc, f.item, parseFloat(v)); else if (k === 'pct') f.item.extraPct = v.trim() === '' ? '' : parseFloat(v) || 0; else f.item[k] = k === 'len' ? (v === '' ? '' : +v) : v; });
     });
     function exportCSV() {
       if (dirty || !data) compute();

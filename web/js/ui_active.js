@@ -42,7 +42,7 @@
     app.doc.on('change', function () { setTimeout(build, 0); }); build(); app._abBuild = build;
     /* ações do item selecionado (as mesmas do clique direito e do painel), à direita da barra */
     var sb = document.createElement('span'); sb.style.cssText = 'display:flex;gap:2px;align-items:center'; bar.appendChild(sb);
-    function selActs() { var A = HX.selActions ? HX.selActions(app).slice(0, 6) : []; sb.innerHTML = A.length ? '<i></i>' + A.map(function (a, k) { var ic = HX.uiIcon(a[0]) !== HX.uiIcon('dot'), t = a[0].replace(/…$/, '').replace(/\s*\(.*\)$/, ''); return '<button data-a="' + k + '" title="' + HX.esc(a[0]) + '"' + (ic ? '>' + svg(a[0]) : ' style="width:auto;padding:0 6px;font-size:11px">' + HX.esc(t.length > 14 ? t.slice(0, 13) + '…' : t)) + '</button>'; }).join('') : '';
+    function selActs() { var A = HX.selActions ? HX.selActions(app).slice(0, 14) : []; sb.innerHTML = A.length ? '<i></i>' + A.map(function (a, k) { var ic = HX.uiIcon(a[0]) !== HX.uiIcon('dot'), t = a[0].replace(/…$/, '').replace(/\s*\(.*\)$/, ''); return '<button data-a="' + k + '" title="' + HX.esc(a[0]) + '"' + (ic ? '>' + svg(a[0]) : ' style="width:auto;padding:0 6px;font-size:11px">' + HX.esc(t.length > 14 ? t.slice(0, 13) + '…' : t)) + '</button>'; }).join('') : '';
       [].forEach.call(sb.querySelectorAll('button'), function (b) { b.onclick = function (e) { e.stopPropagation(); A[+b.dataset.a][1](); }; }); }
     app.doc.on('select', function () { setTimeout(selActs, 0); });
     var b0 = build; build = function () { b0(); if (sb.parentNode !== bar) bar.appendChild(sb); selActs(); }; app._abBuild = build;

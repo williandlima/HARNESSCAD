@@ -121,11 +121,11 @@
         } else if (it.type === 'wire') {
           var t = HX.wireType(it.wtype);
           var LL = HX.computeLengths ? (nl._dims || (nl._dims = HX.computeLengths(p, nl))) : null, lw = LL && LL.wires[it.id];
-          add('5-Fio', HX.wirePN(it), (t ? t.desc : '') + ' ' + HX.gaugeLabel(it) + ' ' + HX.colorName(it.color), ((lw && lw.eff) || +it.len || 0) / 1000 * (LL ? LL.scrap : 1), 'm', it.num);
+          add('5-Fio', HX.wirePN(it), (t ? t.desc : '') + ' ' + HX.gaugeLabel(it) + ' ' + HX.colorName(it.color), ((lw && lw.eff) || +it.len || 0) / 1000 * (LL ? (HX.pctK ? HX.pctK(p, it) : LL.scrap) : 1), 'm', it.num);
         } else if (it.type === 'cable') {
           var LC = HX.computeLengths ? (nl._dims || (nl._dims = HX.computeLengths(p, nl))) : null, lc = +it.len || 0; /* comprimento do cabo = maior fio dele pelo físico */
           if (!lc && LC) sh.items.forEach(function (w) { var e = w.type === 'wire' && HX.cableOf(sh, w) === it && LC.wires[w.id]; if (e && e.eff > lc) lc = e.eff; });
-          add('6-Cabo', it.part || it.ref, it.desc || 'Cabo', lc / 1000 * (LC && !+it.len ? LC.scrap : 1), 'm', it.ref);
+          add('6-Cabo', it.part || it.ref, it.desc || 'Cabo', lc / 1000 * (LC && !+it.len ? (HX.pctK ? HX.pctK(p, it) : LC.scrap) : 1), 'm', it.ref);
         }
       });
     });
