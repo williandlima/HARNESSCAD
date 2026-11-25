@@ -68,7 +68,7 @@
     pts = HX.cleanPts(pts); if (pts.length < 2) return null;
     var d = doc.p.defaults;
     var w = doc.add(Object.assign({ type: 'wire', id: doc.uid('w'), pts: pts, num: doc.nextRef(d.wirePfx || 'W'),
-      wtype: d.wtype, gauge: d.gauge, color: d.color, len: '', note: '' }, d.wlbl || {}, props || {}));
+      wtype: d.wtype, gauge: d.gauge, color: d.color, len: '', note: '' }, { lblPos: 'n' }, d.wlbl || {}, props || {})); /* fio novo: sem identificação (padrão) */
     w = ops.junctionAt(doc, w, 0);
     return ops.junctionAt(doc, w, 1);
   };

@@ -16,7 +16,7 @@
       { k: 'name', l: 'Nome (opcional)', tip: 'Nome dado a cada fio novo. Vazio = sem nome' }].concat(HX.WIRE_LBL_FIELDS);
   }
   // valores do formulário: especificação em p.defaults, identificação em p.defaults.wlbl
-  function wireView(d) { return Object.assign({ wirePfx: d.wirePfx || 'W' }, d, HX.wireLblOpts(d.wlbl || {}), { name: (d.wlbl || {}).name || '' }); }
+  function wireView(d) { return Object.assign({ wirePfx: d.wirePfx || 'W' }, d, HX.wireLblOpts(Object.assign({ lblPos: 'n' }, d.wlbl || {})), { name: (d.wlbl || {}).name || '' }); }
 
   UI.toolPanel = function (app, root) {
     var t = app.tools && app.tools.tool; if (!t || t === 'select') return false;

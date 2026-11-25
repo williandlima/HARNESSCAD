@@ -72,7 +72,7 @@
     o = o || {}; s = String(s); if (!s) return;
     var size = o.size || 2.5, w = HX.pdfTextWidth(s, size, o.bold);
     var dx = o.align === 'c' ? -w / 2 : o.align === 'r' ? -w : 0, dy = o.va === 'b' ? 0 : size * 0.36;
-    this.ops.push('BT ' + rgb(o.color || '#000') + ' rg /' + (o.bold ? 'F2' : 'F1') + ' ' + n(size) + ' Tf 1 0 0 -1 ' + n(x + dx) + ' ' + n(y + dy) + ' Tm (' + enc(s) + ') Tj ET');
+    this.ops.push('BT ' + rgb(o.color || '#000') + ' rg /F' + ((o.bold ? 2 : 1) + (o.italic ? 2 : 0)) + ' ' + n(size) + ' Tf 1 0 0 -1 ' + n(x + dx) + ' ' + n(y + dy) + ' Tm (' + enc(s) + ') Tj ET');
   };
   P.push = function (m) { this.ops.push('q ' + m.map(n).join(' ') + ' cm'); };
   // imagem raster do datasheet: pixels exatos (sem recompressão), lidos do <img> carregado no navegador
@@ -93,7 +93,9 @@
     objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
     objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
     objs[5] = '<< /Title (' + enc(this.info.title || '') + ') /Author (' + enc(this.info.author || '') + ') /Producer (HarnessCAD ' + HX.VERSION + ') >>';
-    var kids = [], id = 6;
+    objs[6] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>';
+    objs[7] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-BoldOblique /Encoding /WinAnsiEncoding >>';
+    var kids = [], id = 8;
     this.pages.forEach(function (pg) {
       var content = pg.ops.join('\n');
       objs[id + 1] = '<< /Length ' + content.length + ' >>\nstream\n' + content + '\nendstream';
@@ -103,7 +105,7 @@
           ' /BitsPerComponent 8' + sm + ' /Length ' + px.bytes.length + ' >>\nstream\n' + px.bytes + '\nendstream';
         return '/Im' + (i + 1) + ' ' + oid + ' 0 R';
       });
-      objs[id] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + n(pg.w * k) + ' ' + n(pg.h * k) + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>' + (xo.length ? ' /XObject << ' + xo.join(' ') + ' >>' : '') + ' >> /Contents ' + (id + 1) + ' 0 R >>';
+      objs[id] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + n(pg.w * k) + ' ' + n(pg.h * k) + '] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 6 0 R /F4 7 0 R >>' + (xo.length ? ' /XObject << ' + xo.join(' ') + ' >>' : '') + ' >> /Contents ' + (id + 1) + ' 0 R >>';
       kids.push(id + ' 0 R'); id = nx;
     });
     objs[2] = '<< /Type /Pages /Kids [' + kids.join(' ') + '] /Count ' + kids.length + ' >>';

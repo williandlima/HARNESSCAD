@@ -21,12 +21,14 @@
     var old = UI.h('div', { class: 'rold' }); Array.prototype.slice.call(tb.childNodes).forEach(function (n) { old.appendChild(n); });
     function grab(sel) { var e = old.querySelector('[data-tool="' + sel + '"],[data-cmd="' + sel + '"],[data-k="' + sel + '"]') || (sel[0] === '#' ? old.querySelector(sel) : null); if (!e) return null;
       if (e.tagName === 'INPUT' || e.tagName === 'SELECT') e = e.closest('label') || e; return e; }
+    var seen = {}, RK = HX.ribbonKey || function (t) { return t; }; /* cada comando numa aba só: repetido pelo nome é pulado */
+    function dup(t) { var q = RK(t); if (!q || /^#/.test(q)) return false; if (seen[q]) return true; seen[q] = 1; return false; }
     function entry(s) {
       var big = s[0] === '*'; if (big) s = s.slice(1); var k = s.slice(0, 2), v = s.slice(2);
-      if (k === 'e:') { var e = grab(v); if (!e) return null; used[v] = 1;
+      if (k === 'e:') { var e = grab(v); if (!e) return null; used[v] = 1; if (v[0] !== '#' && dup(LBL[v] || lab(e.title))) return null;
         if (e.tagName === 'BUTTON') { var key = e.dataset.tool || e.dataset.cmd || e.dataset.k || e.id; e.classList.add(big ? 'rb' : 'rs'); e.innerHTML = (e.querySelector('svg') || { outerHTML: svg(key) }).outerHTML + '<span class="bl">' + (LBL[key] || lab(e.title)) + '</span>'; }
         else e.classList.add('rf'); return e; }
-      if (k === 'm:') { var c = findM(v); if (!c) return null; c.used = 1; return btn(big, c.t, lab(c.t), function () { c.el.click(); }, c.t + (c.k ? ' (' + c.k + ')' : '')); }
+      if (k === 'm:') { var c = findM(v); if (!c) return null; c.used = 1; if (dup(lab(c.t))) return null; return btn(big, c.t, lab(c.t), function () { c.el.click(); }, c.t + (c.k ? ' (' + c.k + ')' : '')); }
       if (k === 'u:') return v === 'theme' ? btn(big, 'tema', 'Tema claro/escuro', function () { app.toggleTheme(); }) : btn(big, 'busca', 'Buscar comando', function () { app.palette(); }, 'Buscar comando ou item (Ctrl+K)');
       return null;
     }
@@ -49,9 +51,9 @@
       b.onclick = function () { app.ribbonTab(T[0], true); }; b.ondblclick = function () { app.ribbonMin(); };
     });
     // o que sobrou (comandos acrescentados por outros módulos) entra em "Mais", para nada se perder
-    var rest = Array.prototype.filter.call(old.children, function (e) { return !/sep|grow/.test(e.className) && !used[e.dataset.tool || e.dataset.cmd || e.dataset.k] && !e.closest('.rg') && ['undo', 'redo', 'save'].indexOf(e.dataset.cmd) < 0; });
+    var rest = Array.prototype.filter.call(old.children, function (e) { return !/sep|grow/.test(e.className) && !used[e.dataset.tool || e.dataset.cmd || e.dataset.k] && !e.closest('.rg') && ['undo', 'redo', 'save'].indexOf(e.dataset.cmd) < 0 && !seen[RK(LBL[e.dataset.tool || e.dataset.cmd] || lab(e.title))]; });
     if (rest.length) { var gm = UI.h('div', { class: 'rg' }, '<div class="rgb"></div><div class="rgt">Mais</div>'); rest.forEach(function (e) { e.classList.add('rs'); gm.firstChild.appendChild(e); }); panels['Início'].appendChild(gm); }
-    Object.keys(menus).forEach(function (t) { var L = menus[t].filter(function (c) { return !c.used; }), p = panels[t === 'Arquivo' ? 'Ferramentas' : t]; if (!L.length || !p || t === 'Arquivo') return;
+    Object.keys(menus).forEach(function (t) { var L = menus[t].filter(function (c) { return !c.used && !seen[RK(lab(c.t))]; }), p = panels[t === 'Arquivo' ? 'Ferramentas' : t]; if (!L.length || !p || t === 'Arquivo') return;
       var g = group('Mais', L.map(function (c) { return 'm:' + t + '/' + c.t; })); if (g) p.appendChild(g); });
     old.style.display = 'none'; tb.appendChild(old);
     // barra de acesso rápido + busca + tema

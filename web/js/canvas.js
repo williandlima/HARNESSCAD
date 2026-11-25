@@ -24,7 +24,7 @@
     o = o || {}; var size = o.size || 2.5, m = this.c.getTransform ? this.c.getTransform() : null;
     var px = size * this.v.s, real = m ? size * Math.hypot(m.a, m.b) / (G.devicePixelRatio || 1) : px; if (real < 2.5 || !s) return;
     var c = this.c; c.save(); c.translate(x, y + (o.va === 'b' ? 0 : size * 0.36)); c.scale(1 / this.v.s, 1 / this.v.s);
-    c.font = (o.bold ? 'bold ' : '') + px.toFixed(2) + 'px Arial, Helvetica, sans-serif';
+    c.font = (o.italic ? 'italic ' : '') + (o.bold ? 'bold ' : '') + px.toFixed(2) + 'px Arial, Helvetica, sans-serif';
     c.textAlign = o.align === 'c' ? 'center' : o.align === 'r' ? 'right' : 'left'; c.textBaseline = 'alphabetic';
     c.fillStyle = o.color || '#000'; c.fillText(String(s), 0, 0); c.restore();
   };

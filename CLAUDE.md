@@ -48,6 +48,20 @@ Responda sempre em **português**.
   conferência das redes a cada ligação — desfaz o que daria curto), `ui_wirelist.js` (janela, Shift+L).
 - Emendas pelo datasheet TE (só fonte oficial): `cat_splice.js` (séries `HX.SPLICE_LIB`, CMA, série padrão por tipo),
   `splice_tab.js` (tabelas A/B/C transcritas do PDF), `splice_sel.js` (PN pelas bitolas, lista de materiais, ERC), `ui_splice.js` (painel).
+- Ordem dos pinos no esquema: `pinorder.js` (`HX.pinMove` troca com o vizinho e leva os fios, `HX.pinOrderReset`,
+  `HX.pinAt`), `ui_pinorder.js` (clique no pino + setas). Símbolo padrão `univ` (`symbols4.js`): nº dentro, nome fora (`uNumPos`).
+- Interface tipo Altium: `ui_active.js` (barra ativa no topo do desenho por tipo de folha + menu de contexto do esquema;
+  o do físico é `ui_phys6.js`). Padrão visual: `symbols4.js` (preto, sem preenchimento, 2,5 mm), `HX.THEME.wire` preto,
+  fio novo com `lblPos: 'n'` (`edit2.js`).
+- Interface (v1.9.5): `ui_layout2.js` (painéis automáticos/trilhos, alfinete), `ui_flow.js` (dicas na folha vazia e fluxo
+  guiado `HX.flowState`), `ui_actions.js` (`HX.itemActions`/`HX.selActions`: clique direito, topo das Propriedades e barra
+  ativa; aba Esquema da faixa). Cabos: `cat_cable.js` (`HX.CABLE_LIB`, `HX.cableInsert`, `HX.cableApply`, ERC de vias),
+  `ui_cable.js` (aba Cabos, janela), `cat_cable2.js` (`HX.cablePins`: cabo direto nos pinos De/Para + dreno no pino) e
+  `ui_cable2.js` (janela "Cabo nos pinos", escolher clicando). M27500/LiYCY/STP aguardando datasheet. Dreno = ponto de
+  ligação (`HX.connPoints` em `geom.js`).
+- Nome das vias (sinal no pino, leva à outra ponta pela netlist): `pinname.js` (`HX.pinNameSet`, `HX.pinNamesBulk`,
+  `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
+  em UMA aba só (`HX.ribbonKey`; `ui_ribbon.js` pula repetidos; teste em `tests/test_v196.js`). Barra ativa recolhível (`hx-ab-min`).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
@@ -57,7 +71,7 @@ Responda sempre em **português**.
   (registro `HX.DETC`, balões pela lista), `phys_detc1..3.js` (detalhes por grupo), `ui_detc.js` (janela). Detalhe novo:
   registrar em `HX.DETC[kind]` com `ref` (norma/datasheet).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
-- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` (novidades por versão; novas seções no 3), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
+- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` + `INTERFACE4.md` (novidades por versão; novas seções no 4), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
 
 ## Testes
 - `node tests/run_tests.js` — tem que terminar com `N passaram, 0 falharam`. Testes novos: `tests/test_*.js` e um
@@ -67,7 +81,7 @@ Responda sempre em **português**.
 - Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` (Playwright) gera PNG em `/tmp`.
 
 ## Versão
-- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE3.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
+- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE4.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
 
 ## Empacotamento / entrega (a partir da raiz do repositório)
 1. `python3 ferramentas/pacote/empacotar.py` → `../HarnessCAD.zip` (sem os PNG de `web/img`, que já vão em `web/js/imgpack`).
@@ -86,5 +100,6 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 - **Roteiro da biblioteca 100%**: `docs/PLANO_BIBLIOTECA_100.md` (passos 0–10, critério de pronto por tipo de item).
 - Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
+- Datasheets de cabo: folha MIL-DTL-27500 e datasheets LiYCY/STP usados (para o construtor de PN e os modelos).
 - PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
 - Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow no dev).

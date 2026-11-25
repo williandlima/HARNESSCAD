@@ -36,7 +36,7 @@
     [/imprimir|pdf/i, 'imprimir'], [/p[áa]gina|carimbo/i, 'pagina'], [/^desfazer/i, 'undo'], [/^refazer/i, 'redo'], [/^copiar/i, 'copiar'], [/^colar/i, 'colar'],
     [/^duplicar/i, 'duplicar'], [/excluir folha/i, 'delfolha'], [/^excluir/i, 'excluir'], [/selecionar tudo/i, 'selecionar'], [/renumerar/i, 'renumerar'],
     [/bloquear/i, 'bloquear'], [/alinhar.*horizontal/i, 'alinharh'], [/alinhar.*vertical/i, 'alinharv'], [/distribuir/i, 'distribuir'], [/ajustar/i, 'ajustar'],
-    [/foco/i, 'foco'], [/cor real/i, 'cor'], [/nomes dos sinais/i, 'nomes'], [/texto/i, 'texto'], [/grade/i, 'grade'], [/estilo/i, 'estilo'], [/erc|verifica/i, 'erc'],
+    [/foco/i, 'foco'], [/cor real/i, 'cor'], [/nomes dos sinais|nomes? das vias/i, 'nomes'], [/texto/i, 'texto'], [/grade/i, 'grade'], [/estilo/i, 'estilo'], [/erc|verifica/i, 'erc'],
     [/rastro/i, 'rastro'], [/conector personalizado/i, 'personalizado'], [/pino a pino/i, 'pinoapino'], [/conector/i, 'conector'], [/^fio/i, 'fio'], [/emenda/i, 'emenda'],
     [/label/i, 'label'], [/cabo/i, 'cabo'], [/cota/i, 'cota'], [/deriva/i, 'derivacao'], [/nova folha/i, 'folha'], [/desenho f[íi]sico/i, 'fisico'], [/medir/i, 'medir'],
     [/usu[áa]rio|nome/i, 'usuario'], [/pincel/i, 'pincel'], [/atalho/i, 'atalhos'], [/sobre/i, 'sobre'], [/lista de fios/i, 'tabela'], [/bom|materiais/i, 'bom'], [/csv|lista/i, 'tabela']];
