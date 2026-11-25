@@ -10,7 +10,7 @@
   function tool(t) { return function (app) { app.tools.setTool(t); }; }
   /* [rótulo, ícone, atalho, ação(app) | nome da ferramenta] ; '|' = separador */
   var SCH = [['Selecionar', 'select', 'Esc', 'select'], ['Conector do catálogo', 'conector', 'A', function (app) { app.focusCatalog(); }], ['Fio', 'wire', 'W', 'wire'], ['Emenda', 'splice', 'J', 'splice'],
-    ['Label de circuito', 'label', 'L', 'label'], ['Cabo do catálogo (vias prontas, blindagem e dreno)', 'cabo', '', function (app) { UI.cableDialog && UI.cableDialog(app); }], ['Blindagem sobre fios (oval)', 'cable', 'C', 'cable'], ['Texto', 'texto', 'T', 'text'], '|',
+    ['Label de circuito', 'label', 'L', 'label'], ['Nome das vias (clicar no pino)', 'nomes', 'N', function (app) { UI.pinNameTool && UI.pinNameTool(app); }], ['Cabo nos pinos (De/Para, trançado, blindado)', 'cabo', '', function (app) { UI.cablePinsDialog && UI.cablePinsDialog(app); }], ['Blindagem sobre fios (oval)', 'cable', 'C', 'cable'], ['Texto', 'texto', 'T', 'text'], '|',
     ['Conectar pino a pino', 'pinoapino', 'Shift+P', function (app) { UI.pinToPinDialog && UI.pinToPinDialog(app); }], ['Lista de fiação (texto)', 'tabela', 'Shift+L', function (app) { UI.wireListDialog && UI.wireListDialog(app); }], '|',
     ['Verificação elétrica (ERC)', 'erc', 'F2', function (app) { app.erc(); }], ['Gerar desenho físico', 'fisico', '', function (app) { var f = cmd(app, 'Gerar desenho físico'); if (f) f(); }]];
   var PHY = [['Selecionar', 'select', 'Esc', 'select'], ['Derivação', 'brk', 'B', 'brk'], ['Cota do chicote', 'dim', 'D', 'dim'], ['Cota livre', 'cota', 'Shift+D', 'pdimx'], ['Balão', 'circuito', 'Shift+B', 'pballx'],
@@ -22,7 +22,7 @@
     '#hxAB button{width:30px;height:28px;padding:0;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--txt,#222);cursor:pointer;display:flex;align-items:center;justify-content:center}' +
     '#hxAB button:hover{background:var(--hov,#e8eef9);border-color:var(--line,#c8cdd6)}#hxAB button.on{background:var(--acc,#1e6bff);color:#fff}' +
     '#hxAB svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}#hxAB i{width:1px;height:20px;background:var(--line,#c8cdd6);margin:0 4px}' +
-    '#hxAB b{font:600 11px sans-serif;color:var(--mut,#667);padding:0 6px 0 2px;white-space:nowrap}';
+    '#hxAB b{font:600 11px sans-serif;color:var(--mut,#667);padding:0 6px 0 2px;white-space:nowrap}#hxAB.min{left:8px;transform:none;padding:2px}#hxAB.min>*:not(.abm){display:none!important}';
   function svg(n) { return '<svg viewBox="0 0 24 24"><path d="' + HX.uiIcon(n) + '"/></svg>'; }
   var A = HX.App.prototype, init0 = A.init;
   A.init = function () {
@@ -33,7 +33,10 @@
     function build() { var ph = HX.isPhys(app.doc.cur()); if (ph === kind) return mark(); kind = ph; var L = ph ? PHY : SCH;
       bar.innerHTML = '<b>' + (ph ? 'Físico' : 'Esquema') + '</b>' + L.map(function (x, i) { return x === '|' ? '<i></i>' : '<button data-i="' + i + '" title="' + HX.esc(x[0] + (x[2] ? ' (' + x[2] + ')' : '')) + '">' + svg(x[1]) + '</button>'; }).join('');
       [].forEach.call(bar.querySelectorAll('button'), function (b) { var x = L[+b.dataset.i]; b.onclick = function (e) { e.stopPropagation(); if (typeof x[3] === 'string') tool(x[3])(app); else x[3](app); mark(); app.view.cv.focus && app.view.cv.focus(); }; });
-      mark(); }
+      var m = document.createElement('button'); m.className = 'abm'; bar.insertBefore(m, bar.firstChild); m.onclick = function (e) { e.stopPropagation(); amin(!bar.classList.contains('min')); }; amin(); mark(); }
+    function amin(v) { if (v == null) { try { v = !!HX.io.localGet('hx-ab-min'); } catch (e) { v = false; } } else HX.io.localSet('hx-ab-min', v ? 1 : ''); bar.classList.toggle('min', v);
+      var m = bar.querySelector('.abm'); if (m) { m.textContent = v ? '☰' : '«'; m.title = v ? 'Mostrar a barra de ferramentas' : 'Recolher a barra (mais espaço para o desenho)'; } }
+    app.abMin = amin;
     function mark() { var L = kind ? PHY : SCH; [].forEach.call(bar.querySelectorAll('button[data-i]'), function (b) { var x = L[+b.dataset.i]; b.classList.toggle('on', typeof x[3] === 'string' && app.tools.tool === x[3]); }); }
     var T = app.tools, st0 = T.setTool; T.setTool = function () { var r = st0.apply(this, arguments); mark(); return r; };
     app.doc.on('change', function () { setTimeout(build, 0); }); build(); app._abBuild = build;

@@ -141,6 +141,7 @@
       case 'conn': return HX.connLayout(it, unit).pins.map(function (p) { return p.pt; });
       case 'wire': return [it.pts[0], it.pts[it.pts.length - 1]];
       case 'splice': case 'label': return [[it.x, it.y]];
+      case 'cable': var d = HX.cableDrainPt && HX.cableDrainPt(it); return d ? [d] : []; /* dreno da blindagem: o fio encaixa e termina nele */
     }
     return [];
   };

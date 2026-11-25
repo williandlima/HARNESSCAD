@@ -11,9 +11,10 @@
     function tool(t) { return function () { app.tools.setTool(t); }; }
     var del = ['Excluir', function () { HX.ops.deleteSel(doc); }];
     if (sel.length > 1 && sel.every(function (i) { return i.type === 'wire'; })) { E.push(sel.length + ' fios', ['Transformar em cabo…', function () { UI.cableDialog && UI.cableDialog(app, sel); }], '-', del); return E; }
-    if (!it) { E.push('Esquema', ['Conector do catálogo', function () { app.focusCatalog(); }], ['Cabo do catálogo…', function () { UI.cableDialog && UI.cableDialog(app); }], ['Fio', tool('wire')], ['Emenda', tool('splice')],
+    if (!it) { E.push('Esquema', ['Conector do catálogo', function () { app.focusCatalog(); }], ['Cabo nos pinos (trançado/blindado)…', function () { UI.cablePinsDialog && UI.cablePinsDialog(app); }], ['Fio', tool('wire')], ['Emenda', tool('splice')],
       ['Label de circuito', tool('label')], ['Texto', tool('text')], '-', ['Lista de fiação (texto)…', function () { UI.wireListDialog(app); }], ['Colar', function () { app.tools.paste(); }], ['Ajustar à folha', function () { app.view.fit(); }]); return E; }
-    if (it.type === 'conn') { E.push('Conector ' + (it.ref || ''), ['Conectar pino a pino…', function () { UI.pinToPinDialog(app); }], ['Lista de fiação (texto)…', function () { UI.wireListDialog(app); }], '-',
+    if (it.type === 'conn') { E.push('Conector ' + (it.ref || ''), ['Nome das vias (clicar no pino)', function () { UI.pinNameTool && UI.pinNameTool(app); }], ['Tabela de nomes das vias…', function () { UI.pinNameTable && UI.pinNameTable(app, it); }],
+      ['Cabo nos pinos (trançado/blindado)…', function () { UI.cablePinsDialog && UI.cablePinsDialog(app); }], ['Conectar pino a pino…', function () { UI.pinToPinDialog(app); }], ['Lista de fiação (texto)…', function () { UI.wireListDialog(app); }], '-',
       ['Girar 90°', btn('rot')], ['Espelhar', btn('mx')]);
       if (HX.pinOrderChanged && HX.pinOrderChanged(doc, it)) E.push(ch('Voltar à ordem dos pinos do catálogo', function () { HX.pinOrderReset(doc, it); }));
       E.push(['Dica: clique num pino e use ↑/↓ para mudar a posição dele', function () {}], '-', ['Pincel de formatação (copiar aparência)', tool('paint')], del); return E; }
@@ -38,14 +39,6 @@
     A.slice(0, 10).forEach(function (a) { var b = document.createElement('button'); b.textContent = a[0].replace(/…$/, '').replace(/\s*\(.*\)$/, ''); b.title = a[0]; b.style.cssText = 'font-size:11px;padding:3px 7px';
       b.onclick = function () { a[1](); }; d.appendChild(b); });
     var h = root.querySelector('h4'); if (h && h.nextSibling) root.insertBefore(d, h.nextSibling); else root.insertBefore(d, root.firstChild); return r; };
-  /* faixa organizada por fase: aba "Esquema" (conectores, ligações, cabos, verificar) e a aba "Desenho físico" com os grupos
-     de cada item da cablagem; as abas antigas continuam iguais (só se acrescenta) */
+  /* "Itens da cablagem" no menu Inserir (a faixa, em ui_ribbon_def.js, põe na aba Desenho físico) */
   HX.MENU_EXTRA = HX.MENU_EXTRA || []; HX.MENU_EXTRA.push(['Inserir', function (app) { return ['Itens da cablagem (adaptador, bota, luva…)', function () { UI.hitemsDialog && UI.hitemsDialog(app); }, '']; }]);
-  if (HX.RIBBON && !HX.RIBBON.some(function (t) { return t[0] === 'Esquema'; })) {
-    HX.RIBBON.splice(1, 0, ['Esquema', [['Conectores', ['*m:Inserir/Conector do catálogo', 'm:Ferramentas/Conector personalizado']],
-      ['Ligações', ['*m:Inserir/Fio', '*m:Inserir/Emenda', '*m:Ferramentas/Conectar pino a pino', '*m:Ferramentas/Lista de fiação', 'm:Inserir/Label de circuito']],
-      ['Cabos', ['*m:Inserir/Cabo do catálogo', 'm:Inserir/Cabo / blindagem']], ['Verificar', ['*m:Ferramentas/Verificação elétrica', '*m:Ferramentas/Gerar desenho físico']]]]);
-    var ph = HX.RIBBON.filter(function (t) { return t[2] === 'ctx'; })[0];
-    if (ph) ph[1].unshift(['Conector', ['*m:Inserir/Itens da cablagem', 'm:Ferramentas/Aplicar padrão MS']]);
-  }
 })(typeof window !== 'undefined' ? window : globalThis);

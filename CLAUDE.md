@@ -56,7 +56,12 @@ Responda sempre em **português**.
 - Interface (v1.9.5): `ui_layout2.js` (painéis automáticos/trilhos, alfinete), `ui_flow.js` (dicas na folha vazia e fluxo
   guiado `HX.flowState`), `ui_actions.js` (`HX.itemActions`/`HX.selActions`: clique direito, topo das Propriedades e barra
   ativa; aba Esquema da faixa). Cabos: `cat_cable.js` (`HX.CABLE_LIB`, `HX.cableInsert`, `HX.cableApply`, ERC de vias),
-  `ui_cable.js` (aba Cabos, janela). M27500/LiYCY/STP aguardando datasheet.
+  `ui_cable.js` (aba Cabos, janela), `cat_cable2.js` (`HX.cablePins`: cabo direto nos pinos De/Para + dreno no pino) e
+  `ui_cable2.js` (janela "Cabo nos pinos", escolher clicando). M27500/LiYCY/STP aguardando datasheet. Dreno = ponto de
+  ligação (`HX.connPoints` em `geom.js`).
+- Nome das vias (sinal no pino, leva à outra ponta pela netlist): `pinname.js` (`HX.pinNameSet`, `HX.pinNamesBulk`,
+  `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
+  em UMA aba só (`HX.ribbonKey`; `ui_ribbon.js` pula repetidos; teste em `tests/test_v196.js`). Barra ativa recolhível (`hx-ab-min`).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),

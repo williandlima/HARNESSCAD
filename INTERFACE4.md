@@ -41,3 +41,20 @@
   vias, bitola, pares trançados, blindagem, dreno e PN; **Inserir** e clicar no esquema cria as vias prontas (passo dos
   pinos), com o oval da blindagem e o dreno. **Transformar em cabo**: selecione fios › clique direito. ERC avisa nº de
   fios ≠ nº de vias. M27500, LiYCY e STP estão **aguardando datasheet** (PN digitado até chegarem os documentos).
+
+## v1.9.6 — faixa sem repetição, nome das vias, barra recolhível, cabo direto nos pinos, dreno ligável
+* **Faixa organizada:** cada ferramenta aparece em **uma aba só**. Início = edição e exibição; **Esquema** = Conectores,
+  Ligações, Cabos, Desenho e Verificar; Desenho físico (contextual) = tudo da cablagem. Nada sumiu: tudo continua nos
+  menus e na busca (Ctrl+K).
+* **Nome das vias** (tecla **N**, faixa Esquema › Conectores, barra ativa, clique direito do conector): clique no pino e
+  digite o nome do sinal (ex.: VCC). **Enter** grava e passa ao pino de baixo, **↑** volta, **Esc** sai. O nome vai
+  também para o pino da **outra ponta da mesma via** (inclusive passando por emendas). **Tabela de nomes das vias:** todos
+  os pinos do conector numa janela; aceita colar uma coluna do Excel ou linhas "pino [TAB] nome". Um Ctrl+Z desfaz.
+* **Barra ativa recolhível:** botão **«** no início da barra recolhe para um ☰ no canto (mais espaço para o desenho);
+  clique no ☰ para mostrar de novo. O fluxo guiado também recolhe (« deixa só a próxima etapa). O estado fica gravado.
+* **Cabo nos pinos** (faixa Esquema › Cabos, barra ativa, clique direito): escolha o modelo e digite **De** `J1:1,2` e
+  **Para** `J2:1,2` — ou clique em **Escolher clicando nos pinos** (pinos de origem, Enter, pinos de destino, Enter). As
+  vias são traçadas sem curto, um pino para um, e o cabo já nasce com o oval da blindagem, pares trançados na ordem,
+  bitola e PN. **Dreno no pino** (ex.: `J1:9`) liga o dreno da blindagem a esse pino.
+* **Dreno da blindagem aceita fio:** a ferramenta Fio encaixa e termina no ponto do dreno; a ligação aparece nas listas
+  (CB1:SH).

@@ -39,10 +39,11 @@
       hi.style.display = it.length ? 'none' : ''; hi.innerHTML = ph ? '<b>Desenho físico vazio</b><br>Gere a partir do esquema: barra ativa › <b>Atualizar a partir do esquema</b> (ou Ferramentas › Gerar desenho físico)' :
         '<b>Por onde começar</b><br><kbd>A</kbd> conector do catálogo &nbsp;·&nbsp; <kbd>W</kbd> fio &nbsp;·&nbsp; <kbd>Shift</kbd>+<kbd>L</kbd> lista de fiação em texto<br><kbd>Shift</kbd>+<kbd>P</kbd> pino a pino &nbsp;·&nbsp; Cabos: aba <b>Cabos</b> do catálogo &nbsp;·&nbsp; clique direito = ações';
       if (hide) { fl.style.display = 'none'; return; } fl.style.display = 'flex'; var S = HX.flowState(app), nx = S.filter(function (x) { return !x.ok; })[0];
-      fl.innerHTML = S.map(function (x, i) { return '<button data-k="' + x.k + '" class="' + (x.ok ? 'ok' : x === nx ? 'nx' : '') + '" title="' + HX.esc(x.t) + '">' + (x.ok ? '✓' : (i + 1)) + ' ' + x.n + '</button>'; }).join('<span class="x">›</span>') +
+      var mn = !!(HX.io && HX.io.localGet && HX.io.localGet('hx-flow-min'));
+      fl.innerHTML = '<button class="x" data-k="min" title="' + (mn ? 'Mostrar todas as etapas' : 'Recolher (só a próxima etapa)') + '">' + (mn ? '»' : '«') + '</button>' + S.filter(function (x) { return !mn || x === nx; }).map(function (x) { var i = S.indexOf(x); return '<button data-k="' + x.k + '" class="' + (x.ok ? 'ok' : x === nx ? 'nx' : '') + '" title="' + HX.esc(x.t) + '">' + (x.ok ? '✓' : (i + 1)) + ' ' + x.n + '</button>'; }).join('<span class="x">›</span>') +
         '<button class="x" data-k="off" title="Ocultar o fluxo guiado (volta em Exibir)">✕</button>';
     }
-    fl.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; e.stopPropagation(); if (b.dataset.k === 'off') { hide = true; HX.io && HX.io.localSet && HX.io.localSet('hx-flow-off', true); draw(); return; } ACT[b.dataset.k](); });
+    fl.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; e.stopPropagation(); if (b.dataset.k === 'off') { hide = true; HX.io && HX.io.localSet && HX.io.localSet('hx-flow-off', true); draw(); return; } if (b.dataset.k === 'min') { HX.io.localSet('hx-flow-min', !HX.io.localGet('hx-flow-min')); draw(); return; } ACT[b.dataset.k] && ACT[b.dataset.k](); });
     var tm; app.doc.on('change', function () { clearTimeout(tm); tm = setTimeout(draw, 300); }); draw();
     app.showFlow = function () { hide = false; HX.io && HX.io.localSet && HX.io.localSet('hx-flow-off', false); draw(); };
   };
