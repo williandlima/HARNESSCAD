@@ -50,6 +50,7 @@
     var ok = [ka, kb].every(function (k) { var P = stub(doc, X, k, M0); if (!P) return false; var w = ops.addWire(doc, P, Object.assign({}, props)); if (!w) return false; X.R.reg(w);
       var t = P[P.length - 1], dx = t[0] - P[0][0], dy = t[1] - P[0][1]; doc.add({ type: 'label', id: doc.uid('l'), x: t[0], y: t[1], text: nm, rot: Math.abs(dx) > E ? (dx > 0 ? 0 : 180) : (dy > 0 ? 270 : 90), style: '' }); return true; });
     if (ok && okNets(doc, M0, ka, kb)) return true; undo(doc, S); return false; }
+  HX._wt4 = { derive: function (d, a, b, p) { return derive(d, a, b, p); }, netMap: netMap, ctx: ctx, pinOf: pinOf, clear: clear, okNets: okNets, snapS: snapS, undo: undo, viaLabel: function (d, a, b, p) { return viaLabel(d, a, b, p); } }; /* usado por wiretext5.js */
   HX.wtLinkOcc = function (doc, ka, kb, props) { if (derive(doc, ka, kb, props)) return 'deriv'; if (viaLabel(doc, ka, kb, props)) return 'label'; return null; };
   var ap0 = HX.wtApply;
   HX.wtApply = function (doc, P, opt) { var r = ap0.apply(this, arguments); if (!r.failed.length || (opt && opt.noFallback)) return r;

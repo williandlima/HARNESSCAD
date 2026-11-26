@@ -5,7 +5,7 @@
 (function (G) {
   'use strict';
   var HX = G.HX;
-  HX.PHYS_LINE_COLOR = '#1f2f9f';
+  HX.PHYS_LINE_COLOR = '#111111'; /* preto: padrão de desenho técnico no papel (v1.9.12; antes azul) */
   HX.PHYS_FAN = 7; // mm de leque entre o conector e a capa
   HX.PHYS_JACKET = 3.4;
   function cls(id) { return !id ? 'box' : /^dsub|^microd/.test(id) ? 'dsub' : /^term/.test(id) ? 'term' : /^(bnc|tnc|sma)/.test(id) ? 'coax' : /^cbl|^cov|^tie|^mount|^pclip|^clamp|^saddle|^grommet/.test(id) ? 'box' : 'circ'; }

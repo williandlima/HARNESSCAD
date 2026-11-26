@@ -43,4 +43,21 @@
         else r.drainWire = w; } }
     return r;
   };
+  /* ESPECIFICAÇÃO EM LOTE (bitola, tipo, cor, trança) para as vias de um cabo ou fios selecionados — usado pelas
+     Propriedades (ui_cabspec.js). Bitola fora da lista do tipo novo → a mais próxima. Trança: pares pela posição. */
+  HX.cableSpecSet = function (doc, W, s) { var n = 0, tg = 0;
+    if (s.tw === true) { /* pares pela POSIÇÃO das vias (de cima para baixo / da esquerda para a direita), não pela ordem na lista */
+      var mid = function (w) { var a = w.pts[0], b = w.pts[w.pts.length - 1]; return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }, P = W.map(mid), xs = P.map(function (p) { return p[0]; }), ys = P.map(function (p) { return p[1]; });
+      var k = Math.max.apply(0, ys) - Math.min.apply(0, ys) >= Math.max.apply(0, xs) - Math.min.apply(0, xs) ? 1 : 0;
+      W = W.slice().sort(function (a, b) { return mid(a)[k] - mid(b)[k]; }); }
+    W.forEach(function (w, i) { if (s.wtype) w.wtype = s.wtype; var t = HX.wireType(w.wtype), G = t && t.gauges || [];
+      if (s.gauge) w.gauge = String(s.gauge);
+      /* ajusta à lista só quando a bitola ou o tipo foram mudados agora; bitola vazia fica vazia */
+      if ((s.gauge || s.wtype) && w.gauge !== '' && w.gauge != null && G.length && G.indexOf(String(w.gauge)) < 0 && !isNaN(+w.gauge)) w.gauge = G.reduce(function (b, g) { return Math.abs(+g - +w.gauge) < Math.abs(+b - +w.gauge) ? g : b; }, G[0]);
+      if (s.color) w.color = s.color;
+      if (s.tw === true) { if (i % 2 === 0) tg = ++doc.p._twN || (doc.p._twN = 1); w.twist = (W.length - i === 1 && i % 2 === 0) ? '' : 'TP' + tg; } else if (s.tw === false) w.twist = '';
+      n++; });
+    return n; };
+  /* valor comum das vias (ou null se misto) */
+  HX.specCommon = function (W, k) { var v = W.length ? W[0][k] || '' : ''; return W.every(function (w) { return (w[k] || '') === v; }) ? v : null; };
 })(typeof window !== 'undefined' ? window : globalThis);

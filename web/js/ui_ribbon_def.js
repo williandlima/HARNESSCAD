@@ -26,7 +26,7 @@
     ['Exibir', [['Textos', ['m:Texto dos pinos', 'm:Texto nos fios', 'm:Nomes dos sinais']],
       ['Aparência', ['*u:theme', 'm:Fios na cor real', 'm:Estilo dos símbolos', 'm:Grade…']], ['Marcadores', ['m:Marcadores do ERC', 'm:Rastro do fio']]]],
     ['Ferramentas', [['Utilitários', ['m:Meu nome']]]],
-    ['Relatórios', [['Tabelas', ['d:*']], ['Exportar', ['*e:pdf', '*m:Exportar DXF', 'm:Exportar lista de fios', 'm:Exportar BOM']]]],
+    ['Relatórios', [['Tabelas', ['d:*']], ['Exportar', ['*e:pdf', '*m:Exportar DXF', 'm:Exportar lista de fios', 'm:Exportar BOM', 'm:Arquivo/Lista de corte', 'm:Arquivo/Lista de teste']]]],
     ['Ajuda', [['Ajuda', ['*u:cmdk', '*m:Atalhos', '*m:Sobre']]]],
     ['Desenho físico', [['Conector', ['*m:Inserir/Itens da cablagem']], ['Chicote', ['*e:dim', '*e:brk', '*e:pdet', '*e:ptag', '*m:Inserir/Catálogo de detalhes']],
       ['Organizar', ['m:Alinhar nós na h', 'm:Alinhar nós na v', 'm:Distribuir nós na h', 'm:Distribuir nós na v']]], 'ctx']

@@ -80,7 +80,7 @@
       case 'ultra': g.poly([[x, y - 1.3], [x + 1.3, y], [x, y + 1.3], [x - 1.3, y]], true); break;
       default: g.rect(x - 1.3, y - 0.7, 2.6, 1.4);
     }
-    if (s.kind !== 'junction' || o.showJunctionRef) g.text(s.ref, x + 1.4, y - 1.4, { size: 1.6, color: T.splice, bold: true });
+    if (s.showRef === true || (o.showJunctionRef && s.showRef !== false)) g.text( /* padrão: emenda SEM identificação (liga em Propriedades) */s.ref, x + 1.4, y - 1.4, { size: 1.6, color: T.splice, bold: true });
   };
 
   HX.drawLabel = function (g, l, o) {

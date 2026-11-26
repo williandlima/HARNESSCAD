@@ -12,7 +12,7 @@
   function selConn(app) { var t = app && app.doc.selected()[0], c = t && t.type === 'pnode' && t.nkind === 'conn' && HX.physSchem(app.doc.p)[t.of]; return c || null; }
   /* formulário "Novo item" (pre.grp = alça) */
   UI.hitemForm = function (app, pre, done) {
-    pre = pre || {}; var grp = HX.HITEM_CATS[pre.grp] ? pre.grp : 'cap', fams = {}; Object.keys(HX.CAT.conns).forEach(function (k) { fams[HX.CAT.conns[k].fam] = 1; });
+    pre = pre || {}; var grp = HX.HITEM_CATS[pre.grp] ? pre.grp : 'cap', fams = {}; Object.keys(HX.CAT.conns).forEach(function (k) { var f = HX.CAT.conns[k].fam; if (!HX.libFamOk || HX.libFamOk(f)) fams[f] = 1; }); /* só famílias da biblioteca */
     var c = selConn(app), df = c && HX.CAT.conns[c.part], row = function (l, h) { return '<div class="row"><label>' + l + '</label>' + h + '</div>'; };
     var kind = { adapt: 'bs', boot: 'boot' }[grp], pds = kind ? [['', 'Aguardando datasheet (contorno)']].concat(Object.keys(HX.PDS).filter(function (k) { return HX.PDS[k].kind === kind; }).map(function (k) { return [k, HX.PDS[k].n]; })) : null;
     var h = '<p class="muted">Item que não está na biblioteca — fica salvo na biblioteca compartilhada, na alça <b>' + esc(HX.HITEM_CATS[grp]) + '</b>.</p>' +

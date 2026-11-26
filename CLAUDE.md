@@ -61,9 +61,10 @@ Responda sempre em **português**.
   ligação (`HX.connPoints` em `geom.js`).
 - Nome das vias (sinal no pino, leva à outra ponta pela netlist): `pinname.js` (`HX.pinNameSet`, `HX.pinNamesBulk`,
   `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
-  em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js` (ligar em pino já ligado: derivação/label), `ui_active2.js`
-  (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`.
-  Auditoria de botões: `ferramentas/dev/auditar_botoes.js`.
+  em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js`+`wiretext5.js` (pino já ligado: derivação, pente, contorno), `ui_active2.js`
+  (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`, `ui_cabspec.js` (bitola do cabo).
+  Auditoria de botões: `ferramentas/dev/auditar_botoes.js`. **Biblioteca (v1.9.11)**: só famílias com vista+desenho de
+  datasheet (`lib_scope.js`, `ui_lib3.js`). v1.9.12: `phys_autoscale.js`, `schview.js`, `ui_sch2.js`, `ui_fit.js`, `reports3.js`.
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),
@@ -73,17 +74,17 @@ Responda sempre em **português**.
   (registro `HX.DETC`, balões pela lista), `phys_detc1..3.js` (detalhes por grupo), `ui_detc.js` (janela). Detalhe novo:
   registrar em `HX.DETC[kind]` com `ref` (norma/datasheet).
 - `server/` — servidor Python (`server.py`) e Java equivalente. `dados/` — dados do usuário (não versionar).
-- Documentação do usuário: `README.md`, `INTERFACE.md` + `INTERFACE2.md` + `INTERFACE3.md` + `INTERFACE4.md` (novidades por versão; novas seções no 4), `CUSTOMIZACAO.md`, `RAMIFICACAO.md`…
+- Documentação do usuário: `README.md`, `INTERFACE.md`…`INTERFACE5.md` (novidades por versão; novas seções no 5), `CUSTOMIZACAO.md`…
 
 ## Testes
 - `node tests/run_tests.js` — tem que terminar com `N passaram, 0 falharam`. Testes novos: `tests/test_*.js` e um
   `require` em `tests/run_tests.js`.
 - Verificar sintaxe de arquivo editado: `node -e "new (require('vm').Script)(require('fs').readFileSync('web/js/X.js','utf8'))"`.
 - Cuidado: comentário `//` no meio de uma linha já quebrou o código; prefira `/* */`.
-- Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` (Playwright) gera PNG em `/tmp`.
+- Visual (dev): `ferramentas/dev/render_conector.py "D38999:25-35|26||boot_s" line pfx` → PNG em `/tmp`.
 
 ## Versão
-- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE4.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
+- `HX.VERSION` em `web/js/core.js`; a cada entrega, subir a versão e acrescentar a seção em `INTERFACE5.md`. Medidas de datasheet estudadas: `docs/datasheets/`.
 
 ## Empacotamento / entrega (a partir da raiz do repositório)
 1. `python3 ferramentas/pacote/empacotar.py` → `../HarnessCAD.zip` (sem os PNG de `web/img`, que já vão em `web/js/imgpack`).
@@ -103,5 +104,4 @@ Preferência permanente: quando houver nova versão e o PC "willian" estiver con
 - Adaptador de cordoalha = Amphenol Pre-Shield M85049/109 (J) / /115 (L) — feito (`phys_preshield.js`). Faltam: vistas frontais
   MS3476, MS26482/MS5015 (desenho e adaptador), perfil exato da bota 202K (cotas R/U/Y/HW/JW já em `docs/datasheets/`).
 - Datasheets de cabo: folha MIL-DTL-27500 e datasheets LiYCY/STP usados (para o construtor de PN e os modelos).
-- PN da luva de solda; dados de transição T/4 vias; significado da marca "~"; convenção macho/fêmea (chevron).
-- Vetorizar as demais figuras de datasheet (`ferramentas/vetorizar.py`, requer numpy/scipy/scikit-image/Pillow).
+- PN da luva de solda; transição T/4 vias; marca "~"; convenção macho/fêmea (chevron).

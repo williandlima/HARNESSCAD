@@ -81,3 +81,20 @@
 ## v1.9.8 — "Por onde começar" some com um clique
 * O quadro de dicas **"Por onde começar"** da folha vazia desaparece no primeiro clique no desenho e não volta mais
   durante o uso (o fluxo guiado embaixo continua, e também pode ser recolhido ou fechado).
+
+## v1.9.9 — bitola do cabo à mão
+* Selecione o **cabo** (o oval): as Propriedades mostram no topo **"Vias do cabo"** com **Bitola, Tipo de fio, Cor e
+  Pares trançados** — muda **todas as vias de uma vez** (Ctrl+Z desfaz). "(misto)" quando as vias estão diferentes.
+* Selecionou **um fio do cabo**: aparece **"Bitola (todas as vias)"** e o botão **Selecionar o cabo**.
+* **Vários fios selecionados**: Tipo, Bitola e Cor em lote no painel.
+* Ação **Bitola** na barra "Editar cabo/fio" e no clique direito; coluna **Bitola** editável na Lista de fios.
+
+## v1.9.10 — lista de fiação organizada; emendas sem identificação
+* **Ligações organizadas:** ligar em pinos que já têm fio (ex.: `J3:B > J1:C,D,E,F`) agora faz um **pente** curto junto
+  ao conector, com a bolinha em cada fio — **sem labels empilhados**. As vias **não atravessam mais o corpo de outro
+  conector** e o contorno vai pelo **lado mais curto** (por cima ou por baixo — não passa mais pelo carimbo).
+* **Emendas sem identificação** por padrão. Para mostrar: selecione a emenda › **Mostrar identificação** (Propriedades,
+  barra "Editar emenda" ou clique direito).
+
+
+(Continua em `INTERFACE5.md`.)
