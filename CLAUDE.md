@@ -63,8 +63,8 @@ Responda sempre em **português**.
   `HX.pinNamesParse`), `ui_pinname.js` (tecla N, caixa sobre o pino, tabela). Faixa: `ui_ribbon_def.js` — cada ferramenta
   em UMA aba só (`HX.ribbonKey`). v1.9.7: `wiretext4.js`+`wiretext5.js` (pino já ligado: derivação, pente, contorno), `ui_active2.js`
   (barra móvel, nome nos ícones, grupo Editar), `ui_icons2.js`, `ui_edit3.js` (duplo clique, Posição), `ui_wirelen.js`, `ui_cabspec.js` (bitola do cabo).
-  Auditoria de botões: `ferramentas/dev/auditar_botoes.js`. **Biblioteca (v1.9.11)**: só famílias com vista+desenho de
-  datasheet (`lib_scope.js`, `ui_lib3.js`). v1.9.12: `phys_autoscale.js`, `schview.js`, `ui_sch2.js`, `ui_fit.js`, `reports3.js`.
+  Auditoria: `ferramentas/dev/auditar_botoes.js`. **Biblioteca (v1.9.11)**: só famílias com vista+desenho de
+  datasheet (`lib_scope.js`, `ui_lib3.js`). v1.9.12: `phys_autoscale.js`, `schview.js`, `ui_sch2.js`, `ui_fit.js`, `reports3.js`; `dimsync.js` (cota ⇄ ramo).
 - Peça do usuário fora do catálogo (bota/backshell…): `ui_dsimg.js` + `ui_dsimg2.js` (diálogo) e `phys_userpart.js`
   (PN, fabricante, características, vínculo família/carcaça → `HX.PDS['u_<id>']`).
 - Customização da cablagem: `phys_hitems.js` (alças `HX.HGRP`, aplicações `HX.HUSE`, itens do usuário 'USR:ITEM'),

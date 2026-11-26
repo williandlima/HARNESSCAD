@@ -25,3 +25,11 @@ Continuação de `INTERFACE4.md`.
   % a mais e corte) e **Lista de teste de continuidade** (ponto a ponto por circuito) — no PDF (seções) e em CSV
   (Arquivo / Relatórios › Exportar).
 * Mantido o seu padrão: textos do conector em **2,5 mm** (a sugestão de referência 3,5 mm não foi aplicada).
+
+## v1.9.13 — medida entre conectores no esquemático
+* **Como colocar:** tecla **D** (ou barra ativa › **Medida**): clique no conector A, no conector B, clique onde fica a linha
+  de cota e digite os mm. Ou clique direito no conector › **Medida até outro conector…** (escolhe o outro e digita).
+* A medida é o comprimento do chicote entre os dois: os fios entre eles passam a ter essa medida (+ folgas) e, ao gerar o
+  desenho físico, o ramo nasce com ela. **Com o físico já feito, fica sincronizado:** mudar a medida no esquema muda o
+  ramo no físico, e mudar o ramo no físico muda a medida do esquema (Ctrl+Z desfaz). Cota em preto, texto 2,5 mm.
+* Derivação (B) continua sendo do desenho físico.

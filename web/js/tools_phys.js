@@ -29,9 +29,9 @@
   };
   T.setTool = function (t, data) {
     this.pA = null;
-    if (this.doc && !phys(this) && (t === 'dim' || t === 'brk')) {
+    if (this.doc && !phys(this) && t === 'brk') { /* v1.9.13: a Cota (D) fica no esquema — medida entre conectores (dimsync.js) */
       var app = G.app, ix = this.doc.p.sheets.findIndex(HX.isPhys);
-      toast('Cotas e derivações do chicote são feitas no Desenho físico' + (ix >= 0 ? ' — abrindo a folha.' : ': gere-o em Ferramentas › Gerar desenho físico.'));
+      toast('Derivações do chicote são feitas no Desenho físico' + (ix >= 0 ? ' — abrindo a folha.' : ': gere-o em Ferramentas › Gerar desenho físico.'));
       if (ix >= 0 && app && app.setSheet) { app.setSheet(ix); return set0.call(this, t, data); }
       return set0.call(this, 'select');
     }
