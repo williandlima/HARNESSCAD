@@ -5,7 +5,7 @@
 (function (G) {
   'use strict';
   var HX = G.HX;
-  var COL = '#0b6e4f';
+  var COL = '#111111'; /* preto, como o resto do esquema (v1.9.13) */
 
   // origem da cota: centro do corpo do conector/figura, ou o próprio pino (pin = nº do pino); emenda/derivação = o ponto
   function anchor(it, unit, pin) {
